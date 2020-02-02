@@ -17,20 +17,23 @@
 	<li>userFirstName VARCHAR (32) NOT NULL,</li>
 	<li>userLastName VARCHAR (32) NOT NULL,</li>
 	<li>userAge SMALLINT SIGNED, </li>
-	<li>userGender CHAR(8)</li>
-	<li>userDescription VARCHAR (140)</li>
+	<li>userGender CHAR(8) NOT NULL,</li>
+	<li>userDescription VARCHAR (140),</li>
 
 </ul>
 <h4>Animal</h4>
 <ul>
-	<li>animalId BINARY(16) NOT NULL Primary Key</li>
-	<li>animalPhotoUrl VARCHAR (32) NOT NULL, </li>
-	<li>animalSpecies VARCHAR (32) NOT NULL, </li>
-	<li>animalName VARCHAR(32) NOT NULL,</li>
-	<li>animalBreed VARCHAR(32) NOT NULL, </li>
-	<li>animalSex VARCHAR(6) NOT NULL, </li>
+	<li>animalId BINARY(16) NOT NULL, Primary Key</li>
 	<li>animalShelterId BINARY(16) NOT NULL, Foreign Key</li>
+	<li>animalAdoptionStatus VARCHAR(32) NOT NULL,</li>
+	<li>animalPhotoUrl VARCHAR (32) NOT NULL,</li>
+	<li>animalSpecies VARCHAR (32) NOT NULL,</li>
+	<li>animalName VARCHAR(32) NOT NULL,</li>
+	<li>animalBreed VARCHAR(32) NOT NULL,</li>
+	<li>animalSex VARCHAR(6) NOT NULL,</li>
+
 </ul>
+
 <h4>Shelter</h4>
 <ul>
 	<li>shelterId BINARY(16) Primary Key</li>
@@ -38,11 +41,19 @@
 	<li>shelterPhone VARCHAR(10) NOT NULL,</li>
 	<li>shelterAddress VARCHAR(64) NOT NULL,</li>
 </ul>
+
 <h4>Like</h4>
 <ul>
 	<li>LikeId BINARY(16) NOT NULL</li>
 	<li>UserLikeId BINARY(16) Foreign Key</li>
-	<li>AnimalLikeId BINARY(16) ForeignKey</li>
+	<li>AnimalLikeId BINARY(16) Foreign Key</li>
+</ul>
+
+<h4>User_Bookmark</h4>
+<ul>
+	<li>userBookmarkId BINARY(16) </li>
+	<li>userLikeBookmarkId BINARY(16) NOT NULL, Foreign Key</li>
+	<li>animalLikeBookmarkId BINARY(16) NOT NULL Foreign Key</li>
 </ul>
 <img class="erd_img" src="img/paws-for-the-cause-erd.jpeg" alt="Entity Relationship Diagram for Paws for the Cause project">
 </body>
