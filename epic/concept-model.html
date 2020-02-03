@@ -46,8 +46,8 @@
 <ul>
 	<li>likeId BINARY(16) NOT NULL</li>
 	<li>likeApproved TINYINT(1) NOT NULL</li>
-	<li>userLikeId BINARY(16) Foreign Key</li>
-	<li>animalLikeId BINARY(16) Foreign Key</li>
+	<li>userLikeId BINARY(16) NOT NULL Foreign Key</li>
+	<li>animalLikeId BINARY(16) NOT NULL Foreign Key</li>
 </ul>
 
 <img class="erd_img" src="img/paws-for-the-cause-erd.jpeg" alt="Entity Relationship Diagram for Paws for the Cause project">
