@@ -44,16 +44,10 @@
 
 <h4>Like</h4>
 <ul>
-	<li>LikeId BINARY(16) NOT NULL</li>
-	<li>UserLikeId BINARY(16) Foreign Key</li>
-	<li>AnimalLikeId BINARY(16) Foreign Key</li>
-</ul>
-
-<h4>User_Bookmark</h4>
-<ul>
-	<li>userBookmarkId BINARY(16) </li>
-	<li>userLikeBookmarkId BINARY(16) NOT NULL, Foreign Key</li>
-	<li>animalLikeBookmarkId BINARY(16) NOT NULL Foreign Key</li>
+	<li>likeId BINARY(16) NOT NULL</li>
+	<li>likeApproved TINYINT(1) NOT NULL</li>
+	<li>userLikeId BINARY(16) Foreign Key</li>
+	<li>animalLikeId BINARY(16) Foreign Key</li>
 </ul>
 
 <img class="erd_img" src="img/paws-for-the-cause-erd.jpeg" alt="Entity Relationship Diagram for Paws for the Cause project">
