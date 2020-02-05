@@ -7,6 +7,7 @@
 </head>
 <body>
 <div>
+	<img class = "Mike" src = "img/mike.jpg" alt = "Mike Headshot" >
 	<p><strong>Name: </strong> Mike</p>
 	<p><strong>Age: </strong>28</p>
 	<p><strong>Gender: </strong>Male</p>
@@ -18,11 +19,30 @@
 	He feels lonely sometimes.
 	Maybe adopting a pet would be nice.
 	But that would be too much work. Mike knows he's not responsible enough to walk a dog everyday.
-	It's still nice to look at pictures of cute animals and think about adopting one sometime in the future, especially on a slow Friday night.
-
-	</p>
+	It's still nice to look at pictures of cute animals and think about adopting one sometime in the future, especially on a slow Friday night.</p>
 </div>
-<img class = "Mike" src = "img/mike.jpg" alt = "Mike Headshot" >
+<div>
+	<p><strong>Interaction flow:</strong></p>
+	<ul>
+		<li>Mike enters his log-in information on the initial splash screen.</li>
+		<li>The browser receives his information and verifies that his username and password are correct; he is logged into his account.</li>
+		<li>Mike is taken to a page with a large image of an animal that is in a shelter.</li>
+		<li>He is not interested in adopting the animal that is displayed. He selects the option that sends information that he is not interested in adopting the animal shown.</li>
+		<li>The server receives the information that the user is not interested in that animal, and the animal is tagged as "not interested" in the database. The browser then sends a photo of another animal that is up for adoption.</li>
+		<li>He is not interested in adopting the next animal that is displayed, the above process repeats several times.</li>
+		<li>When Mike sees a photo of an animal that she is interested in adopting, he selects an option that shows that she is interested in adopting the animal that is displayed.</li>
+		<li>The server receives the input from the user that they are interested in adopting the animal that is displayed, the animal that the user was viewing is then tagged as "interested" in the database. The browser then displays another animal for the user to consider.</li>
+		<li>When Mike is finished viewing animals he clicked on his profile.</li>
+		<li>The browser displays his profile information.</li>
+		<li>Mike clicks on an option that shows a list of animals that she is interested in adopting.</li>
+		<li>The browser displays profiles of all of the animals that Mike has tagged as "interested" in the database.</li>
+		<li>Mike then clicks on the profiles of the individual animals.</li>
+		<li>The browser then displays the profile information for the individual animals that Mike clicks on. Each profile has information on the animal as well as the contact information for the shelter that they are housed in.</li>
+		<li>Mike contacts a shelter to begin the adoption process for an animal.</li>
+	</ul>
+
+</div>
+
 
 
 </body>
