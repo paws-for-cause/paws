@@ -1,13 +1,13 @@
 -- Paws for the Cause - DDL Tables
 
-DROP TABLE IF EXISTS `Like`;
-DROP TABLE IF EXISTS Animal;
-DROP TABLE IF EXISTS Shelter;
-DROP TABLE IF EXISTS `User`;
+DROP TABLE IF EXISTS `like`;
+DROP TABLE IF EXISTS animal;
+DROP TABLE IF EXISTS shelter;
+DROP TABLE IF EXISTS `user`;
 
 -- Create User Entity
 
-CREATE TABLE `User`(
+CREATE TABLE `user`(
   userId BINARY(16) NOT NULL,
   userActivationToken VARCHAR (32) NOT NULL,
   userAge SMALLINT SIGNED NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE `User`(
 
 -- Create Shelter Entity
 
-CREATE TABLE Shelter (
+CREATE TABLE shelter (
   shelterId BINARY(16) NOT NULL,
   shelterAddress VARCHAR(64) NOT NULL,
   shelterName VARCHAR(32) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE Shelter (
 
 -- Create Animal Entity
 
-CREATE TABLE Animal (
+CREATE TABLE animal (
   animalId BINARY(16) NOT NULL,
   animalShelterId BINARY(16) NOT NULL,
   animalAdoptionStatus VARCHAR(32) NOT NULL,
@@ -43,19 +43,19 @@ CREATE TABLE Animal (
   animalPhotoUrl VARCHAR(32) NOT NULL,
   animalSpecies VARCHAR(32) NOT NULL,
   INDEX(animalId),
-  FOREIGN KEY (animalId) references Shelter(shelterId),
+  FOREIGN KEY (animalId) references shelter(shelterId),
   PRIMARY KEY (animalId)
 );
 
 
 -- Create Like Entity
 
-CREATE TABLE `Like` (
+CREATE TABLE `like` (
   likeAnimalId BINARY(16) NOT NULL,
   likeUserId BINARY(16) NOT NULL,
   likeApproved TINYINT(1) NOT NULL,
   INDEX(likeUserId),
   INDEX(likeAnimalId),
-  FOREIGN KEY (likeUserId) references `User`(userId),
-  FOREIGN KEY (likeAnimalId) references Animal(animalId)
+  FOREIGN KEY (likeUserId) references `user`(userId),
+  FOREIGN KEY (likeAnimalId) references animal(animalId)
 );
