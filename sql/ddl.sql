@@ -38,7 +38,7 @@ CREATE TABLE animal (
   animalShelterId BINARY(16) NOT NULL,
   animalAdoptionStatus VARCHAR(32) NOT NULL,
   animalBreed VARCHAR(32) NOT NULL,
-  animalGender VARCHAR(6) NOT NULL,
+  animalGender TINYINT(1) NOT NULL,
   animalName VARCHAR(32) NOT NULL,
   animalPhotoUrl VARCHAR(32) NOT NULL,
   animalSpecies VARCHAR(32) NOT NULL,

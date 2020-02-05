@@ -7,18 +7,19 @@
 </head>
 <body>
 <h1>Conceptual Model</h1>
+
 <h4>User</h4>
 <ul>
 	<li>userId BINARY(16) NOT NULL, Primary Key</li>
 	<li>userActivationToken VARCHAR (32) NOT NULL, </li>
-	<li>userEmail VARCHAR(64) NOT NULL,</li>
-	<li>userPhone VARCHAR(32) NOT NULL,</li>
-	<li>userHash CHAR(97) NOT NULL,</li>
-	<li>userFirstName VARCHAR (32) NOT NULL,</li>
-	<li>userLastName VARCHAR (32) NOT NULL,</li>
 	<li>userAge SMALLINT SIGNED, </li>
+	<li>userDescription VARCHAR (200),</li>
+	<li>userEmail VARCHAR(64) NOT NULL,</li>
+	<li>userFirstName VARCHAR (32) NOT NULL,</li>
+	<li>userHash CHAR(97) NOT NULL,</li>
 	<li>userGender CHAR(8) NOT NULL,</li>
-	<li>userDescription VARCHAR (140),</li>
+	<li>userLastName VARCHAR (32) NOT NULL,</li>
+	<li>userPhone VARCHAR(32) NOT NULL,</li>
 
 </ul>
 <h4>Animal</h4>
@@ -26,26 +27,26 @@
 	<li>animalId BINARY(16) NOT NULL, Primary Key</li>
 	<li>animalShelterId BINARY(16) NOT NULL, Foreign Key</li>
 	<li>animalAdoptionStatus VARCHAR(32) NOT NULL,</li>
-	<li>animalPhotoUrl VARCHAR (32) NOT NULL,</li>
-	<li>animalSpecies VARCHAR (32) NOT NULL,</li>
-	<li>animalName VARCHAR(32) NOT NULL,</li>
 	<li>animalBreed VARCHAR(32) NOT NULL,</li>
 	<li>animalGender VARCHAR(6) NOT NULL,</li>
+	<li>animalName VARCHAR(32) NOT NULL,</li>
+	<li>animalPhotoUrl VARCHAR (32) NOT NULL,</li>
+	<li>animalSpecies VARCHAR (32) NOT NULL,</li>
 </ul>
 
 <h4>Shelter</h4>
 <ul>
 	<li>shelterId BINARY(16) Primary Key</li>
+	<li>shelterAddress VARCHAR(64) NOT NULL,</li>
 	<li>shelterName VARCHAR(32) NOT NULL,</li>
 	<li>shelterPhone VARCHAR(10) NOT NULL,</li>
-	<li>shelterAddress VARCHAR(64) NOT NULL,</li>
 </ul>
 
 <h4>Like</h4>
 <ul>
 	<li>likeApproved TINYINT(1) NOT NULL</li>
-	<li>userLikeId BINARY(16) NOT NULL Foreign Key</li>
-	<li>animalLikeId BINARY(16) NOT NULL Foreign Key</li>
+	<li>likeUserId BINARY(16) NOT NULL Foreign Key</li>
+	<li>likeAnimalId BINARY(16) NOT NULL Foreign Key</li>
 </ul>
 
 <img class="erd_img" src="img/paws-for-the-cause-erd.jpeg" alt="Entity Relationship Diagram for Paws for the Cause project">
