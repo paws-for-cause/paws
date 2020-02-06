@@ -65,14 +65,16 @@ class Animal {
 	private $animalSpecies;
 
 	/**
-	 * constructor for this author
+	 * constructor for the animal class
 	 *
-	 * @param string|Uuid $newAuthorId
-	 * @param string|Uuid $newAuthorActivationToken
-	 * @param string $newAuthorAvatarUrl
-	 * @param string|null $newAuthorEmail
-	 * @param string $newAuthorHash string containing encrypted password for author
-	 * @param string $newAuthorUsername
+	 * @param string|Uuid $newAnimalId
+	 * @param string|Uuid $newAnimalShelterId
+	 * @param string $newAnimalAdoptionStatus
+	 * @param string|$newAnimalBreed
+	 * @param string $newAnimalGender
+	 * @param string $newAnimalName
+	 * @param string $newAnimalPhotoUrl
+	 * @param string $newAnimalSpecies
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
 
