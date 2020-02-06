@@ -78,21 +78,21 @@ class Animal {
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
 
-	public function __construct($newAuthorId, $newAuthorActivationToken, $newAuthorAvatarUrl, $newAuthorEmail, string $newAuthorHash, $newAuthorUsername) {
+	public function __construct($newAnimalId, $newAnimalShelterId, string $newAnimalAdoptionStatus, string $newAnimalBreed, string $newAnimalGender, string $newAnimalName, string $newAnimalPhotoUrl,  string $newAnimalSpecies) {
 		try {
-			$this->setAuthorId($newAuthorId);
-			$this->setAuthorActivationToken($newAuthorActivationToken);
-			$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
-			$this->setAuthorEmail($newAuthorEmail);
-			$this->setAuthorHash($newAuthorHash);
-			$this->setAuthorUsername($newAuthorUsername);
+			$this->setAnimalId($newAnimalId);
+			$this->setAnimalShelterId($newAnimalShelterId);
+			$this->setAnimalAdoptionStatus($newAnimalAdoptionStatus);
+			$this->setAnimalBreed($newAnimalBreed);
+			$this->setAnimalGender($newAnimalGender);
+			$this->setAnimalName($newAnimalName);
+			$this->setAnimalPhotoUrl($newAnimalPhotoUrl);
+			$this->setAnimalSpecies($newAnimalSpecies);
 		} catch(\InvalidArgumentException | \RangeException | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType ($exception->getMessage(), 0, $exception));
 		}
 	}
-
-	//** ----->>>>>ADD MUTATORS FOR ABOVE, CHECK LINE 75, getclass<<<<<-----*/
 
 	/**
 	 * accessor method for author id
@@ -271,109 +271,4 @@ class Animal {
 		$fields["authorId"] = $this->authorId->toString();
 		$fields["authorActivationToken"] = $this->authorActivationToken->toString();
 	}
-
-	/**
-	 * inserts this author into mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-	public function insert(\PDO $pdo): void {
-
-		// create query template
-		$query = "INSERT INTO author(authorId,authorActivationToken, authorAvatarUrl, authorEmail, authorHash, authorUsername) VALUES(:tweetId, :AuthorId, :authorAvatarUrl)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders in the template
-		$parameters = ["authorId" => $this->authorId->getBytes(), "authorActivationToken" => $this->authorActivationToken->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl];
-		$statement->execute($parameters);
-	}
-	//**Object Oriented Phase II methods below. **//
-
-	/**
-	 * deletes this author from mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-	public function delete(\PDO $pdo): void {
-
-		// create query template
-		$query = "DELETE FROM author WHERE authorId = :authorId";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holder in the template
-		$parameters = ["authorId" => $this->authorId->getBytes()];
-		$statement->execute($parameters);
-	}
-
-	/**
-	 * updates this Author in mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-	public function update(\PDO $pdo): void {
-
-		// create query template
-		$query = "UPDATE author SET authorId = :authorId, authorAvatarUrl = :authorAvatarUrl WHERE authorId = :authorId";
-		$statement = $pdo->prepare($query);
-
-
-		$parameters = ["authorId" => $this->authorId->getBytes(), "authorActivationToken" => $this->authorActivationToken->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl];
-		$statement->execute($parameters);
-	}
-
-	/**
-	 * a method that returns an array of Authors
-	 *
-	 * @param \PDO $pdo
-	 * @param string $authorUsername
-	 * @return \SPLFixedArray
-	 */
-	public static function getAuthorByAuthorUsername(\PDO $pdo, string $authorUsername): \SPLFixedArray {
-
-		//sanitize the description before searching
-		//** trims the author username to a set number of characters for security */
-		$authorUsername = trim($authorUsername);
-		//**filter_var filters a variable, the format is: filter_var($authorUsername <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
-		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
-		$authorUsername = filter_var($authorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-
-		// escape any mySQL wild cards
-		//** str_replace("%","\\%", $authorUsername) will replace the command "%" with the string character "%", this will prevent security breaches.*/
-		$result = str_replace("%", "\\%", $authorUsername);
-		$authorUsername = str_replace("_", "\\", $result);
-
-		// create query template
-		$query = "SELECT authorId, authorActivationToken, authorAvatarUrl, authorEmail, authorHash, authorUsername FROM Author LIKE :authorUsername";
-		$statement = $pdo->prepare($query);
-		x
-		//bind the authorUsername to the place holder in the template
-		$authorUsername = "%authorUsername%";
-		$parameters = ["authorUsername" => $authorUsername];
-		$statement->execute($parameters);
-
-		// building an array of Authors
-		$authorArray = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$author = new Author($row["authorId"], $row["authorActivationToken"], $row["authorAvatarUrl"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
-				$authorArray[$authorArray->key()] = $author;
-				$authorArray->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($authorArray);
-	}
-}
-
-
 ?>
