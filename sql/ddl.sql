@@ -14,7 +14,7 @@ CREATE TABLE `user`(
   userDescription VARCHAR(200),
   userEmail VARCHAR (64) NOT NULL,
   userFirstName VARCHAR (32) NOT NULL,
-  userGender VARCHAR(32) ,
+  userGender VARCHAR(32),
   userHash CHAR (97) NOT NULL,
   userLastName VARCHAR (32) NOT NULL,
   userPhone VARCHAR (11) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE animal (
   animalPhotoUrl VARCHAR(32) NOT NULL,
   animalSpecies VARCHAR(32) NOT NULL,
   INDEX(animalId),
-  FOREIGN KEY (animalId) references shelter(shelterId),
+  FOREIGN KEY (animalId) references shelte	r(shelterId),
   PRIMARY KEY (animalId)
 );
 
