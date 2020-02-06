@@ -99,19 +99,19 @@ class Animal {
 	 *
 	 * @return Uuid value of author id
 	 **/
-	public function getAuthorId(): Uuid {
-		return ($this->authorId);
+	public function getAnimalId(): Uuid {
+		return ($this->animalId);
 	}
 
-	public function getAuthorActivationToken(): ?string {
-		return ($this->authorActivationToken);
+	public function getAnimalShelterId(): Uuid {
+		return ($this->animalShelterId);
 	}
 
-	public function getAuthorAvatarURL($authorAvatarUrl) {
-		$this->authorAvatarUrl;
+	public function getAnimalAdoptionStatus($animalAdoptionStatus) {
+		$this->animalAdoptionStatus;
 	}
 
-	public function getAuthorEmail($authorEmail) {
+	public function getAnimalBreed($animalBreed) {
 		$this->authorEmail;
 	}
 
