@@ -253,11 +253,58 @@ class Shelter {
 
 }
 
+/**
+ * get the Shelter by ShelterId
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $shelterId shelter Id used for the search
+ * @return Shelter | null Shelter or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable is not the correct data type
+ */
+
+public static function getShelterByShelterId(\PDO $pdo, $shelterId):?Shelter
+{
+    // sanitize the shelter id before searching
+    try {
+        $shelterId = self::validateUuid($shelterId);
+    } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+        throw (new \PDOException($exception->getMessage(), 0, $exception));
+    }
+
+    //create query template
+    $query  = "SELECT shelterId, shelterAddress, shelterName, shelterPhone FROM Shelter WHERE shelterId = :shelterId";
+    $statement = $pdo->prepare($query);
+
+    //bind the shelter id to the place holder in the template
+    $parameters = ["shelterId" => $shelterId->getBytes()];
+    $statement-> execute($parameters);
+
+    //grab the shelter from mySQL
+    try {
+        $shelter = null;
+        $statement->setFetchMode(\PDO::FETCH_ASSOC);
+        $row = $statement->false();
+        if($row !==false) {
+            $shelter = new Shelter($row["shelterId"], $row["shelterAddress"], $row["shelterName"], $row["shelterPhone"]);
+        }
+
+        }catch(\Exception $exception) {
+        // if the row could not be converted, rethrow it
+        throw(new \PDOException ($exception->getMessage(), 0, $exception));
+    }
+        return($shelter);
+}
 
 
-
+getShelterbyShelterId
 
 
 /**
  * Why is something a primary key as opposed to any other key?
- */
+ *splfixedarray singobject
+ * What does "::" mean?
+ * What does "getBytes" do?
+ * What does "execute($parameters) do?
+ * What does "setFetchMode" do?
+
