@@ -95,9 +95,9 @@ class Animal {
 	}
 
 	/**
-	 * accessor method for author id
+	 * accessor method for animal id
 	 *
-	 * @return Uuid value of author id
+	 * @return Uuid value of animal id
 	 **/
 	public function getAnimalId(): Uuid {
 		return ($this->animalId);
@@ -112,11 +112,22 @@ class Animal {
 	}
 
 	public function getAnimalBreed($animalBreed) {
-		$this->authorEmail;
+		$this->animalBreed;
 	}
 
-	public function getAuthorHash($authorHash) {
-		$this->authorHash;
+	public function getAnimalGender($animalGender) {
+		$this->animalGender;
+	}
+
+	public function getAnimalName($animalName) {
+		$this->animalName;
+	}
+
+	public function getAnimalPhotoUrl($animalPhotoUrl) {
+		$this->animalPhotoUrl;
+	}
+	public function getAnimalSpecies($animalSpecies) {
+		$this->animalSpecies;
 	}
 
 	//** MUTATORS BELOW  **//
@@ -270,5 +281,4 @@ class Animal {
 
 		$fields["authorId"] = $this->authorId->toString();
 		$fields["authorActivationToken"] = $this->authorActivationToken->toString();
-	}
-?>
+	?>
