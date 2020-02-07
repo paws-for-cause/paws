@@ -210,12 +210,86 @@ class Animal {
 	}
 
 	/**
-	 * mutator method for at handle
+	 * mutator method for animal adoption status
 	 *
-	 * @param string $newAuthorUsername new value of at handle
-	 * @throws \InvalidArgumentException if $newAtHandle is not a string or insecure
-	 * @throws \RangeException if $newAtHandle is > 32 characters
-	 * @throws \TypeError if $newAtHandle is not a string
+	 * @param string $newAnimalAdoptionStatus new value of at handle
+	 * @throws \InvalidArgumentException if $newAnimalAdoptionStatus is not a string or insecure
+	 * @throws \RangeException if $newAnimalAdoptionStatus is > 32 characters
+	 * @throws \TypeError if $newAnimalAdoptionStatus is not a string
+	 **/
+	public
+	function setAnimalAdoptionStatus(string $newAnimalAdoptionStatus): void {
+		// verify the adoption status is secure
+		$newAnimalAdoptionStatus = trim($newAnimalAdoptionStatus);
+		$newAnimalAdoptionStatus = filter_var($newAnimalAdoptionStatus, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAnimalAdoptionStatus) === true) {
+			throw(new \InvalidArgumentException("adoption status is empty or insecure"));
+		}
+		// verify the at handle will fit in the database
+		if(strlen($newAnimalAdoptionStatus) > 32) {
+			throw(new \RangeException("adoption status is too large"));
+		}
+		// store the at handle
+		$this->animalName = $newAnimalAdoptionStatus;
+	}
+
+	/**
+	 * mutator method for animal breed
+	 *
+	 * @param string $newAnimalBreed new value of at handle
+	 * @throws \InvalidArgumentException if $newAnimalBreed is not a string or insecure
+	 * @throws \RangeException if $newAnimalBreed is > 32 characters
+	 * @throws \TypeError if $newAnimalBreed is not a string
+	 **/
+	public
+	function setAnimalBreed(string $newAnimalBreed): void {
+		// verify the breed is secure
+		$newAnimalBreed = trim($newAnimalBreed);
+		$newAnimalBreed = filter_var($newAnimalBreed, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAnimalBreed) === true) {
+			throw(new \InvalidArgumentException("animal name is empty or insecure"));
+		}
+		// verify the at handle will fit in the database
+		if(strlen($newAnimalBreed) > 32) {
+			throw(new \RangeException("name of animal breed is too large"));
+		}
+		// store the at handle
+		$this->animalName = $newAnimalBreed;
+	}
+
+	/**
+	 * ANIMAL GENDER WILL GO HERE ASK ABOUT THE MUTATOR METHOD IF IT IS A BINARY
+	 *
+	 * @param string $newAnimalName new value of at handle
+	 * @throws \InvalidArgumentException if $newAnimalName is not a string or insecure
+	 * @throws \RangeException if $newAnimalName is > 32 characters
+	 * @throws \TypeError if $newAnimalname is not a string
+	 **/
+	/**public
+	function setAnimalName(string $newAnimalName): void {
+		// verify the at handle is secure
+		$newAnimalName = trim($newAnimalName);
+		$newAnimalName = filter_var($newAnimalName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAnimalName) === true) {
+			throw(new \InvalidArgumentException("animal name is empty or insecure"));
+		}
+		// verify the at handle will fit in the database
+		if(strlen($newAnimalName) > 32) {
+			throw(new \RangeException("animal name is too large"));
+		}
+		// store the at handle
+		$this->animalName = $newAnimalName;
+	}
+	 *
+	 **/
+
+	/**
+	 * mutator method for animal name
+	 *
+	 * @param string $newAnimalName new value of at handle
+	 * @throws \InvalidArgumentException if $newAnimalName is not a string or insecure
+	 * @throws \RangeException if $newAnimalName is > 32 characters
+	 * @throws \TypeError if $newAnimalname is not a string
 	 **/
 	public
 	function setAnimalName(string $newAnimalName): void {
@@ -269,29 +343,6 @@ class Animal {
 		$this->animalShelterId = $uuid;
 	}
 
-
-	/**
-	 * @param string|null $newAuthorActivationToken
-	 * *@throws \InvalidArgumentException if the token is not a string or is not secure
-	 * @throws \RangeException if the token is not exactly 32 characters
-	 * @throws \TypeError if the activation token is not a string
-	 */
-	public function setAuthorActivationToken(?string $newAuthorActivationToken): void {
-		if($newAuthorActivationToken === null) {
-			$this->authorActivationToken === null;
-			return;
-		}
-		$newAuthorActivationToken = strtolower(trim($newAuthorActivationToken));
-		if(ctype_xdigit($newAuthorActivationToken) === false) {
-			throw(new\RangeException("user activation is not valid"));
-		}
-		//make sure user activation token is only 32 characters
-		if(strlen($newAuthorActivationToken) !== 32) {
-			throw(new\RangeException("user activation token has to be 32"));
-		}
-		$this->authorActivationToken = $newAuthorActivationToken;
-	}
-
 	/** EDIT THE BELOW CODE SO THAT IT WILL COMPLY WITH STATE VARIABLES */
 	/**
 	 * formats the state variables for JSON serialization
@@ -301,6 +352,8 @@ class Animal {
 	public function jsonSerialize(): array {
 		$fields = get_object_vars($this);
 
-		$fields["authorId"] = $this->authorId->toString();
+		$fields["authorId"] = $this->animalId->toString();
+//** >>>>>>>>>ASK ABOUT THIS HERE<<<<<<<<<<< THE AUTHOR ACTIVATION TOKEN */
 		$fields["authorActivationToken"] = $this->authorActivationToken->toString();
-	?>
+
+		?>
