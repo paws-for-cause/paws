@@ -260,10 +260,9 @@ class Animal {
 	/**
 	 * ANIMAL GENDER WILL GO HERE ASK ABOUT THE MUTATOR METHOD IF IT IS A BINARY
 	 *
-	 * @param string $newAnimalName new value of at handle
-	 * @throws \InvalidArgumentException if $newAnimalName is not a string or insecure
-	 * @throws \RangeException if $newAnimalName is > 32 characters
-	 * @throws \TypeError if $newAnimalname is not a string
+	 *
+	 *
+	 *
 	 **/
 	/**public
 	function setAnimalName(string $newAnimalName): void {
@@ -280,6 +279,9 @@ class Animal {
 		// store the at handle
 		$this->animalName = $newAnimalName;
 	}
+	 *
+	 *
+	 *
 	 *
 	 **/
 
@@ -305,6 +307,30 @@ class Animal {
 		}
 		// store the at handle
 		$this->animalName = $newAnimalName;
+	}
+
+	/**
+	 * mutator method for animal species
+	 *
+	 * @param string $newAnimalSpecies new value of animal species
+	 * @throws \InvalidArgumentException if $newAnimalSpecies is not a string or insecure
+	 * @throws \RangeException if $newAnimalSpecies is > 32 characters
+	 * @throws \TypeError if $newAnimalSpecies is not a string
+	 **/
+	public
+	function setAnimalSpecies(string $newAnimalSpecies): void {
+		// verify the at handle is secure
+		$newAnimalSpecies = trim($newAnimalSpecies);
+		$newAnimalSpecies = filter_var($newAnimalSpecies, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAnimalSpecies) === true) {
+			throw(new \InvalidArgumentException("animal species is empty or insecure"));
+		}
+		// verify the at handle will fit in the database
+		if(strlen($newAnimalSpecies) > 32) {
+			throw(new \RangeException("name of animal species is too large"));
+		}
+		// store the at handle
+		$this->animalSpecies = $newAnimalSpecies;
 	}
 
 	/**
