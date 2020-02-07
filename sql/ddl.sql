@@ -17,6 +17,7 @@ CREATE TABLE `user`(
   userHash CHAR (97) NOT NULL,
   userLastName VARCHAR (32) NOT NULL,
   userPhone VARCHAR (11) NOT NULL,
+  UNIQUE (userEmail),
   PRIMARY KEY (userId)
 );
 
@@ -27,6 +28,7 @@ CREATE TABLE shelter (
   shelterAddress VARCHAR(64) NOT NULL,
   shelterName VARCHAR(32) NOT NULL,
   shelterPhone VARCHAR(10) NOT NULL,
+  UNIQUE (shelterName),
   PRIMARY KEY (shelterId)
 );
 
@@ -41,8 +43,8 @@ CREATE TABLE animal (
   animalName VARCHAR(32) NOT NULL,
   animalPhotoUrl VARCHAR(32) NOT NULL,
   animalSpecies VARCHAR(32) NOT NULL,
-  INDEX(animalId),
-  FOREIGN KEY (animalId) references shelter(shelterId),
+  INDEX(animalShelterId),
+  FOREIGN KEY (animalShelterId) references shelter(shelterId),
   PRIMARY KEY (animalId)
 );
 
@@ -53,8 +55,9 @@ CREATE TABLE `like` (
   likeAnimalId BINARY(16) NOT NULL,
   likeUserId BINARY(16) NOT NULL,
   likeApproved TINYINT(1) NOT NULL,
-  INDEX(likeUserId),
   INDEX(likeAnimalId),
+  INDEX(likeUserId),
+  FOREIGN KEY (likeAnimalId) references animal(animalId),
   FOREIGN KEY (likeUserId) references `user`(userId),
-  FOREIGN KEY (likeAnimalId) references animal(animalId)
+  PRIMARY KEY (likeAnimalId, likeUserId)
 );
