@@ -252,6 +252,25 @@ class Animal {
 	}
 
 	/**
+	 * @param string $newAnimalShelterId
+	 * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
+	 * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
+	 * @throws \TypeError if data types violate type hints
+	 **/
+	public function setAnimalShelter($newAnimalShelterId): void {
+		try {
+			$uuid = self::validateUuid($newAnimalShelterId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+
+		// convert and store the author id
+		$this->animalShelterId = $uuid;
+	}
+
+
+	/**
 	 * @param string|null $newAuthorActivationToken
 	 * *@throws \InvalidArgumentException if the token is not a string or is not secure
 	 * @throws \RangeException if the token is not exactly 32 characters
