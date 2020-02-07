@@ -12,6 +12,7 @@ use Ramsey\Uuid\Uuid;
  */
 
 class Like
+
 {
     /**
      * Like animal ID for this website. This is a foreign key.
@@ -38,18 +39,18 @@ class Like
     /**
      * Constructor for Like
      *
-     * @param string $newlikeAnimalId id for the animal that can been liked
+     * @param string $newLikeAnimalId id for the animal that can been liked
      * @param string $newLikeUserId id for the user who is viewing the animals
-     * @param boolean $newLikeApproved boolean for if the like is a "yes"
+     * @param tinyint $newLikeApproved tinyint for if the like is a "yes"
      */
 
-    public function __construct(string $newLikeAnimalId, string $newLikeUserId, boolean $newLikeApproved)
+    public function __construct(string $newLikeAnimalId, string $newLikeUserId, string $newLikeApproved)
     {
         try {
             $this->setLikeAnimalId($newLikeAnimalId);
             $this->setLikeUserId($newLikeUserId);
             $this->setLikeApproved($newLikeApproved);
-        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeEror $exception) {
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             //determine what exception type was thrown
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -83,7 +84,7 @@ class Like
             throw(new \InvalidArgumentException ("like animal Id is empty or insecure"));
         }
         // verify the new username will fit in the database
-        if (strlen($newLikeAnimalId) > 32) {
+        if (strlen($newLikeAnimalId) > 16) {
             throw(new\RangeException ("like animal id is too long"));
         }
         //store the like animal id
@@ -127,7 +128,7 @@ class Like
     /**
      * accessor method for like approved
      *
-     * @return boolean value of the like approved
+     * @return tinyint value of the like approved
      */
 
     public function getLikeApproved(): string
@@ -136,22 +137,19 @@ class Like
     }
 
     /**
-     * mutator method for like user id
+     * mutator method for like approved
      * @param $newLikeApproved new like approved
-     * @throws \InvalidArgument Exception if $newLikeApproved is not a boolean or insecure
-     * @throws \TypeException if $newLikeUserId is not a boolean
+     * @throws \InvalidArgument Exception if $newLikeApproved is not a string or insecure
+     * @throws \TypeException if $newLikeUserId is not a string
      */
     public function setLikeApproved ($newLikeApproved): void
     {
         // verify the like user id is secure
-        $newLikeApproved = trim($newLikeApproved);
         $newLikeApproved = filter_var($newLikeApproved, FILTER_SANITIZE, FILTER_FLAG_NO_ENCODE_QUOTES);
-        if (empty($newLikeApproved) === true) {
-            throw(new \InvalidArgumentException ("like approved is empty or insecure"));
-        }
-        // verify the new like approved will fit in the database
-        if (strlen($newLikeApproved) > 32) {
-            throw(new\RangeException ("like approved id is too long"));
+
+        // verify the new like approved is valid
+        if (($newLikeApproved =1) || ($newLikeApproved = 0)) {
+            throw(new\RangeException ("like approved is not valid"));
         }
         //store the like user id
         $this->likeApproved = $newLikeApproved;
@@ -173,7 +171,7 @@ class Like
         $statement = $pdo->prepare($query);
 
         // bind the member variables to the place holders in the template
-        $parameters = ["likeAnimalId" => $this->likeAnimalId, "likeUserId" => $this->likesuerId, "likeApproved" => $this->likeApproved];
+        $parameters = ["likeAnimalId" => $this->likeAnimalId, "likeUserId" => $this->likeUserId, "likeApproved" => $this->likeApproved];
         $statement->execute($parameters);
     }
 
@@ -202,7 +200,7 @@ class Like
      * deletes this Like from mySql
      * @param \PDO $pdo PDO connection object
      * @throws \PDOException when mySQL related errors occur
-     * @throws \TypeEror if $pdo is not a PDO connection object
+     * @throws \TypeError if $pdo is not a PDO connection object
      */
 
     public function delete(\PDO $pdo): void {
@@ -218,12 +216,5 @@ class Like
 }
 
 /**
+ * Is "Like" a protected word in PHP. if so how to fix?
  * I still kind of don't understand the header section "require once, autoload"
- * Tinyint? Smallint Signed?
- * Like Approved boolean?
- * Not sure about constructor descriptions
- * What do each of these methods do?
- * Do we need the exceptions for likeanimalId since that would be a private function most likely?
- * Type exception works for boolean?
- * length of these variables?
- * like approved probably doesn't need length exception?
