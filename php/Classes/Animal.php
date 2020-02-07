@@ -140,9 +140,10 @@ class Animal {
 	 * @throws \RangeException if $newEmail is > 128 characters
 	 * @throws \TypeError if $newEmail is not a string
 	 **/
-	public function setAuthorEmail(string $newAuthorEmail): void {
+
+/**	public function setAuthorEmail(string $newAuthorEmail): void {
 		// verify the email is secure
-		$newAuthorEmail = trim($newAuthorEmail);
+		//**$newAuthorEmail = trim($newAuthorEmail);
 		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_VALIDATE_EMAIL);
 		if(empty($newAuthorEmail) === true) {
 			throw(new \InvalidArgumentException("author email is empty or insecure"));
@@ -154,6 +155,7 @@ class Animal {
 		// store the email
 		$this->authorEmail = $newAuthorEmail;
 	}
+ ** /
 
 	/**
 	 * mutator method for author hash password
@@ -163,7 +165,7 @@ class Animal {
 	 * @throws \RangeException if the hash is not 128 characters
 	 * @throws \TypeError if author hash is not a string
 	 */
-	public function setAuthorHash(string $newAuthorHash): void {
+/**	public function setAuthorHash(string $newAuthorHash): void {
 		//enforce that the hash is properly formatted
 		$newAuthorHash = trim($newAuthorHash);
 		if(empty($newAuthorHash) === true) {
@@ -181,29 +183,30 @@ class Animal {
 		//store the hash
 		$this->authorHash = $newAuthorHash;
 	}
+**/
 
 
 	/**
-	 * mutator method for at handle
+	 * mutator method for the Animal Photo Url
 	 *
-	 * @param string $newAuthorAvatarUrl new value of at handle
-	 * @throws \InvalidArgumentException if $newAtHandle is not a string or insecure
-	 * @throws \RangeException if $newAtHandle is > 32 characters
-	 * @throws \TypeError if $newAtHandle is not a string
+	 * @param string $newAnimalPhotoUrl new value of at handle
+	 * @throws \InvalidArgumentException if $newAnimalPhotoUrl is not a string or insecure
+	 * @throws \RangeException if $newAnimalPhotoUrl is > 32 characters
+	 * @throws \TypeError if $newAnimalPhotoUrl is not a string
 	 **/
-	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl): void {
+	public function setAnimalPhotoUrl(string $newAnimalPhotoUrl): void {
 		// verify the at handle is secure
-		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
-		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorAvatarUrl) === true) {
+		$newAnimalPhotoUrl = trim($newAnimalPhotoUrl);
+		$newAnimalPhotoUrl = filter_var($newAnimalPhotoUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAnimalPhotoUrl) === true) {
 			throw(new \InvalidArgumentException("Avatar url is empty or insecure"));
 		}
 		// verify the at handle will fit in the database
-		if(strlen($newAuthorAvatarUrl) > 32) {
+		if(strlen($newAnimalPhotoUrl) > 32) {
 			throw(new \RangeException("Avatar url is too large"));
 		}
 		// store the at handle
-		$this->authorAvatarUrl = $newAuthorAvatarUrl;
+		$this->animalPhotoUrl = $newAnimalPhotoUrl;
 	}
 
 	/**
@@ -215,19 +218,19 @@ class Animal {
 	 * @throws \TypeError if $newAtHandle is not a string
 	 **/
 	public
-	function setAuthorUsername(string $newAuthorUsername): void {
+	function setAnimalName(string $newAnimalName): void {
 		// verify the at handle is secure
-		$newAuthorUsername = trim($newAuthorUsername);
-		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorUsername) === true) {
-			throw(new \InvalidArgumentException("author at handle is empty or insecure"));
+		$newAnimalName = trim($newAnimalName);
+		$newAnimalName = filter_var($newAnimalName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAnimalName) === true) {
+			throw(new \InvalidArgumentException("animal name is empty or insecure"));
 		}
 		// verify the at handle will fit in the database
-		if(strlen($newAuthorUsername) > 32) {
-			throw(new \RangeException("author at handle is too large"));
+		if(strlen($newAnimalName) > 32) {
+			throw(new \RangeException("animal name is too large"));
 		}
 		// store the at handle
-		$this->authorUsername = $newAuthorUsername;
+		$this->animalName = $newAnimalName;
 	}
 
 	/**
