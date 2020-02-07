@@ -322,21 +322,50 @@ class Animal {
 
 //**getFooByBar methods below**//
 
-// building an array of Animals
-		$getAllAnimals = SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
+/**
+ * TEMPLATE FOR SPLFIXED ARRAY OF ALL ANIMALS BELOW
+ * a method that returns an SplFixedArray of all animals
+ *
+ * @param \PDO $pdo
+ * @param string $authorUsername
+ * @return authorSplFixedArray
+ */
+public static function getAuthorByAuthorUsername(\PDO $pdo, string $authorUsername): \SPLFixedarray {
+
+	//sanitize the description before searching
+	//** trims the author username to a set number of characters for security */
+	$authorUsername = trim($authorUsername);
+	//**filter_var filters a variable, the format is: filter_var($authorUsername <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
+	//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
+	$authorUsername = filter_var($authorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+
+	// escape any mySQL wild cards
+	//** str_replace("%","\\%", $authorUsername) will replace the command "%" with the string character "%", this will prevent security breaches.*/
+	$result = str_replace("%", "\\%", $authorUsername);
+	$authorUsername = str_replace("_", "\\", $result);
+
+	// create query template
+	$query = "SELECT authorId, authorActivationToken, authorAvatarUrl, authorEmail, authorHash, authorUsername FROM Author LIKE :authorUsername";
+	$statement = $pdo->prepare($query);
+	//bind the authorUsername to the place holder in the template
+	$authorUsername = "%authorUsername%";
+	$parameters = ["authorUsername" => $authorUsername];
+	$statement->execute($parameters);
+
+	// building an array of Authors
+	$authorArray = SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
 		try {
-			$author = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+			$author = new Author($row["authorId"], $row["authorActivationToken"], $row["authorAvatarUrl"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
 			$authorArray[$authorArray->key()] = $author;
 			$authorArray->next();
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
 		}
-		return ($getAllAnimals);
-
+	}
+	return ($authorArray);
 }
-
 	?>
