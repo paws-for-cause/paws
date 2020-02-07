@@ -319,4 +319,24 @@ class Animal {
 		$fields["animalId"] = $this->animalId->toString();
 	}
 }
+
+//**getFooByBar methods below**//
+
+// building an array of Animals
+		$getAllAnimals = SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+		try {
+			$author = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+			$authorArray[$authorArray->key()] = $author;
+			$authorArray->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($getAllAnimals);
+
+}
+
 	?>
