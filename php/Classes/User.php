@@ -178,7 +178,7 @@ class User{
       }
       //verify age
       if(is_integer($newUserAge) < 120){
-         throw (new \RangeException("Age value too large"))
+         throw (new \RangeException("Age value too large"));
       }
       //store the age value
       $this->userAge= $newUserAge;
@@ -262,15 +262,19 @@ class User{
    /**
     * mutator method for user first name
     *
+    * @param string $newUserFirstName new value for user first name
+    * @throws \InvalidArgumentException if $newUserFirstName is not a string or insecure
+    * @throws \RangeException if $newUserFirstName is > 32 characters
+    * @throws \TypeError if $newUserFirstName is not a string
     **/
    public function setUserFirstName(string $newUserFirstName) : void {
-      //verify that the user email is secure
+      //verify that the user first name is secure
       $newUserFirstName = trim($newUserFirstName);
       $newUserFirstName = filter_var($newUserFirstName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
       if(empty($newUserFirstName)===true) {
          throw(new \InvalidArgumentException("User first name is empty or insecure"));
       }
-      //verify that the user email will fit in the database
+      //verify that the user first name will fit in the database
       if(strlen($newUserFirstName) > 32) {
          throw(new \RangeException("User first name is too long"));
       }
@@ -290,39 +294,124 @@ class User{
    /**
     * mutator method for user gender
     *
+    * @param string $newUserGender new value for user gender
+    * @throws \InvalidArgumentException if $newUserGender is not a string or insecure
+    * @throws \RangeException if $newUserGender is > 32 characters
+    * @throws \TypeError if $newUserGender is not a string
     **/
+   public function setUserGender(string $newUserGender): void {
+      //verify the user gender is secure
+      $newUserGender = trim($newUserGender);
+      $newUserGender = filter_var($newUserGender, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+      if(empty($newUserGender) === true) {
+         throw(new \InvalidArgumentException("user gender is empty or insecure"));
+      }
+
+      //verify user gender will fit in the database
+      if(strlen($newUserGender) > 32) {
+         throw(new \RangeException("user gender is too large"));
+      }
+
+      //store the user gender
+      $this->userGender = $newUserGender;
+   }
 
    /**
-    * accessor method for user password
+    * accessor method for user hash
     *
+    * @return string value of user hash
     **/
     public function getUserHash() : string {
        return ($this->userHash);
     }
+
    /**
     * mutator method for user password
     *
+    * @param string $newUserHash string containing encrypted password
+    * @throws \InvalidArgumentException if the hash is not secure
+    * @throws \RangeException if $newUserHash is not 97 characters
+    * @throws \TypeError if $newUserHash is not a sting
     **/
+   public function setUserHash(string $newUserHash) : void {
+      //enforce that the hash is properly formatted
+      $newUserHash = trim($newUserHash);
+      if(empty($newUserHash) === true) {
+         throw(new \InvalidArgumentException("user password hash empty or insecure"));
+      }
+      //enforce that the hash is exactly 97 characters
+      if(strlen($newUserHash) < 96) {
+         throw(new \RangeException("user hash must be less than 96 characters"));
+      }
+      //store the hash
+      $this->userHash = $newUserHash;
+   }
 
    /**
     * accessor method for user last name
     *
+    * @return string for user last name
     **/
     public function getUserLastName() : string {
+      return $this->userLastName;
     }
-               }
+
    /**
-    * mutator method for user last name
+    * mutator method for user first name
     *
+    * @param string $newUserLastName new value for user first name
+    * @throws \InvalidArgumentException if $newUserLastName is not a string or insecure
+    * @throws \RangeException if $newUserLastName is > 32 characters
+    * @throws \TypeError if $newUserLastName is not a string
     **/
+   public function setUserLastName(string $newUserLastName) : void {
+      //verify that the user last name is secure
+      $newUserLastName = trim($newUserLastName);
+      $newUserLastName = filter_var($newUserLastName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+      if(empty($newUserLastName)===true) {
+         throw(new \InvalidArgumentException("User last name is empty or insecure"));
+      }
+      //verify that the user last name will fit in the database
+      if(strlen($newUserLastName) > 32) {
+         throw(new \RangeException("User last name is too long"));
+      }
+
+      //store the user last name
+      $this->userLastName = $newUserLastName;
+   }
 
    /**
     * accessor method for user phone number
     *
+    * @return string value of user phone number
     **/
+   public function getUserPhone(): string {
+      return $this->userPhone;
+   }
 
    /**
     * mutator method for user phone number
     *
+    * @param string $newUserPhone new value of user phone number
+    * @throws \InvalidArgumentException if $newUserPhone is not a string or insecure
+    * @throws \RangeException if $newUserPhone is > 11 characters
+    * @throws \TypeError if $newUserPhone is not a string
     **/
+   public function setUserPhone(string $newUserPhone) : void {
+      //verify the phone number is a string and secure
+      $newUserPhone = trim($newUserPhone);
+      $newUserPhone = filter_var($newUserPhone, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+      if(empty($newUserPhone) === true) {
+         throw(new \InvalidArgumentException("user phone number is empty or insecure"));
+      }
+
+      //verify the phone number will fit in the database
+      if(strlen($newUserPhone) > 11){
+         throw(new \RangeException("user phone number is too long"));
+      }
+
+      //store phone number
+      $this->userPhone = $newUserPhone;
+   }
+
 }

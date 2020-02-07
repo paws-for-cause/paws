@@ -43,7 +43,7 @@ CREATE TABLE animal (
   animalPhotoUrl VARCHAR(32) NOT NULL,
   animalSpecies VARCHAR(32) NOT NULL,
   INDEX(animalId),
-  FOREIGN KEY (animalId) references shelte	r(shelterId),
+  FOREIGN KEY (animalId) references shelter(shelterId),
   PRIMARY KEY (animalId)
 );
 
