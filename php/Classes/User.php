@@ -5,7 +5,8 @@
 	require_once ("autoload.php");
 	require_once (dirname(__DIR__)) . "/vendor/autoload.php";
 
-	use Ramsey\Uuid\Uuid;
+   use http\Exception\InvalidArgumentException;
+   use Ramsey\Uuid\Uuid;
 
 	/**
     * User Class
@@ -426,4 +427,126 @@ class User{
       $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userGender" => $this->userGender, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
    $statement->execute($parameters);
    }
+
+   /**
+    * gets user by userId
+    *
+    * @param \PDO $pdo PDO connection object
+    * @param Uuid|string $userId user id to search for
+    * @return User|null user found or null if not found
+    * @throws \PDOException when my SQL related errors occur
+    * @throws \TypeError when a variable are not the correct data type
+    **/
+   public static function getUserbyUserId(\PDO $pdo, $userId) : ?User {
+      //sanitize the userId before searching
+      try{
+         $userId = self::validateUuid($userId);
+      } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception){
+         throw(new \PDOException($exception->getMessage(), 0, $exception));
+      }
+
+      //create query template
+      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userGender, userHash, userLastName, userPhone";
+      $statement = $pdo->prepare($query);
+
+      //bind the user id to the place holder in the template
+      $parameters = ["userId" => $userId->getBytes()];
+      $statement->execute($parameters);
+
+      //grab user from mySQL
+      try{
+         $user = null;
+         $statement->setFetchMode(\PDO::FETCH_ASSOC);
+         $row = $statement->fetch();
+         if($row !== false) {
+            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userGender"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
+         }
+      } catch(\Exception $exception){
+         //if the row couldn't be converted, rethrow it
+         throw(new \PDOException($exception->getMessage(), 0, $exception));
+      }
+      return($user);
+   }
+
+   /**
+    * gets user by userEmail
+    *
+    * @param \PDO $pdo PDO connection object
+    * @param Uuid|string $userEmail email value to search for
+    * @return User|null User found or null if not found
+    * @throws \PDOException when mySQL related errors occur
+    * @throws \TypeError when a variable are not the correct data type
+    */
+   public static function getUserbyEmail(\PDO $pdo, $userEmail, $exception) : ?User {
+      //sanitize the userEmail before searching
+      try{
+         $userEmail = self::string($userEmail);
+      }catch( \InvalidArgumentException | \RangeException | \Exception |
+   \TypeError $exception) {
+         throw(new \PDOException($exception->getMessage(), 0, $exception));
+      }
+
+      //create query template
+      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userGender, userHash, userLastName, userPhone";
+      $statement = $pdo->prepare($query);
+
+      //bind the user email to the place holder in the template
+      $parameters = ["userEmail" => $userEmail->getBytes()];
+      $statement->execute($parameters);
+
+      //grab user from mySQL
+      try{
+         $user = null;
+         $statement->setFetchMode(\PDO::FETCH_ASSOC);
+         $row = $statement->fetch();
+         if($row !== false) {
+            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userGender"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
+         }
+      } catch(\Exception $exception){
+         //if the row couldn't be converted, rethrow it
+         throw(new \PDOException($exception->getMessage(), 0, $exception));
+      }
+      return($user);
+   }
+
+   /**
+    * get user by activation token
+    *
+    * @param \PDO $pdo PDO connection object
+    * @param Uuid|string $userActivationToken activation token value to search for
+    * @return User|null User found or null if not found
+    * @throws \PDOException when mySQL related errors occur
+    * @throws \TypeError when a variable are not the correct data type
+    **/
+   public static function getUserbyActivationToken(\PDO $pdo, $userActivationToken) : ?User {
+      //sanitize the userActivationToken before searching
+      try {
+         $userActivationToken = self::ValidateUuid($userActivationToken);
+      } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+         throw(new\PDOException($exception->getMessage(), 0, $exception));
+      }
+
+      //create query template
+      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userGender, userHash, userLastName, userPhone";
+      $statement = $pdo->prepare($query);
+
+      //bind the user activation token to the place holder in the template
+      $parameters = ["userActivationToken" => $userActivationToken->getBytes()];
+      $statement->execute($parameters);
+
+      //grab user from mySQL
+      try {
+         $user = null;
+         $statement->setFetchMode(\PDO::FETCH_ASSOC);
+         $row = $statement->fetch();
+         if($row !== false) {
+            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userGender"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
+         }
+      } catch(\Exception $exception) {
+         //if the row couldn't be converted, rethrow it
+         throw(new \PDOException($exception->getMessage(), 0, $exception));
+      }
+      return ($user);
+   }
+
 }
