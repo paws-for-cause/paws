@@ -234,21 +234,21 @@ class Animal {
 	}
 
 	/**
-	 * @param string $newAuthorId
+	 * @param string $newAnimalId
 	 * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
 	 * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
 	 * @throws \TypeError if data types violate type hints
 	 **/
-	public function setAuthorId($newAuthorId): void {
+	public function setAnimalId($newAnimalId): void {
 		try {
-			$uuid = self::validateUuid($newAuthorId);
+			$uuid = self::validateUuid($newAnimalId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		// convert and store the author id
-		$this->authorId = $uuid;
+		$this->animalId = $uuid;
 	}
 
 	/**
