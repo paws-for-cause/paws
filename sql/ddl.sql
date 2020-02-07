@@ -11,7 +11,6 @@ CREATE TABLE `user`(
   userId BINARY(16) NOT NULL,
   userActivationToken VARCHAR (32) NOT NULL,
   userAge SMALLINT SIGNED NOT NULL,
-  userDescription VARCHAR(200),
   userEmail VARCHAR (64) NOT NULL,
   userFirstName VARCHAR (32) NOT NULL,
   userGender VARCHAR(32),

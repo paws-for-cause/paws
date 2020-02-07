@@ -33,11 +33,6 @@ class User{
     **/
    private $userAge;
    /**
-    * description of the user
-    * @var string $userDescription;
-    **/
-   private $userDescription;
-   /**
     * email of the user
     * @var string $userEmail;
     **/
@@ -71,9 +66,8 @@ class User{
    /**
     * constructor method for user
     * @param $userId id for the user
-    * @param $userActiviationToken activation token for the author
+    * @param $userActiviationToken activationtoken for the author
     * @param $userAge age of user
-    * @param $userDescription description of user
     * @param $userEmail user email
     * @param $userFirstName user first name
     * @param $userGender user gender
@@ -177,44 +171,11 @@ class User{
          throw(new \InvalidArgumentException("Age value empty or insecure"));
       }
       //verify age
-      if(is_integer($newUserAge) < 120){
+      if(is_integer($newUserAge) > 120){
          throw (new \RangeException("Age value too large"));
       }
       //store the age value
       $this->userAge= $newUserAge;
-   }
-
-   /**
-    * accessor method for user description
-    *
-    * @return string value of the user description
-    **/
-   public function getUserDescription() : string {
-      return ($this->userDescription);
-   }
-
-   /**
-    * mutator method for user description
-    *
-    * @param string $newUserDescription new value of description content
-    * @throws \InvalidArgumentException if $newUserDescription is not a string or insecure
-    * @throws \RangeException if $newUserDescription is > 200 characters
-    * @throws \TypeError if $newUserDescription is not a string
-    **/
-   public function setUserDescription(string $newUserdescription) : void {
-      //verify the description content is secure
-      $newUserdescription = trim($newUserdescription);
-      $newUserdescription = filter_var($newUserdescription, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-      if(empty($newUserdescription)===true){
-         throw(new\InvalidArgumentException("Description is empty or insecure"));
-      }
-      //verify user description will fit in the database
-      if(strlen($newUserdescription) > 200) {
-         throw(new \RangeException("Description is too long"));
-      }
-      //store user description
-      $this->userDescription = $newUserdescription;
-
    }
 
    /**
@@ -291,6 +252,7 @@ class User{
     public function getUserGender() : string {
        return($this->userGender);
     }
+
    /**
     * mutator method for user gender
     *
@@ -357,7 +319,7 @@ class User{
     }
 
    /**
-    * mutator method for user first name
+    * mutator method for user last name
     *
     * @param string $newUserLastName new value for user first name
     * @throws \InvalidArgumentException if $newUserLastName is not a string or insecure
@@ -414,5 +376,54 @@ class User{
       $this->userPhone = $newUserPhone;
    }
 
-   //GetFooByBar Methods Below
+   /**
+    * inserts user into mySQL
+    *
+    * @param \PDO $pdo PDO connection object
+    * @throws \PDOException when mySQL related errors occur
+    * @throws \TypeError if $pdo is not a PDO connection object
+    **/
+   public function insert(\PDO $pdo) : void {
+
+      //create query template
+      $query = "INSERT INTO  user(userId, userActivationToken, userAge, userEmail, userFirstName, userGender, userHash, userLastName, userPhone) VALUES (:userId, :userActivationToken, :userAge, :userEmail, :userFirstName, :userGender, :userHash, :userLastName, :userPhoneNumber)";
+      $statement = $pdo->prepare($query);
+
+      //bind the member variables to the place holders in the template
+      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userGender" => $this->userGender, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
+      $statement->execute($parameters);
+   }
+
+   /**
+    * deletes user from mySQL
+    *
+    * @param \PDO $pdo PDO connection object
+    * @throws \PDOException when mySQL related errors occur
+    * @throws \TypeError if $pdo is not a PDO connection object
+    **/
+   public function delete(\PDO $pdo) : void {
+      //create query template
+      $query = "DELETE FROM user WHERE userId = :userId";
+      $statement = $pdo->prepare($query);
+
+      //bind the member variable to the place holder in the template
+      $parameters = ["userId" => $this->userId->getBytes()];
+      $statement->execute($parameters);
+   }
+
+   /**
+    * updates the user in mySQL
+    *
+    * @param \PDO $pdo PDO connection object
+    * @throws \PDOException when mySQL related errors occur
+    * @throws \TypeError if $pdo is not a PDO connection object
+    **/
+   public function update(\PDO $pdo) : void {
+      //create query template
+      $query = "UPDATE user SET userId = :userId, userActivationToken = :userActivationToken, userAge = :userAge, userEmail = :userEmail, userFirstName = :userFirstName, userGender = :userGender, userHash = :userHash, userLastName = :userLastName, userPhone = :userPhone";
+      $statement = $pdo->prepare($query);
+
+      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userGender" => $this->userGender, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
+   $statement->execute($parameters);
+   }
 }
