@@ -414,4 +414,5 @@ class User{
       $this->userPhone = $newUserPhone;
    }
 
+   //GetFooByBar Methods Below
 }
