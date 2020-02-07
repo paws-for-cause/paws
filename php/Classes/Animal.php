@@ -29,12 +29,15 @@ class Animal {
 	 * id for the Animal Shelter; this is the foreign key
 	 * @var Uuid $animalShelterId
 	 **/
+
 	private $animalShelterId;
 
 	/**
-	 * the status of whether or not the animal has been adopted yet
+	 * the status of whether or not the animal has been adopted yet,
 	 * @var string $animalAdoptionStatus
 	 **/
+
+
 	private $animalAdoptionStatus;
 
 	/**
@@ -62,6 +65,7 @@ class Animal {
 	 * The species of the animal
 	 * @var string $animalSpecies
 	 */
+
 	private $animalSpecies;
 
 	/**
@@ -78,7 +82,7 @@ class Animal {
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
 
-	public function __construct($newAnimalId, $newAnimalShelterId, string $newAnimalAdoptionStatus, string $newAnimalBreed, string $newAnimalGender, string $newAnimalName, string $newAnimalPhotoUrl,  string $newAnimalSpecies) {
+	public function __construct($newAnimalId, $newAnimalShelterId, string $newAnimalAdoptionStatus, string $newAnimalBreed, string $newAnimalGender, string $newAnimalName, string $newAnimalPhotoUrl, string $newAnimalSpecies) {
 		try {
 			$this->setAnimalId($newAnimalId);
 			$this->setAnimalShelterId($newAnimalShelterId);
@@ -126,64 +130,12 @@ class Animal {
 	public function getAnimalPhotoUrl($animalPhotoUrl) {
 		$this->animalPhotoUrl;
 	}
+
 	public function getAnimalSpecies($animalSpecies) {
 		$this->animalSpecies;
 	}
 
 	//** MUTATORS BELOW  **//
-
-	/**
-	 * mutator method for email
-	 *
-	 * @param string $newAuthorEmail new value of email
-	 * @throws \InvalidArgumentException if $newEmail is not a valid email or insecure
-	 * @throws \RangeException if $newEmail is > 128 characters
-	 * @throws \TypeError if $newEmail is not a string
-	 **/
-
-/**	public function setAuthorEmail(string $newAuthorEmail): void {
-		// verify the email is secure
-		//**$newAuthorEmail = trim($newAuthorEmail);
-		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_VALIDATE_EMAIL);
-		if(empty($newAuthorEmail) === true) {
-			throw(new \InvalidArgumentException("author email is empty or insecure"));
-		}
-		// verify the email will fit in the database
-		if(strlen($newAuthorEmail) > 128) {
-			throw(new \RangeException("author email is too large"));
-		}
-		// store the email
-		$this->authorEmail = $newAuthorEmail;
-	}
- ** /
-
-	/**
-	 * mutator method for author hash password
-	 *
-	 * @param string $newAuthorHash
-	 * @throws \InvalidArgumentException if the hash is not secure
-	 * @throws \RangeException if the hash is not 128 characters
-	 * @throws \TypeError if author hash is not a string
-	 */
-/**	public function setAuthorHash(string $newAuthorHash): void {
-		//enforce that the hash is properly formatted
-		$newAuthorHash = trim($newAuthorHash);
-		if(empty($newAuthorHash) === true) {
-			throw(new \InvalidArgumentException("author password hash empty or insecure"));
-		}
-		//enforce the hash is really an Argon hash
-		$authorHashInfo = password_get_info($newAuthorHash);
-		if($authorHashInfo["algoName"] !== "argon2i") {
-			throw(new \InvalidArgumentException("author hash is not a valid hash"));
-		}
-		//enforce that the hash is exactly 97 characters.
-		if(strlen($newAuthorHash) !== 97) {
-			throw(new \RangeException("author hash must be 97 characters"));
-		}
-		//store the hash
-		$this->authorHash = $newAuthorHash;
-	}
-**/
 
 
 	/**
@@ -217,8 +169,7 @@ class Animal {
 	 * @throws \RangeException if $newAnimalAdoptionStatus is > 32 characters
 	 * @throws \TypeError if $newAnimalAdoptionStatus is not a string
 	 **/
-	public
-	function setAnimalAdoptionStatus(string $newAnimalAdoptionStatus): void {
+	public function setAnimalAdoptionStatus(string $newAnimalAdoptionStatus): void {
 		// verify the adoption status is secure
 		$newAnimalAdoptionStatus = trim($newAnimalAdoptionStatus);
 		$newAnimalAdoptionStatus = filter_var($newAnimalAdoptionStatus, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -241,8 +192,7 @@ class Animal {
 	 * @throws \RangeException if $newAnimalBreed is > 32 characters
 	 * @throws \TypeError if $newAnimalBreed is not a string
 	 **/
-	public
-	function setAnimalBreed(string $newAnimalBreed): void {
+	public function setAnimalBreed(string $newAnimalBreed): void {
 		// verify the breed is secure
 		$newAnimalBreed = trim($newAnimalBreed);
 		$newAnimalBreed = filter_var($newAnimalBreed, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -257,33 +207,15 @@ class Animal {
 		$this->animalName = $newAnimalBreed;
 	}
 
-	/**
-	 * ANIMAL GENDER WILL GO HERE ASK ABOUT THE MUTATOR METHOD IF IT IS A BINARY
-	 *
-	 *
-	 *
-	 *
-	 **/
-	/**public
-	function setAnimalName(string $newAnimalName): void {
-		// verify the at handle is secure
-		$newAnimalName = trim($newAnimalName);
-		$newAnimalName = filter_var($newAnimalName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAnimalName) === true) {
-			throw(new \InvalidArgumentException("animal name is empty or insecure"));
+//** TinyInt mutator */
+	function setAnimalGender(string $newAnimalGender) {
+		// verify the gender input is valid
+		if (($newAnimalGender > 1) || ($newAnimalGender < 0)); {
+			throw(new \RangeException("animal gender value is invalid"));
 		}
-		// verify the at handle will fit in the database
-		if(strlen($newAnimalName) > 32) {
-			throw(new \RangeException("animal name is too large"));
-		}
-		// store the at handle
-		$this->animalName = $newAnimalName;
+		// store the animal gender
+		$this->animalGender = $newAnimalGender;
 	}
-	 *
-	 *
-	 *
-	 *
-	 **/
 
 	/**
 	 * mutator method for animal name
@@ -378,8 +310,7 @@ class Animal {
 	public function jsonSerialize(): array {
 		$fields = get_object_vars($this);
 
-		$fields["authorId"] = $this->animalId->toString();
-//** >>>>>>>>>ASK ABOUT THIS HERE<<<<<<<<<<< THE AUTHOR ACTIVATION TOKEN */
-		$fields["authorActivationToken"] = $this->authorActivationToken->toString();
-
-		?>
+		$fields["animalId"] = $this->animalId->toString();
+	}
+}
+	?>
