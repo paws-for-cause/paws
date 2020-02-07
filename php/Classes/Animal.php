@@ -137,28 +137,44 @@ class Animal {
 
 	//** MUTATORS BELOW  **//
 
+	/**
+	 * Mutator Method for animalId - This is the Primary Key
+	 *
+	 * @param string $newAnimalId
+	 * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
+	 * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
+	 * @throws \TypeError if data types violate type hints
+	 **/
+	public function setAnimalId($newAnimalId): void {
+		try {
+			$uuid = self::validateUuid($newAnimalId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+
+		// convert and store the author id
+		$this->animalId = $uuid;
+	}
 
 	/**
-	 * mutator method for the Animal Photo Url
+	 * Mutator for animalShelterId - This is the foreign key
 	 *
-	 * @param string $newAnimalPhotoUrl new value of at handle
-	 * @throws \InvalidArgumentException if $newAnimalPhotoUrl is not a string or insecure
-	 * @throws \RangeException if $newAnimalPhotoUrl is > 32 characters
-	 * @throws \TypeError if $newAnimalPhotoUrl is not a string
+	 * @param string $newAnimalShelterId
+	 * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
+	 * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
+	 * @throws \TypeError if data types violate type hints
 	 **/
-	public function setAnimalPhotoUrl(string $newAnimalPhotoUrl): void {
-		// verify the at handle is secure
-		$newAnimalPhotoUrl = trim($newAnimalPhotoUrl);
-		$newAnimalPhotoUrl = filter_var($newAnimalPhotoUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAnimalPhotoUrl) === true) {
-			throw(new \InvalidArgumentException("Avatar url is empty or insecure"));
+	public function setAnimalShelter($newAnimalShelterId): void {
+		try {
+			$uuid = self::validateUuid($newAnimalShelterId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// verify the at handle will fit in the database
-		if(strlen($newAnimalPhotoUrl) > 32) {
-			throw(new \RangeException("Avatar url is too large"));
-		}
-		// store the at handle
-		$this->animalPhotoUrl = $newAnimalPhotoUrl;
+
+		// convert and store the author id
+		$this->animalShelterId = $uuid;
 	}
 
 	/**
@@ -207,14 +223,17 @@ class Animal {
 		$this->animalName = $newAnimalBreed;
 	}
 
+
 //** TinyInt mutator */
 	function setAnimalGender(string $newAnimalGender) {
 		// verify the gender input is valid
-		if (($newAnimalGender > 1) || ($newAnimalGender < 0)); {
+		if(($newAnimalGender > 1) || ($newAnimalGender < 0)) ;
+		{
 			throw(new \RangeException("animal gender value is invalid"));
+
+			// store the animal gender
+			$this->animalGender = $newAnimalGender;
 		}
-		// store the animal gender
-		$this->animalGender = $newAnimalGender;
 	}
 
 	/**
@@ -225,8 +244,7 @@ class Animal {
 	 * @throws \RangeException if $newAnimalName is > 32 characters
 	 * @throws \TypeError if $newAnimalname is not a string
 	 **/
-	public
-	function setAnimalName(string $newAnimalName): void {
+	public function setAnimalName(string $newAnimalName): void {
 		// verify the at handle is secure
 		$newAnimalName = trim($newAnimalName);
 		$newAnimalName = filter_var($newAnimalName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -239,6 +257,30 @@ class Animal {
 		}
 		// store the at handle
 		$this->animalName = $newAnimalName;
+	}
+
+
+	/**
+	 * mutator method for the Animal Photo Url
+	 *
+	 * @param string $newAnimalPhotoUrl new value of at handle
+	 * @throws \InvalidArgumentException if $newAnimalPhotoUrl is not a string or insecure
+	 * @throws \RangeException if $newAnimalPhotoUrl is > 32 characters
+	 * @throws \TypeError if $newAnimalPhotoUrl is not a string
+	 **/
+	public function setAnimalPhotoUrl(string $newAnimalPhotoUrl): void {
+		// verify the at handle is secure
+		$newAnimalPhotoUrl = trim($newAnimalPhotoUrl);
+		$newAnimalPhotoUrl = filter_var($newAnimalPhotoUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAnimalPhotoUrl) === true) {
+			throw(new \InvalidArgumentException("Avatar url is empty or insecure"));
+		}
+		// verify the at handle will fit in the database
+		if(strlen($newAnimalPhotoUrl) > 32) {
+			throw(new \RangeException("Avatar url is too large"));
+		}
+		// store the at handle
+		$this->animalPhotoUrl = $newAnimalPhotoUrl;
 	}
 
 	/**
@@ -265,43 +307,7 @@ class Animal {
 		$this->animalSpecies = $newAnimalSpecies;
 	}
 
-	/**
-	 * @param string $newAnimalId
-	 * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
-	 * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
-	 * @throws \TypeError if data types violate type hints
-	 **/
-	public function setAnimalId($newAnimalId): void {
-		try {
-			$uuid = self::validateUuid($newAnimalId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
 
-		// convert and store the author id
-		$this->animalId = $uuid;
-	}
-
-	/**
-	 * @param string $newAnimalShelterId
-	 * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
-	 * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
-	 * @throws \TypeError if data types violate type hints
-	 **/
-	public function setAnimalShelter($newAnimalShelterId): void {
-		try {
-			$uuid = self::validateUuid($newAnimalShelterId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-
-		// convert and store the author id
-		$this->animalShelterId = $uuid;
-	}
-
-	/** EDIT THE BELOW CODE SO THAT IT WILL COMPLY WITH STATE VARIABLES */
 	/**
 	 * formats the state variables for JSON serialization
 	 *
