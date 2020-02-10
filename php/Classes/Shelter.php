@@ -11,7 +11,8 @@ use Ramsey\Uuid\Uuid;
  * @author Usaama Alnaji <ualnaji@cnm.edu> with help from Dylan McDonald's code
  */
 
-class Shelter {
+class Shelter
+{
     /**
      * shelter id for for this website. This is a primary key
      * @var string $shelterId
@@ -60,6 +61,7 @@ class Shelter {
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
         }
     }
+
     /**
      * accessor method for shelter id
      *
@@ -70,6 +72,7 @@ class Shelter {
     {
         return ($this->shelterId);
     }
+
     /**
      * mutator method for shelter id
      * @param $newshelterId new shelter id
@@ -77,7 +80,7 @@ class Shelter {
      * @throws \RangeException if $newShelterId is longer than 16 characters
      * @throws \TypeException if $newShelterId is not a string
      */
-    public function setShelterId ($newShelterId): void
+    public function setShelterId($newShelterId): void
     {
         // verify the shelter id is secure
         $newShelterId = trim($newShelterId);
@@ -103,6 +106,7 @@ class Shelter {
     {
         return ($this->shelterAddress);
     }
+
     /**
      * mutator method for shelter address
      * @param $newshelterAddress new shelter address
@@ -110,7 +114,7 @@ class Shelter {
      * @throws \RangeException if $newShelterAddress is longer than 16 characters
      * @throws \TypeException if $newShelterAddress is not a string
      */
-    public function setShelterAddress ($newShelterAddress): void
+    public function setShelterAddress($newShelterAddress): void
     {
         // verify the shelter address is secure
         $newShelterAddress = trim($newShelterAddress);
@@ -136,6 +140,7 @@ class Shelter {
     {
         return ($this->shelterName);
     }
+
     /**
      * mutator method for shelter name
      * @param $newshelterName new  shelter name
@@ -143,7 +148,7 @@ class Shelter {
      * @throws \RangeException if $newShelterName is longer than 16 characters
      * @throws \TypeException if $newShelterName is not a string
      */
-    public function setShelterName ($newShelterName): void
+    public function setShelterName($newShelterName): void
     {
         // verify the shelter name is secure
         $newShelterName = trim($newShelterName);
@@ -169,6 +174,7 @@ class Shelter {
     {
         return ($this->shelterPhone);
     }
+
     /**
      * mutator method for shelter phone
      * @param $newshelterPhone new shelter phone
@@ -176,7 +182,7 @@ class Shelter {
      * @throws \RangeException if $newShelterPhone is longer than 16 characters
      * @throws \TypeException if $newShelterPhone is not a string
      */
-    public function setShelterPhone ($newShelterPhone): void
+    public function setShelterPhone($newShelterPhone): void
     {
         // verify the shelter phone is secure
         $newShelterPhone = trim($newShelterPhone);
@@ -213,7 +219,6 @@ class Shelter {
     }
 
 
-
     /**
      * updates this Shelter in mySQL
      *
@@ -221,7 +226,8 @@ class Shelter {
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError if $pdo is not a PDO connection object
      **/
-    public function update(\PDO $pdo): void {
+    public function update(\PDO $pdo): void
+    {
 
         // create query template
         $query = "UPDATE Shelter SET shelterId = :shelterId, shelterAddress = :shelterAddress, shelterName = :shelterName, shelterPhone = :shelterPhone WHERE shelterId = :shelterId ";
@@ -240,64 +246,63 @@ class Shelter {
      * @throws \TypeEror if $pdo is not a PDO connection object
      */
 
-    public function delete(\PDO $pdo): void {
+    public function delete(\PDO $pdo): void
+    {
         //create query template
         $query = "DELETE FROM Shelter WHERE shelterId = :shelterId";
         $statement = $pdo->prepare($query);
 
         //bind the member variable to the place holder in the template
-        $parameters = ["shelterId" =>$this -> shelterId()];
+        $parameters = ["shelterId" => $this->shelterId()];
         $statement->execute($parameters);
 
     }
 
-}
+    /**
+     * get the Shelter by ShelterId
+     *
+     * @param \PDO $pdo PDO connection object
+     * @param string $shelterId shelter Id used for the search
+     * @return Shelter | null Shelter or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when a variable is not the correct data type
+     */
 
-/**
- * get the Shelter by ShelterId
- *
- * @param \PDO $pdo PDO connection object
- * @param string $shelterId shelter Id used for the search
- * @return Shelter | null Shelter or null if not found
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError when a variable is not the correct data type
- */
 
-public static function getShelterByShelterId(\PDO $pdo, $shelterId):?Shelter
-{
-    // sanitize the shelter id before searching
-    try {
-        $shelterId = self::validateUuid($shelterId);
-    } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-        throw (new \PDOException($exception->getMessage(), 0, $exception));
-    }
-
-    //create query template
-    $query  = "SELECT shelterId, shelterAddress, shelterName, shelterPhone FROM Shelter WHERE shelterId = :shelterId";
-    $statement = $pdo->prepare($query);
-
-    //bind the shelter id to the place holder in the template
-    $parameters = ["shelterId" => $shelterId->getBytes()];
-    $statement-> execute($parameters);
-
-    //grab the shelter from mySQL
-    try {
-        $shelter = null;
-        $statement->setFetchMode(\PDO::FETCH_ASSOC);
-        $row = $statement->false();
-        if($row !==false) {
-            $shelter = new Shelter($row["shelterId"], $row["shelterAddress"], $row["shelterName"], $row["shelterPhone"]);
+    public static function getShelterByShelterId(\PDO $pdo, $shelterId): ?Shelter
+    {
+        // sanitize the shelter id before searching
+        try {
+            $shelterId = self::validateUuid($shelterId);
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
         }
 
-        }catch(\Exception $exception) {
-        // if the row could not be converted, rethrow it
-        throw(new \PDOException ($exception->getMessage(), 0, $exception));
+        //create query template
+        $query = "SELECT shelterId, shelterAddress, shelterName, shelterPhone FROM Shelter WHERE shelterId = :shelterId";
+        $statement = $pdo->prepare($query);
+
+        //bind the shelter id to the place holder in the template
+        $parameters = ["shelterId" => $shelterId->getBytes()];
+        $statement->execute($parameters);
+
+        //grab the shelter from mySQL
+        try {
+            $shelter = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->false();
+            if ($row !== false) {
+                $shelter = new Shelter($row["shelterId"], $row["shelterAddress"], $row["shelterName"], $row["shelterPhone"]);
+            }
+
+        } catch (\Exception $exception) {
+            // if the row could not be converted, rethrow it
+            throw(new \PDOException ($exception->getMessage(), 0, $exception));
+        }
+        return ($shelter);
     }
-        return($shelter);
 }
 
-
-getShelterbyShelterId
 
 
 /**
@@ -307,4 +312,5 @@ getShelterbyShelterId
  * What does "getBytes" do?
  * What does "execute($parameters) do?
  * What does "setFetchMode" do?
+**/
 
