@@ -109,7 +109,7 @@ class Like
      * @throws \RangeException if $newLikeUserId is loner than 32 characters
      * @throws \TypeException if $newLikeUserId is not a string
      */
-    public function setLikeUserId ($newLikeUserId): void
+    public function setLikeUserId($newLikeUserId): void
     {
         // verify the like user id is secure
         $newLikeUserId = trim($newLikeUserId);
@@ -142,13 +142,13 @@ class Like
      * @throws \InvalidArgument Exception if $newLikeApproved is not a string or insecure
      * @throws \TypeException if $newLikeUserId is not a string
      */
-    public function setLikeApproved ($newLikeApproved): void
+    public function setLikeApproved($newLikeApproved): void
     {
         // verify the like user id is secure
         $newLikeApproved = filter_var($newLikeApproved, FILTER_SANITIZE, FILTER_FLAG_NO_ENCODE_QUOTES);
 
         // verify the new like approved is valid
-        if (($newLikeApproved =1) || ($newLikeApproved = 0)) {
+        if (($newLikeApproved = 1) || ($newLikeApproved = 0)) {
             throw(new\RangeException ("like approved is not valid"));
         }
         //store the like user id
@@ -176,7 +176,6 @@ class Like
     }
 
 
-
     /**
      * updates this Like in mySQL
      *
@@ -184,7 +183,8 @@ class Like
      * @throws \PDOException when mySQL related errors occur
      * @throws \TypeError if $pdo is not a PDO connection object
      **/
-    public function update(\PDO $pdo): void {
+    public function update(\PDO $pdo): void
+    {
 
         // create query template
         $query = "UPDATE Like SET likeAnimalId = :likeAnimalId, likeUserId = :likeUserId, likeApproved = :likeApproved WHERE likeAnimalId = :likeAnimalId ";
@@ -203,14 +203,66 @@ class Like
      * @throws \TypeError if $pdo is not a PDO connection object
      */
 
-    public function delete(\PDO $pdo): void {
+    public function delete(\PDO $pdo): void
+    {
         //create query template
         $query = "DELETE FROM Like WHERE likeAnimalId = :likeAnimalId";
         $statement = $pdo->prepare($query);
 
         //bind the member variable to the place holder in the template
-        $parameters = ["likeAnimalId" =>$this -> likeAnimalId()];
+        $parameters = ["likeAnimalId" => $this->likeAnimalId()];
         $statement->execute($parameters);
+
+    }
+
+    /**
+     * get like by like animal id and by like user id (which animals have been liked by which users?)
+     *eee
+     * @param \PDO $pdo PDO connection object
+     * @param string $likeAnimalId
+     * @param string $likeUserId
+     * @return Like|null Like or null if not found
+     * @throws \PDOException when mySQL related errors occur
+     * @throws \TypeError when a variable is not the correct data type
+     */
+
+    public static function getLikeByLikeAnimalIdAndByLikeUserId(\PDO $pdo, string $likeAnimalId, string $likeUserId) : ?Like{
+
+        //
+        try {
+            $likeAnimalId = self::validateUuid($likeAnimalId);
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+
+        try {
+            $likeUserId = self::validateUuid($likeUserId);
+        } catch (\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+
+        // create query template
+        $query = "SELECT likeAnimalId, likeUserId FROM `Like` WHERE likeAnimalId = :likeAnimalId AND likeUserId = :likeUserId";
+        $statement = $pdo->prepare($query);
+
+        //bind the animal id and user id to the place holder in the template
+        $parameters = ["likeAnimalId" => $likeAnimalId->getBytes(), "likeUserId" => $likeUserId->getBytes()];
+        $statement->execute($parameters);
+
+        //grab the link from mySQL
+        try {
+            $like = null;
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+            if($row !== false) {
+                $like = new Like($row["likeAnimal"], $row["likeUserId"]);
+            }
+        } catch(\Exception $exception) {
+            // if the row couldn't be converted, rethrow it
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+        }
+        return ($like);
+
 
     }
 }
@@ -218,3 +270,5 @@ class Like
 /**
  * Is "Like" a protected word in PHP. if so how to fix?
  * I still kind of don't understand the header section "require once, autoload"
+ * is animal id or user id a uuid, and if so do i need to add that in here?
+ * How to comebine the 2 "try"s into 1
