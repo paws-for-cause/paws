@@ -13,7 +13,6 @@ CREATE TABLE `user`(
   userAge SMALLINT SIGNED NOT NULL,
   userEmail VARCHAR (64) NOT NULL,
   userFirstName VARCHAR (32) NOT NULL,
-  userGender VARCHAR(32),
   userHash CHAR (97) NOT NULL,
   userLastName VARCHAR (32) NOT NULL,
   userPhone VARCHAR (11) NOT NULL,

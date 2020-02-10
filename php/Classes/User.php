@@ -44,11 +44,6 @@ class User{
     **/
    private $userFirstName;
    /**
-    * gender of user
-    * @var string $userGender;
-    **/
-   private $userGender;
-   /**
     * id for user password
     * @var string $userHash;
     **/
@@ -71,20 +66,18 @@ class User{
     * @param $userAge age of user
     * @param $userEmail user email
     * @param $userFirstName user first name
-    * @param $userGender user gender
     * @param $userHash password for the user
     * @param $userLastName user last name
     * @param $userPhone user phone number
     *
     **/
-   public function __construct($userId, $userActivationToken, $userAge, $userDescription, $userEmail, $userFirstName, $userGender, $userHash, $userLastName, $userPhone) {
+   public function __construct($userId, $userActivationToken, $userAge, $userDescription, $userEmail, $userFirstName, $userHash, $userLastName, $userPhone) {
       $this->userId = $userId;
       $this->userActivationToken = $userActivationToken;
       $this->userAge = $userAge;
       $this->userDescription = $userDescription;
       $this->userEmail = $userEmail;
       $this->userFirstName = $userFirstName;
-      $this->userGender = $userGender;
       $this->userHash = $userHash;
       $this->userLastName = $userLastName;
       $this->userPhone = $userPhone;
@@ -245,41 +238,7 @@ class User{
       $this->userFirstName = $newUserFirstName;
    }
 
-   /**
-    * accessor method for user gender
-    *
-    * @return string value of user gender
-    **/
-    public function getUserGender() : string {
-       return($this->userGender);
-    }
-
-   /**
-    * mutator method for user gender
-    *
-    * @param string $newUserGender new value for user gender
-    * @throws \InvalidArgumentException if $newUserGender is not a string or insecure
-    * @throws \RangeException if $newUserGender is > 32 characters
-    * @throws \TypeError if $newUserGender is not a string
-    **/
-   public function setUserGender(string $newUserGender): void {
-      //verify the user gender is secure
-      $newUserGender = trim($newUserGender);
-      $newUserGender = filter_var($newUserGender, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-      if(empty($newUserGender) === true) {
-         throw(new \InvalidArgumentException("user gender is empty or insecure"));
-      }
-
-      //verify user gender will fit in the database
-      if(strlen($newUserGender) > 32) {
-         throw(new \RangeException("user gender is too large"));
-      }
-
-      //store the user gender
-      $this->userGender = $newUserGender;
-   }
-
-   /**
+    /**
     * accessor method for user hash
     *
     * @return string value of user hash
@@ -387,11 +346,11 @@ class User{
    public function insert(\PDO $pdo) : void {
 
       //create query template
-      $query = "INSERT INTO  user(userId, userActivationToken, userAge, userEmail, userFirstName, userGender, userHash, userLastName, userPhone) VALUES (:userId, :userActivationToken, :userAge, :userEmail, :userFirstName, :userGender, :userHash, :userLastName, :userPhoneNumber)";
+      $query = "INSERT INTO  user(userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone) VALUES (:userId, :userActivationToken, :userAge, :userEmail, :userFirstName, :userHash, :userLastName, :userPhoneNumber)";
       $statement = $pdo->prepare($query);
 
       //bind the member variables to the place holders in the template
-      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userGender" => $this->userGender, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
+      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
       $statement->execute($parameters);
    }
 
@@ -421,10 +380,10 @@ class User{
     **/
    public function update(\PDO $pdo) : void {
       //create query template
-      $query = "UPDATE user SET userId = :userId, userActivationToken = :userActivationToken, userAge = :userAge, userEmail = :userEmail, userFirstName = :userFirstName, userGender = :userGender, userHash = :userHash, userLastName = :userLastName, userPhone = :userPhone";
+      $query = "UPDATE user SET userId = :userId, userActivationToken = :userActivationToken, userAge = :userAge, userEmail = :userEmail, userFirstName = :userFirstName, userHash = :userHash, userLastName = :userLastName, userPhone = :userPhone";
       $statement = $pdo->prepare($query);
 
-      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userGender" => $this->userGender, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
+      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
    $statement->execute($parameters);
    }
 
@@ -446,7 +405,7 @@ class User{
       }
 
       //create query template
-      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userGender, userHash, userLastName, userPhone";
+      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone";
       $statement = $pdo->prepare($query);
 
       //bind the user id to the place holder in the template
@@ -459,7 +418,7 @@ class User{
          $statement->setFetchMode(\PDO::FETCH_ASSOC);
          $row = $statement->fetch();
          if($row !== false) {
-            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userGender"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
+            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
          }
       } catch(\Exception $exception){
          //if the row couldn't be converted, rethrow it
@@ -487,7 +446,7 @@ class User{
       }
 
       //create query template
-      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userGender, userHash, userLastName, userPhone";
+      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, user, userHash, userLastName, userPhone";
       $statement = $pdo->prepare($query);
 
       //bind the user email to the place holder in the template
@@ -500,7 +459,7 @@ class User{
          $statement->setFetchMode(\PDO::FETCH_ASSOC);
          $row = $statement->fetch();
          if($row !== false) {
-            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userGender"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
+            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
          }
       } catch(\Exception $exception){
          //if the row couldn't be converted, rethrow it
@@ -527,7 +486,7 @@ class User{
       }
 
       //create query template
-      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userGender, userHash, userLastName, userPhone";
+      $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone";
       $statement = $pdo->prepare($query);
 
       //bind the user activation token to the place holder in the template
@@ -540,7 +499,7 @@ class User{
          $statement->setFetchMode(\PDO::FETCH_ASSOC);
          $row = $statement->fetch();
          if($row !== false) {
-            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userGender"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
+            $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
          }
       } catch(\Exception $exception) {
          //if the row couldn't be converted, rethrow it
