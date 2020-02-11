@@ -453,9 +453,9 @@ class Animal {
 					"animalShelterId" => $row["animalShelterId"],
 					"animalAdoptionStatus" => $row["animalAdoptionStatus"],
 					"animalBreed" => $row["animalBreed"],
-					"animalGender" => $row["animalGender"]
-					"animalName" => $row["animalName"]
-					"animalPhotoUrl" => $row["animalPhotoUrl"]
+					"animalGender" => $row["animalGender"],
+					"animalName" => $row["animalName"],
+					"animalPhotoUrl" => $row["animalPhotoUrl"],
 				];
 				$animalArray[$animalArray->key()] = $object;
 				$animalArray->next();
