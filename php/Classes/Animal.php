@@ -328,7 +328,7 @@ class Animal {
 	 * a method that returns an SplFixedArray of all animals
 	 *
 	 * @param \PDO $pdo
-	 * @param string $animalUsername
+	 * @param string $animalId
 	 * @return animalSplFixedArray
 	 */
 	public static function getAnimalByAnimalId(\PDO $pdo, string $animalId): \SPLFixedarray {
@@ -375,7 +375,7 @@ class Animal {
 	 * a method that returns an SplFixedArray of animal Shelter Ids
 	 *
 	 * @param \PDO $pdo
-	 * @param string $animalUsername
+	 * @param string $animalShelterId
 	 * @return animalSplFixedArray
 	 */
 	public static function getAnimalByShelterId(\PDO $pdo, string $animalId): \SPLFixedarray {
@@ -401,6 +401,100 @@ class Animal {
 		$parameters = ["animalShelterId" => $animalShelterId];
 		$statement->execute($parameters);
 
+		// building an array of Animals
+		$animalArray = SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+				$animalArray[$animalArray->key()] = $animal;
+				$animalArray->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($animalArray);
+	}
+
+	/**
+	 *
+	 * a method that returns an SplFixedArray of all animals
+	 *
+	 * @param \PDO $pdo
+	 * @param string $animalAdoptionstatus
+	 * @return animalSplFixedArray
+	 */
+	public static function getAnimalByAdoptionStatus(\PDO $pdo, string $animalAdoptionStatus): \SPLFixedarray {
+
+		//sanitize the description before searching
+		//** trims the animal username to a set number of characters for security */
+		$animalId = trim($animalAdoptionStatus);
+		//**filter_var filters a variable, the format is: filter_var($animalId <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
+		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
+		$animalId = filter_var($animalAdoptionStatus, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+
+		// escape any mySQL wild cards
+		//** str_replace("%","\\%", $animalId) will replace the command "%" with the string character "%", this will prevent security breaches.*/
+		$result = str_replace("%", "\\%", $animalId);
+		$animalId = str_replace("_", "\\", $result);
+
+		// create query template
+		$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalAdoptionStatus";
+		$statement = $pdo->prepare($query);
+		//bind the animalId to the place holder in the template
+		$animalAdoptionStatus = "%animalAdoptionStatus%";
+		$parameters = ["animalAdoptionStatus" => $animalAdoptionStatus];
+		$statement->execute($parameters);
+
+		// building an array of Animals
+		$animalArray = SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+				$animalArray[$animalArray->key()] = $animal;
+				$animalArray->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($animalArray);
+	}
+
+	/**
+	 * TEMPLATE FOR SPLFIXED ARRAY OF ALL ANIMALS BELOW
+	 * a method that returns an SplFixedArray of all animals
+	 *
+	 * @param \PDO $pdo
+	 * @param string $animalBreed
+	 * @return animalSplFixedArray
+	 */
+	public static function getAnimalByAnimalBreed(\PDO $pdo, string $animalBreed): \SPLFixedarray {
+
+		//sanitize the description before searching
+		//** trims the animal username to a set number of characters for security */
+		$animalBreed = trim($animalBreed);
+		//**filter_var filters a variable, the format is: filter_var($animalId <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
+		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
+		$animalBreed = filter_var($animalBreed, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+
+		// escape any mySQL wild cards
+		//** str_replace("%","\\%", $animalId) will replace the command "%" with the string character "%", this will prevent security breaches.*/
+		$result = str_replace("%", "\\%", $animalBreed);
+		$animalId = str_replace("_", "\\", $result);
+
+		// create query template
+		$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalId";
+		$statement = $pdo->prepare($query);
+		//bind the animalId to the place holder in the template
+		$animalBreed = "%animalBreed%";
+		$parameters = ["animalBreed" => $animalBreed];
+		$statement->execute($parameters);
+
 		// building an array of Anuimals
 		$animalArray = SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -417,4 +511,144 @@ class Animal {
 		return ($animalArray);
 	}
 
+	/**
+	 * TEMPLATE FOR SPLFIXED ARRAY OF ALL ANIMALS BELOW
+	 * a method that returns an SplFixedArray of all animals
+	 *
+	 * @param \PDO $pdo
+	 * @param string $animalGender
+	 * @return animalSplFixedArray
+	 */
+	public static function getAnimalByAnimalGender(\PDO $pdo, string $animalGender): \SPLFixedarray {
+
+		//sanitize the description before searching
+		//** trims the animal username to a set number of characters for security */
+		$animalId = trim($animalGender);
+		//**filter_var filters a variable, the format is: filter_var($animalId <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
+		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
+		$animalId = filter_var($animalId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+
+		// escape any mySQL wild cards
+		//** str_replace("%","\\%", $animalGender) will replace the command "%" with the string character "%", this will prevent security breaches.*/
+		$result = str_replace("%", "\\%", $animalGender);
+		$animalGender = str_replace("_", "\\", $result);
+
+		// create query template
+		$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalGender";
+		$statement = $pdo->prepare($query);
+		//bind the animalId to the place holder in the template
+		$animalGender = "%animalGender%";
+		$parameters = ["animalGender" => $animalGender];
+		$statement->execute($parameters);
+
+		// building an array of Animals
+		$animalArray = SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+				$animalArray[$animalArray->key()] = $animal;
+				$animalArray->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($animalArray);
+	}
+
+	/**
+	 * TEMPLATE FOR SPLFIXED ARRAY OF ALL ANIMALS BELOW
+	 * a method that returns an SplFixedArray of all animals
+	 *
+	 * @param \PDO $pdo
+	 * @param string $animalName
+	 * @return animalSplFixedArray
+	 */
+	public static function getAnimalByAnimalName(\PDO $pdo, string $animalName): \SPLFixedarray {
+
+		//sanitize the description before searching
+		//** trims the animal username to a set number of characters for security */
+		$animalName = trim($animalName);
+		//**filter_var filters a variable, the format is: filter_var($animalId <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
+		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
+		$animalName = filter_var($animalName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+
+		// escape any mySQL wild cards
+		//** str_replace("%","\\%", $animalId) will replace the command "%" with the string character "%", this will prevent security breaches.*/
+		$result = str_replace("%", "\\%", $animalName);
+		$animalName = str_replace("_", "\\", $result);
+
+		// create query template
+		$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalName";
+		$statement = $pdo->prepare($query);
+		//bind the animalId to the place holder in the template
+		$animalName = "%animalName%";
+		$parameters = ["animalName" => $animalName];
+		$statement->execute($parameters);
+
+		// building an array of Animals
+		$animalArray = SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+				$animalArray[$animalArray->key()] = $animal;
+				$animalArray->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($animalArray);
+	}
+
+	/**
+	 *
+	 * a method that returns an SplFixedArray of animals by Photo Url
+	 *
+	 * @param \PDO $pdo
+	 * @param string $animalPhotoUrl
+	 * @return animalSplFixedArray
+	 */
+	public static function getAnimalByAnimalPhotoUrl(\PDO $pdo, string $animalId): \SPLFixedarray {
+
+		//sanitize the description before searching
+		//** trims the animal username to a set number of characters for security */
+		$animalPhotoUrl = trim($animalPhotoUrl);
+		//**filter_var filters a variable, the format is: filter_var($animalPhotoUrl <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
+		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
+		$animalPhotoUrl = filter_var($animalId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+
+		// escape any mySQL wild cards
+		//** str_replace("%","\\%", $animalId) will replace the command "%" with the string character "%", this will prevent security breaches.*/
+		$result = str_replace("%", "\\%", $animalId);
+		$animalId = str_replace("_", "\\", $result);
+
+		// create query template
+		$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalId";
+		$statement = $pdo->prepare($query);
+		//bind the animalId to the place holder in the template
+		$animalId = "%animalId%";
+		$parameters = ["animalId" => $animalId];
+		$statement->execute($parameters);
+
+		// building an array of Anuimals
+		$animalArray = SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+				$animalArray[$animalArray->key()] = $animal;
+				$animalArray->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($animalArray);
+	}
 }
