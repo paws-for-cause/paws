@@ -396,7 +396,7 @@ class User{
     * @throws \PDOException when my SQL related errors occur
     * @throws \TypeError when a variable are not the correct data type
     **/
-   public static function getUserbyUserId(\PDO $pdo, $userId) : ?User {
+   public static function getUserByUserId(\PDO $pdo, $userId) : ?User {
       //sanitize the userId before searching
       try{
          $userId = self::validateUuid($userId);
@@ -436,7 +436,7 @@ class User{
     * @throws \PDOException when mySQL related errors occur
     * @throws \TypeError when a variable are not the correct data type
     */
-   public static function getUserbyEmail(\PDO $pdo, $userEmail, $exception) : ?User {
+   public static function getUserByEmail(\PDO $pdo, $userEmail, $exception) : ?User {
       //sanitize the userEmail before searching
       try{
          $userEmail = self::string($userEmail);
@@ -477,7 +477,7 @@ class User{
     * @throws \PDOException when mySQL related errors occur
     * @throws \TypeError when a variable are not the correct data type
     **/
-   public static function getUserbyActivationToken(\PDO $pdo, $userActivationToken) : ?User {
+   public static function getUserByActivationToken(\PDO $pdo, $userActivationToken) : ?User {
       //sanitize the userActivationToken before searching
       try {
          $userActivationToken = self::ValidateUuid($userActivationToken);

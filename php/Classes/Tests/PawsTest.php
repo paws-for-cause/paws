@@ -1,5 +1,5 @@
 <?php
-namespace PawsForCause\Paws/Tests;
+namespace PawsForCause\Paws\Tests;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
