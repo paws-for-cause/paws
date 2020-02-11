@@ -323,54 +323,6 @@ class Animal {
 
 //**getFooByBar methods below**//
 
-	/**
-	 *
-	 * get all Animals method
-	 *
-	 * a method that returns an SplFixedArray of animal Shelter Ids
-	 *
-	 * @param \PDO $pdo
-	 * @param string $animalShelterId
-	 * @return animalSplFixedArray
-	 */
-	public static function getAnimalByShelterId(\PDO $pdo, string $animalId): \SPLFixedarray {
-
-		//sanitize the description before searching
-		//** trims the animal username to a set number of characters for security */
-		$animalId = trim($animalId);
-		//**filter_var filters a variable, the format is: filter_var($animalId <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
-		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
-		$animalId = filter_var($animalId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-
-		// escape any mySQL wild cards
-		//** str_replace("%","\\%", $animalId) will replace the command "%" with the string character "%", this will prevent security breaches.*/
-		$result = str_replace("%", "\\%", $animalId);
-		$animalId = str_replace("_", "\\", $result);
-
-		// create query template
-		$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalShelterId";
-		$statement = $pdo->prepare($query);
-		//bind the animalId to the place holder in the template
-		$animalShelterId = "%animalShelterId%";
-		$parameters = ["animalShelterId" => $animalShelterId];
-		$statement->execute($parameters);
-
-		// building an array of Animals
-		$animalArray = SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
-				$animalArray[$animalArray->key()] = $animal;
-				$animalArray->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($animalArray);
-	}
 
 	/**
 	 *
@@ -516,7 +468,7 @@ class Animal {
 	}
 
 	/**
-	 * inserts this Tweet into mySQL
+	 * inserts this Animal into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -525,12 +477,13 @@ class Animal {
 	public function insert(\PDO $pdo) : void {
 
 		// create query template
-		$query = "INSERT INTO Animal(tweetId,tweetProfileId, tweetContent, tweetDate) VALUES(:tweetId, :tweetProfileId, :tweetContent, :tweetDate)";
+		$query = "INSERT INTO Animal(animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies) VALUES(:animalId, :animalShelterId, :animalAdoptionStatus, :animalBreed, :animalGender, :animalName, :animalPhotoUrl, :animalSpecies)";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["tweetId" => $this->tweetId->getBytes(), "tweetProfileId" => $this->tweetProfileId->getBytes(), "tweetContent" => $this->tweetContent, "tweetDate" => $formattedDate];
+		$parameters = ["animalId" => $this->animalId->getBytes(), "animalShelterId" => $this->animalShelterId->getBytes(), "animalAdoptionStatus" => $this->animalAdoptionStatus, "animalBreed" => $this->animalBreed, "animalGender" => $this ->animalGender, "animalName" => $this->animalName, "animalPhotoUrl" => $this->animalPhotoUrl, "animalSpecies" => $this->animaSpecies];
 		$statement->execute($parameters);
 	}
+
 
 
 }
