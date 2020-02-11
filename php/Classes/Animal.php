@@ -516,7 +516,7 @@ class Animal {
 		$statement = $pdo->prepare($query);
 
 
-		$parameters = ["authorId" => $this->authorId->getBytes()];
+		$parameters = ["animalId" => $this->animalId->getBytes()];
 		$statement->execute($parameters);
 	}
 }
