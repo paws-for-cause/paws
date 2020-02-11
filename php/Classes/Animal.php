@@ -519,5 +519,4 @@ class Animal {
 		$parameters = ["authorId" => $this->authorId->getBytes()];
 		$statement->execute($parameters);
 	}
-
 }
