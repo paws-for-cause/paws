@@ -153,7 +153,7 @@ class Animal {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the author id
+		// convert and store the anima id
 		$this->animalId = $uuid;
 	}
 
@@ -173,7 +173,7 @@ class Animal {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the author id
+		// convert and store the anima id
 		$this->animalShelterId = $uuid;
 	}
 
@@ -328,13 +328,13 @@ class Animal {
 	 * a method that returns an SplFixedArray of all animals
 	 *
 	 * @param \PDO $pdo
-	 * @param string $authorUsername
+	 * @param string $animalUsername
 	 * @return animalSplFixedArray
 	 */
 	public static function getAnimalByAnimalId(\PDO $pdo, string $animalId): \SPLFixedarray {
 
 		//sanitize the description before searching
-		//** trims the author username to a set number of characters for security */
+		//** trims the animal username to a set number of characters for security */
 		$animalId = trim($animalId);
 		//**filter_var filters a variable, the format is: filter_var($animalId <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
 		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
@@ -359,9 +359,9 @@ class Animal {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$author = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
-				$authorArray[$authorArray->key()] = $author;
-				$authorArray->next();
+				$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+				$animalArray[$animalArray->key()] = $animal;
+				$animalArray->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -369,4 +369,52 @@ class Animal {
 		}
 		return ($animalArray);
 	}
+
+	/**
+	 *
+	 * a method that returns an SplFixedArray of animal Shelter Ids
+	 *
+	 * @param \PDO $pdo
+	 * @param string $animalUsername
+	 * @return animalSplFixedArray
+	 */
+	public static function getAnimalByShelterId(\PDO $pdo, string $animalId): \SPLFixedarray {
+
+		//sanitize the description before searching
+		//** trims the animal username to a set number of characters for security */
+		$animalId = trim($animalId);
+		//**filter_var filters a variable, the format is: filter_var($animalId <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
+		//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
+		$animalId = filter_var($animalId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+
+		// escape any mySQL wild cards
+		//** str_replace("%","\\%", $animalId) will replace the command "%" with the string character "%", this will prevent security breaches.*/
+		$result = str_replace("%", "\\%", $animalId);
+		$animalId = str_replace("_", "\\", $result);
+
+		// create query template
+		$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalShelterId";
+		$statement = $pdo->prepare($query);
+		//bind the animalId to the place holder in the template
+		$animalShelterId = "%animalShelterId%";
+		$parameters = ["animalShelterId" => $animalShelterId];
+		$statement->execute($parameters);
+
+		// building an array of Anuimals
+		$animalArray = SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+				$animalArray[$animalArray->key()] = $animal;
+				$animalArray->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($animalArray);
+	}
+
 }
