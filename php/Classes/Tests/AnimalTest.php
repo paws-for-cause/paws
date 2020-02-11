@@ -77,7 +77,7 @@ class AnimalTest extends PawsTest {
 
 	/**
 	 * create dependant objects before running each test
-	 **/
+
 	public final function setUp() : void{
 		// run the default setUp method first
 		parent::setUp();
@@ -86,4 +86,22 @@ class AnimalTest extends PawsTest {
 		$this->animal = new Animal(generateUuidV4()), null, "PupperVille Animal Shelter", "Adopted", "Corgi", "Male", "Olaf", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "Dog";
 		$this->animal->insert($this->getPDO());
 	}
+	* I AM NOT SURE IF THE ABOVE HAS BEEN ALREADY CREATED OR IS NECESSARY
+	**/
+
+	/**
+	 * test inserting an Animal and verify that the actual mySQL data matches
+	 **/
+	public function testInsertValidAnimal() : void{
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("animal");
+
+		//create a new animal and insert it into mySQL
+		$animalId = generateUuidv4();
+		$animal = new Animal($animalId, $this->animal->getAnimalId(), $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal->insert($this->getPDO());
+
+
+	}
+
 }
