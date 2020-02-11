@@ -484,6 +484,40 @@ class Animal {
 		$statement->execute($parameters);
 	}
 
+	/**
+	 * deletes this animal from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo) : void {
 
+		// create query template
+		$query = "DELETE FROM Animal WHERE animalId = :animalId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["animalId" => $this->animalId->getBytes()];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Updates this Animal in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo): void {
+
+		// create query template
+		$query = "UPDATE Animal SET animalId = :animalId WHERE animalId = :animalId";
+		$statement = $pdo->prepare($query);
+
+
+		$parameters = ["authorId" => $this->authorId->getBytes()];
+		$statement->execute($parameters);
+	}
 
 }
