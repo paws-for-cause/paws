@@ -27,6 +27,11 @@ class AnimalTest extends PawsTest {
 	 */
 	protected $animal = null;
 
+	/**
+	 * valid Animal Id for the animal
+	 * @var $VALID_ANIMAL_ID
+	 */
+	protected $VALID_ANIMAL_ID;
 
 	/**
 	 * valid animal Shelter Id that is related to the animal
@@ -70,5 +75,15 @@ class AnimalTest extends PawsTest {
 	 **/
 	protected $VALID_ANIMAL_SPECIES = "PHPUnit test passing";
 
+	/**
+	 * create dependant objects before running each test
+	 **/
+	public final function setUp() : void{
+		// run the default setUp method first
+		parent::setUp();
 
+		// create and insert an animal to assign status's to.
+		$this->animal = new Animal(generateUuidV4()), null, "PupperVille Animal Shelter", "Adopted", "Corgi", "Male", "Olaf", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "Dog";
+		$this->animal->insert($this->getPDO());
+	}
 }
