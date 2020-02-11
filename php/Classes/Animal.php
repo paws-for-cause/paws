@@ -659,7 +659,7 @@ class Animal {
 	 * @param string $animalSpecies
 	 * @return animalSplFixedArray
 	 */
-	public static function getAnimalByAnimalSpecies(\PDO $pdo, string $animalId): \SPLFixedarray {
+	public static function getAnimalByAnimalSpecies(\PDO $pdo, string $animalSpecies): \SPLFixedarray {
 
 		//sanitize the description before searching
 		//** trims the animal username to a set number of characters for security */
