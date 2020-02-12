@@ -35,7 +35,7 @@ class AnimalTest extends PawsTest {
 
 	/**
 	 * valid animal Shelter Id that is related to the animal
-	 * @var $VALID_ANIMAL_SHELTER_ID;
+	 * @var $VALID_ANIMAL_SHELTER_ID ;
 	 **/
 	protected $VALID_ANIMAL_SHELTER_ID;
 
@@ -43,7 +43,7 @@ class AnimalTest extends PawsTest {
 	 * Animal Adoption Status, whether or not the animal has been adopted
 	 * @var string $VALID_ANIMAL_ADOPTION_STATUS
 	 **/
-	protected $VALID_ANIMAL_ADOPTION_STATUS ="PHPUnit test passing";
+	protected $VALID_ANIMAL_ADOPTION_STATUS = "PHPUnit test passing";
 
 	/**
 	 * The breed of the animal
@@ -61,38 +61,38 @@ class AnimalTest extends PawsTest {
 	 * The name of the animal
 	 * @var string $VALID_ANIMAL_NAME
 	 **/
-	protected $VALID_ANIMAL_NAME ="PHPUnit test passing";
+	protected $VALID_ANIMAL_NAME = "PHPUnit test passing";
 
 	/**
 	 * The Photo URL of the anima
-	 * @var string $VALID_ANIMAL_PHOTO_URL;
+	 * @var string $VALID_ANIMAL_PHOTO_URL ;
 	 **/
 	protected $VALID_ANIMAL_PHOTO_URL = "PHPUnit test passing";
 
 	/**
 	 * The animal species
-	 * @var string $VALID_ANIMAL_SPECIES;
+	 * @var string $VALID_ANIMAL_SPECIES ;
 	 **/
 	protected $VALID_ANIMAL_SPECIES = "PHPUnit test passing";
 
 	/**
 	 * create dependant objects before running each test
-
-	public final function setUp() : void{
-		// run the default setUp method first
-		parent::setUp();
-
-		// create and insert an animal to assign status's to.
-		$this->animal = new Animal(generateUuidV4()), null, "PupperVille Animal Shelter", "Adopted", "Corgi", "Male", "Olaf", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "Dog";
-		$this->animal->insert($this->getPDO());
-	}
-	* I AM NOT SURE IF THE ABOVE HAS BEEN ALREADY CREATED OR IS NECESSARY
-	**/
+	 *
+	 * public final function setUp() : void{
+	 * // run the default setUp method first
+	 * parent::setUp();
+	 *
+	 * // create and insert an animal to assign status's to.
+	 * $this->animal = new Animal(generateUuidV4()), null, "PupperVille Animal Shelter", "Adopted", "Corgi", "Male", "Olaf", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "Dog";
+	 * $this->animal->insert($this->getPDO());
+	 * }
+	 * I AM NOT SURE IF THE ABOVE HAS BEEN ALREADY CREATED OR IS NECESSARY
+	 **/
 
 	/**
 	 * test inserting an Animal and verify that the actual mySQL data matches
 	 **/
-	public function testInsertValidAnimal() : void{
+	public function testInsertValidAnimal(): void {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("animal");
 
@@ -112,8 +112,32 @@ class AnimalTest extends PawsTest {
 		$this->assertEquals($pdoAnimal->getAnimalName(), $this->VALID_ANIMAL_NAME);
 		$this->assertEquals($pdoAnimal->getAnimalPhotoUrl(), $this->VALID_ANIMAL_PHOTO_URL);
 		$this->assertEquals($pdoAnimal->getAnimalSpecies(), $this->VALID_ANIMAL_SPECIES);
+	}
 
+	/**
+	 * test inserting an animal, editing it, and then updating it
+	 */
 
+	/**
+	 * A test for putting a new animal and then deleting it
+	 */
+	public function testDeleteValidAnimal() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("animal");
+
+		// create a new animal and insert it into my SQL
+		$animalId = generateUuidv4();
+		$animal = new Animal($animalId, $this->animal->getAnimalId(), $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal->insert($this->getPDO());
+
+		//delete the animal from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
+		$animal->delete($this->getPDO());
+
+		//gran the data from mySQL and enforce the Animal does not exist
+		$pdoAnimal = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalId());
+		$this->assertNull($pdoAnimal);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("animal"));
 	}
 
 }
