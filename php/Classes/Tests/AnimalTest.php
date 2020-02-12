@@ -117,6 +117,23 @@ class AnimalTest extends PawsTest {
 	/**
 	 * test inserting an animal, editing it, and then updating it
 	 */
+	public function testUpdateValidAnimal() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("animal");
+
+		// create a new animal and insert it into my SQL
+		$animalId = generateUuidv4();
+		$animal = new Animal($animalId, $this->animal->getAnimalId(), $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal->insert($this->getPDO());
+
+		//edit the animal and update it in mySQL
+		$animal = setAnimalAdoptionStatus($this->VALID_ANIMAL_ADOPTION_STATUS);
+		$animal = setAnimalBreed($this->VALID_ANIMAL_BREED);
+		$animal->setAnimalGender($this->VALID_ANIMAL_GENDER);
+		$animal->setAnimalName($this->VALID_ANIMAL_NAME);
+		$animal->setAnimalPhotoUrl($this->VALID_ANIMAL_PHOTO_URL);
+		$animal->setAnimalSpecies($this->VALID_ANIMAL_SPECIES);
+	}
 
 	/**
 	 * A test for putting a new animal and then deleting it
