@@ -1,6 +1,6 @@
 <?php
 
-   namespace PawsForCause\Paws\Tests;
+   namespace PawsForCause\Paws\Test;
 
    use PawsForCause\Paws\{Tests\PawsTest, User, Shelter, Animal, Like};
 

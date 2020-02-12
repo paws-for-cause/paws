@@ -1,5 +1,5 @@
 <?php
-namespace PawsForCause\Paws\Tests;
+namespace PawsForCause\Paws\Test;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
@@ -90,7 +90,7 @@ abstract class PawsTest extends TestCase {
             // connect to mySQL and provide the interface to PHPUnit
 
 
-            $secrets =  new Secrets("/etc/apache2/ddl.sql/PawsForCause.ini");
+            $secrets =  new Secrets("/etc/apache2/ddl.sql/paws.ini");
             $pdo = $secrets->getPdoObject();
             $this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
         }
