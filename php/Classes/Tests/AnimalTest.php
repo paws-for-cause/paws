@@ -157,4 +157,25 @@ class AnimalTest extends PawsTest {
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("animal"));
 	}
 
+	public function testGetValidAnimalByAnimalId() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("animal");
+
+		// create a new Animal and insert into mySQL
+		$animalId = generateUuidV4();
+		$animal = new Animal($animalId, $this->animal->getAnimalId(), $this->animal->getAnimalId(), $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("PawsForCause\Paws\Animal", $results);
+
+
+		//grab the result from the array and validate it
+		$pdoAnimal = $results[0];
+
+		$this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
+	}
 }
