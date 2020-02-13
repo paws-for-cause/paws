@@ -1,4 +1,5 @@
 <?php
+
 namespace PawsForCause\Paws\Test;
 
 use PHPUnit\Framework\TestCase;
@@ -8,8 +9,8 @@ use PHPUnit\DbUnit\Database\Connection;
 use PHPUnit\DbUnit\Operation\{Composite, Factory, Operation};
 
 // grab the encrypted properties file
-require_once("/etc/apache2/ddl.sql/Secret.php");
-
+require_once("/etc/apache2/capstone-mysql/Secrets.php");
+require_once(dirname(__DIR__) . "/autoload.php");
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
 /**

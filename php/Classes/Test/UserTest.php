@@ -2,14 +2,16 @@
 
    namespace PawsForCause\Paws\Test;
 
-   use PawsForCause\Paws\{Tests\PawsTest, User, Shelter, Animal, Like};
+   use PawsForCause\Paws\{
+      User
+   };
 
 
    //grab the class under scrutiny
    require_once(dirname(__DIR__) . "/autoload.php");
 
    //grab the uuid generator
-   require_once (dirname(__DIR__, 2) . "/lib/uuid.php");
+   require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
    /**
     * Full PhPUnit test for the User class
@@ -20,7 +22,6 @@
     * @author Matthew Urrea <matt.urrea.code@gmail.com>
     *
     */
-
    class UserTest extends PawsTest {
       /**
        * placeholder until account activation is created
@@ -80,7 +81,7 @@
       /**
        * test inserting a valid User and verify that the actual mySQL data matches
        */
-      public function  testInsertValidUser() : void {
+      public function testInsertValidUser(): void {
          // count the number of rows and save it for later
          $numRows = $this->getConnection()->getRowCount("user");
 
@@ -91,14 +92,14 @@
 
          // grab the data from mySQL and enforce the fields match our expectations
          $pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
-         $this->assertEquals($numRows + 1, $this->getConnection()-> getRowCount("user"));
+         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
          $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
          $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
-         $this->assertEquals($pdoUser->getUserHash(),$this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
 
@@ -119,23 +120,23 @@
          $user->update($this->getPDO());
 
          //grab the data from mySQL and enforce the fields match our expectations
-         $pdoUser = User :: getUserByEmail($this->getPDO(), $user->getUserEmail());
+         $pdoUser = User:: getUserByEmail($this->getPDO(), $user->getUserEmail());
 
-         $this->assertEquals($numRows, + 1, $this->getConnection()->getRowCount("user"));
+         $this->assertEquals($numRows, +1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
          $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
          $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
-         $this->assertEquals($pdoUser->getUserHash(),$this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
 
       /**
        * test creating a user and then deleting it
        */
-      public function testDeleteValidUser() : void {
+      public function testDeleteValidUser(): void {
          //count the number of rows and save it for later
          $numRows = $this->getConnection()->getRowCount("user");
 
@@ -157,7 +158,7 @@
       /**
        * test grabbing a user by its activation
        */
-      public function testGetValidUserByActivationToken() : void {
+      public function testGetValidUserByActivationToken(): void {
          // count the number of rows and save it for later
          $numRows = $this->getConnection()->getRowCount("user");
 
@@ -174,16 +175,15 @@
          $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
-         $this->assertEquals($pdoUser->getUserHash(),$this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
-
 
 
       /**
        * test inserting a User and regrabbing it from mySQL
        **/
-      public function testGetValidUserByUserId() : void {
+      public function testGetValidUserByUserId(): void {
          // count the number of rows and save it for later
          $numRows = $this->getConnection()->getRowCount("user");
 
@@ -200,7 +200,7 @@
          $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
-         $this->assertEquals($pdoUser->getUserHash(),$this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
 
@@ -208,7 +208,7 @@
       /**
        * test grabbing a User by email
        **/
-      public function testGetValidUserByEmail() : void {
+      public function testGetValidUserByEmail(): void {
          // count the number of rows and save it for later
          $numRows = $this->getConnection()->getRowCount("user");
 
@@ -225,7 +225,7 @@
          $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
-         $this->assertEquals($pdoUser->getUserHash(),$this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
    }
