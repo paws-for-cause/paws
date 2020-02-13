@@ -260,4 +260,4 @@
     * Is "Like" a protected word in PHP. if so how to fix?
     * I still kind of don't understand the header section "require once, autoload"
     * is animal id or user id a uuid, and if so do i need to add that in here?
-    * How to comebine the 2 "try"s into 1
+    * How to comebine the 2 "try"s into 1**/
