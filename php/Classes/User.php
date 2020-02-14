@@ -71,11 +71,10 @@ class User{
     * @param $userPhone user phone number
     *
     **/
-   public function __construct($userId, $userActivationToken, $userAge, $userDescription, $userEmail, $userFirstName, $userHash, $userLastName, $userPhone) {
+   public function __construct($userId, $userActivationToken, $userAge,$userEmail , $userFirstName, $userHash, $userLastName, $userPhone) {
       $this->userId = $userId;
       $this->userActivationToken = $userActivationToken;
       $this->userAge = $userAge;
-      $this->userDescription = $userDescription;
       $this->userEmail = $userEmail;
       $this->userFirstName = $userFirstName;
       $this->userHash = $userHash;
@@ -143,7 +142,7 @@ class User{
    /**
     * accessor method for user age
     *
-    * @return integer value of the user description
+    * @return integer value of the user age
     **/
    public function getUserAge() : int {
       return ($this->userAge);
@@ -350,7 +349,7 @@ class User{
       $statement = $pdo->prepare($query);
 
       //bind the member variables to the place holders in the template
-      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
+      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken, "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
       $statement->execute($parameters);
    }
 
@@ -383,7 +382,7 @@ class User{
       $query = "UPDATE user SET userId = :userId, userActivationToken = :userActivationToken, userAge = :userAge, userEmail = :userEmail, userFirstName = :userFirstName, userHash = :userHash, userLastName = :userLastName, userPhone = :userPhone";
       $statement = $pdo->prepare($query);
 
-      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken->getBytes(), "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
+      $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken, "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
    $statement->execute($parameters);
    }
 

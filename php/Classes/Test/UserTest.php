@@ -7,6 +7,8 @@
    };
 
 
+
+
    //grab the class under scrutiny
    require_once(dirname(__DIR__) . "/autoload.php");
 
@@ -27,7 +29,7 @@
        * placeholder until account activation is created
        * @var string $VALID_ACTIVATION
        */
-      protected $VALID_ACTIVATION;
+      protected $VALID_ACTIVATION = "1010101010101010101010101010101";
 
       /**
        * vaild at handle to use
@@ -57,7 +59,7 @@
        * valid hash to use
        * @var $VALID_HASH
        */
-      protected $VALID_HASH;
+      protected $VALID_HASH = "thisismypassword";
 
       /**
        * valid phone number to use
