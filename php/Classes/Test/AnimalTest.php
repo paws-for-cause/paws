@@ -76,19 +76,18 @@ class AnimalTest extends PawsTest {
 	 **/
 	protected $VALID_ANIMAL_SPECIES = "PHPUnit test passing";
 
-	/**
-	 * create dependant objects before running each test
-	 *
-	 * public final function setUp() : void{
-	 * // run the default setUp method first
-	 * parent::setUp();
-	 *
-	 * // create and insert an animal to assign status's to.
-	 * $this->animal = new Animal(generateUuidV4()), null, "PupperVille Animal Shelter", "Adopted", "Corgi", "Male", "Olaf", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "Dog";
-	 * $this->animal->insert($this->getPDO());
-	 * }
-	 * I AM NOT SURE IF THE ABOVE HAS BEEN ALREADY CREATED OR IS NECESSARY
-	 **/
+
+	 /** create dependant objects before running each test **/
+
+	  public final function setUp() : void{
+	  // run the default setUp method first
+	  parent::setUp();
+
+	  // create and insert an animal to assign status's to.
+	  $this->animal = new Animal(generateUuidV4(), null, "PupperVille Animal Shelter", "Adopted", "Corgi", "Male", "Olaf", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "Dog");
+	  $this->animal->insert($this->getPDO());
+	  }
+
 
 	/**
 	 * test inserting an Animal and verify that the actual mySQL data matches
