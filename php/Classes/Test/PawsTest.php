@@ -91,7 +91,7 @@
             // connect to mySQL and provide the interface to PHPUnit
 
 
-            $secrets = new \Secrets("/etc/apache2/capstone-mysql/paws.ini");
+            $secrets = new \Secrets("/etc/apache2/capstone-mysql/Secrets.ini");
             $pdo = $secrets->getPdoObject();
             $this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
          }
