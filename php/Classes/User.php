@@ -153,18 +153,18 @@ class User{
     *
     * @param integer $newUserAge new value of the users age
     * @throws \InvalidArgumentException if $newUserAge is not a integer or insecure
-    * @throws \RangeException if $newUserAge is < 120
+    * @throws \RangeException if $newUserAge is > 120
     * @throws \TypeError if $newUserAge is not a integer
     **/
    public function setUserAge(int $newUserAge) : void {
       //verify the age integer is secure
       $newUserAge = trim($newUserAge);
-      $newUserAge = filter_var($newUserAge, FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_NO_ENCODE_QUOTES);
+      $newUserAge = filter_var($newUserAge, FILTER_VALIDATE_INT);
       if(empty($newUserAge)===true){
          throw(new \InvalidArgumentException("Age value empty or insecure"));
       }
       //verify age
-      if(is_integer($newUserAge) > 120){
+      if($newUserAge > 120){
          throw (new \RangeException("Age value too large"));
       }
       //store the age value
@@ -345,7 +345,7 @@ class User{
    public function insert(\PDO $pdo) : void {
 
       //create query template
-      $query = "INSERT INTO  user(userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone) VALUES (:userId, :userActivationToken, :userAge, :userEmail, :userFirstName, :userHash, :userLastName, :userPhoneNumber)";
+      $query = "INSERT INTO  user(userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone) VALUES (:userId, :userActivationToken, :userAge, :userEmail, :userFirstName, :userHash, :userLastName, :userPhone)";
       $statement = $pdo->prepare($query);
 
       //bind the member variables to the place holders in the template

@@ -7,8 +7,6 @@
    };
 
 
-
-
    //grab the class under scrutiny
    require_once(dirname(__DIR__) . "/autoload.php");
 
@@ -29,23 +27,23 @@
        * placeholder until account activation is created
        * @var string $VALID_ACTIVATION
        */
-      protected $VALID_ACTIVATION = "1010101010101010101010101010101";
+      protected $VALID_ACTIVATION;
 
       /**
        * vaild at handle to use
-       * @var string $VALID_ATHANDLE
+       * @var string $VALID_FIRST_NAME
        */
       protected $VALID_FIRST_NAME = "hank";
 
       /**
        * second valid at handle to use
-       * @var string $VALID_ATHANDLE2
+       * @var string $VALID_LAST_NAME2
        */
       protected $VALID_LAST_NAME = "hill";
 
       /**
        * second valid at handle to use
-       * @var string $VALID_ATHANDLE2
+       * @var int $VALID_AGE
        **/
       protected $VALID_AGE = "47";
 
@@ -59,7 +57,7 @@
        * valid hash to use
        * @var $VALID_HASH
        */
-      protected $VALID_HASH = "thisismypassword";
+      protected $VALID_HASH;
 
       /**
        * valid phone number to use
@@ -89,7 +87,7 @@
 
          $userId = generateUuidV4();
 
-         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_FIRST_NAME, $this->VALID_LAST_NAME, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_PHONE);
+         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_FIRST_NAME, $this->VALID_HASH, $this->VALID_LAST_NAME, $this->VALID_PHONE);
          $user->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
@@ -97,11 +95,11 @@
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
-         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
-         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
+         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
          $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
 
@@ -114,11 +112,11 @@
 
          // create a new User and insert into mySQL
          $userId = generateUuidV4();
-         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_FIRST_NAME, $this->VALID_FIRST_NAME, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_PHONE);
+         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_FIRST_NAME, $this->VALID_HASH, $this->VALID_LAST_NAME, $this->VALID_PHONE);
          $user->insert($this->getPDO());
 
          //edit the User and update it in mySQL
-         $user->setUserAtHandle($this->VALID_EMAIL);
+         $user->setUserEmail($this->VALID_EMAIL);
          $user->update($this->getPDO());
 
          //grab the data from mySQL and enforce the fields match our expectations
@@ -127,11 +125,11 @@
          $this->assertEquals($numRows, +1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
-         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
-         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
+         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
          $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
 
@@ -143,7 +141,7 @@
          $numRows = $this->getConnection()->getRowCount("user");
 
          $userId = generateUuidV4();
-         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_FIRST_NAME, $this->VALID_FIRST_NAME, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_PHONE);
+         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_FIRST_NAME, $this->VALID_HASH, $this->VALID_LAST_NAME, $this->VALID_PHONE);
          $user->insert($this->getPDO());
 
 
@@ -165,7 +163,7 @@
          $numRows = $this->getConnection()->getRowCount("user");
 
          $userId = generateUuidV4();
-         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_FIRST_NAME, $this->VALID_FIRST_NAME, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_PHONE);
+         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_FIRST_NAME, $this->VALID_HASH, $this->VALID_LAST_NAME, $this->VALID_PHONE);
          $user->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
@@ -173,11 +171,11 @@
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
-         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
-         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
+         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
          $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
 
@@ -190,7 +188,7 @@
          $numRows = $this->getConnection()->getRowCount("user");
 
          $userId = generateUuidV4();
-         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_FIRST_NAME, $this->VALID_FIRST_NAME, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_PHONE);
+         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_FIRST_NAME, $this->VALID_HASH, $this->VALID_LAST_NAME, $this->VALID_PHONE);
          $user->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
@@ -198,11 +196,11 @@
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
-         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
-         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
+         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
          $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
 
@@ -215,7 +213,7 @@
          $numRows = $this->getConnection()->getRowCount("user");
 
          $userId = generateUuidV4();
-         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_FIRST_NAME, $this->VALID_FIRST_NAME, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_PHONE);
+         $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_FIRST_NAME, $this->VALID_HASH, $this->VALID_LAST_NAME, $this->VALID_PHONE);
          $user->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
@@ -223,11 +221,11 @@
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
-         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
-         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
          $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
+         $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
          $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
+         $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
       }
    }
