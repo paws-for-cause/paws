@@ -37,13 +37,14 @@
 
       /**
        * second valid at handle to use
-       * @var string $VALID_LAST_NAME2
+       * @var string $VALID_LAST_NAME
        */
       protected $VALID_LAST_NAME = "hill";
 
-      /**
-       * second valid at handle to use
-       * @var int $VALID_AGE
+      /*
+       * third valid at handle to use
+       * @var string $VALID_LAST_NAME2
+       *
        **/
       protected $VALID_AGE = "47";
 
@@ -52,6 +53,12 @@
        * @var string $VALID_EMAIL
        **/
       protected $VALID_EMAIL = "hank.hill@gmail.com";
+
+      /**
+       * valid user email to use
+       * @var string $VALID_EMAIL2
+       **/
+      protected $VALID_EMAIL2 = "bobby.hill@gmail.com";
 
       /**
        * valid hash to use
@@ -116,7 +123,7 @@
          $user->insert($this->getPDO());
 
          //edit the User and update it in mySQL
-         $user->setUserEmail($this->VALID_EMAIL);
+         $user->setUserLastName($this->VALID_EMAIL2);
          $user->update($this->getPDO());
 
          //grab the data from mySQL and enforce the fields match our expectations
@@ -126,7 +133,7 @@
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
-         $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL);
+         $this->assertEquals($pdoUser->getUserEmail(), $this->VALID_EMAIL2);
          $this->assertEquals($pdoUser->getUserFirstName(), $this->VALID_FIRST_NAME);
          $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
          $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
