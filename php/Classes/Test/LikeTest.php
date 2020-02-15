@@ -4,7 +4,6 @@
 
    use PawsForCause\Paws\ {User, Animal, Like};
 
-
 // grab the class under scrutiny
    require_once(dirname(__DIR__) . "/autoload.php");
 
