@@ -40,7 +40,7 @@
       private $userEmail;
       /**
        * first name of the user
-       * @var string $userFirstName ;
+        * @var string $userFirstName ;
        **/
       private $userFirstName;
       /**
@@ -100,7 +100,7 @@
        * @return Uuid value of user id
        **/
       public function getUserId(): Uuid {
-         return ($this->userId);
+         return $this->userId;
       }
 
       /**
@@ -128,7 +128,7 @@
        * @return Uuid value of activation token
        **/
       public function getUserActivationToken(): ?string {
-         return ($this->getUserActivationToken);
+         return $this->getUserActivationToken;
       }
 
       /**
@@ -157,7 +157,7 @@
        * @return integer value of the user age
        **/
       public function getUserAge(): int {
-         return ($this->userAge);
+         return $this->userAge;
       }
 
       /**
@@ -189,7 +189,7 @@
        * @return string value of user email
        **/
       public function getUserEmail(): string {
-         return ($this->userEmail);
+         return $this->userEmail;
       }
 
       /**
@@ -222,7 +222,7 @@
        * @return string value of user first name
        **/
       public function getUserFirstName(): string {
-         return ($this->userFirstName);
+         return $this->userFirstName;
       }
 
       /**
@@ -255,7 +255,7 @@
        * @return string value of user hash
        **/
       public function getUserHash(): string {
-         return ($this->userHash);
+         return $this->userHash;
       }
 
       /**
@@ -283,8 +283,8 @@
          }
          //store the hash
          $this->userHash = $newUserHash;
+         var_dump($newUserHash);
       }
-
       /**
        * accessor method for user last name
        *

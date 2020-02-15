@@ -64,7 +64,7 @@
        * valid hash to use
        * @var $VALID_HASH
        */
-      protected $VALID_HASH;
+      protected $VALID_HASH = "1010101010101010101010101010101010101010101010101010101010101010101010101010101048383838383838576";
 
       /**
        * valid phone number to use
@@ -96,6 +96,7 @@
 
          $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_FIRST_NAME, $this->VALID_HASH, $this->VALID_LAST_NAME, $this->VALID_PHONE);
          $user->insert($this->getPDO());
+         var_dump($user);
 
          // grab the data from mySQL and enforce the fields match our expectations
          $pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
