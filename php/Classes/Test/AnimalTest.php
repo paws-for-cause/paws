@@ -15,8 +15,6 @@ require_once("/etc/apache2/capstone-mysql/Secrets.php");
 require_once(dirname(__DIR__) . "/autoload.php");
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
-
-
 /**
  * Full PHPUnit test for the Animal class
  *
@@ -88,8 +86,9 @@ class AnimalTest extends PawsTest {
 	  parent::setUp();
 
 	  // create and insert an animal to assign status's to.
-	  $this->animal = new Animal(generateUuidV4(), null, "PupperVille Animal Shelter", "Adopted", "Corgi", "Male", "Olaf", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "Dog");
-	  $this->animal->insert($this->getPDO());
+	 // $this->animal = new Animal(generateUuidV4(), null, "Adopted", "Corgi", "Male", "Olaf", "https://media.giphy.com/media/3og0INyCmHlNylks9O/giphy.gif", "Dog");
+	 // $this->animal->insert($this->getPDO());
+
 	  }
 
 
@@ -102,7 +101,7 @@ class AnimalTest extends PawsTest {
 
 		//create a new animal and insert it into mySQL
 		$animalId = generateUuidv4();
-		$animal = new Animal($animalId, $this->animal->getAnimalId(), $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal = new Animal($this->animal->getAnimalId(), $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
 		$animal->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -148,7 +147,7 @@ class AnimalTest extends PawsTest {
 
 		// create a new animal and insert it into my SQL
 		$animalId = generateUuidv4();
-		$animal = new Animal($animalId, $this->animal->getAnimalId(), $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal = new Animal($this->animal->getAnimalId(), $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
 		$animal->insert($this->getPDO());
 
 		//delete the animal from mySQL

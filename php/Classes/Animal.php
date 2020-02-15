@@ -163,7 +163,7 @@
        * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
        * @throws \TypeError if data types violate type hints
        **/
-      public function setAnimalShelter($newAnimalShelterId): void {
+      public function setAnimalShelterId($newAnimalShelterId): void {
          try {
             $uuid = self::validateUuid($newAnimalShelterId);
          } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -289,8 +289,7 @@
        * @throws \RangeException if $newAnimalSpecies is > 32 characters
        * @throws \TypeError if $newAnimalSpecies is not a string
        **/
-      public
-      function setAnimalSpecies(string $newAnimalSpecies): void {
+      public function setAnimalSpecies(string $newAnimalSpecies): void {
          // verify the at handle is secure
          $newAnimalSpecies = trim($newAnimalSpecies);
          $newAnimalSpecies = filter_var($newAnimalSpecies, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
