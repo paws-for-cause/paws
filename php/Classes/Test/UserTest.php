@@ -64,7 +64,7 @@
        * valid hash to use
        * @var $VALID_HASH
        */
-      protected $VALID_HASH = "1010101010101010101010101010101010101010101010101010101010101010101010101010101048383838383838576";
+      protected $VALID_HASH;
 
       /**
        * valid phone number to use
