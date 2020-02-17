@@ -496,35 +496,29 @@
        * @throws \TypeError when a variable are not the correct data type
        **/
       public
-      static function getUserByActivationToken(\PDO $pdo, $userActivationToken): ?User {
-         //sanitize the userActivationToken before searching
-         try {
-            $userActivationToken = self::ValidateUuid($userActivationToken);
-         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-            throw(new\PDOException($exception->getMessage(), 0, $exception));
+      static function getUserByActivationToken(\PDO $pdo, string $userActivationToken): ?User {
+         $userActivationToken = trim($userActivationToken);
+         if(ctype_xdigit($userActivationToken) === false) {
+            throw (new \InvalidArgumentException("user activation token is empty or in the wrong format"));
          }
-
-         //create query template
          $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone FROM user WHERE userActivationToken = :userActivationToken";
          $statement = $pdo->prepare($query);
 
-         //bind the user activation token to the place holder in the template
-         $parameters = ["userActivationToken" => $userActivationToken->getBytes()];
+         $parameters = ["userActivaitonToken" => $userActivationToken];
          $statement->execute($parameters);
 
-         //grab user from mySQL
          try {
             $user = null;
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
-               $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
+               $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);}
+
             }
-         } catch(\Exception $exception) {
-            //if the row couldn't be converted, rethrow it
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
-         }
-         return ($user);
+         catch(\Exception $exception){
+               throw(new \PDOException($exception->getMessage(), 0, $exception));
+            }
+            return ($user);
       }
 
       /**
