@@ -2,7 +2,9 @@
 
    namespace PawsForCause\Paws\Test;
 
-   use PawsForCause\Paws\{shelter};
+   use PawsForCause\Paws\{
+       shelter
+   };
 
 //grab the class under scrutiny
    require_once(dirname(__DIR__) . "/autoload.php");
@@ -36,7 +38,7 @@
 
       /**
        * name of the shelter
-       * @var string $VALID_SHELTERNAME
+       * @var string $VALID_SHELTER_NAME
        */
 
       protected $VALID_SHELTER_NAME = "Test Shelter";
@@ -59,22 +61,36 @@
        * test inserting a valid Shelter and verify that the actual mySQL data matches
        */
 
-      public function testInsertValidShelter(): void {
+       /*
+        * run the defualt setup operation to create salt and hash.
+        */
+
+       public final function setUp(): void {
+           parent::setUp();
+
+           //
+           $password = "abc123";
+           $this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+           $this->VALID_ACTIVATION = bin2hex(random_bytes(15));
+       }
+
+
+       public function testInsertValidShelter(): void {
          //count the number of rows and save it for later
          $numRows = $this->getConnection()->getRowCount("shelter");
 
-         $shelterId = generateUuid4();
-
+         $shelterId = generateUuidV4();
          $shelter = new Shelter($shelterId, $this->VALID_SHELTER_ADDRESS, $this->VALID_SHELTER_NAME, $this->VALID_SHELTER_PHONE);
          $shelter->insert($this->getPDO());
 
-         //grab the data from mySQL and enforce the fields match our expectations
+
+           //grab the data from mySQL and enforce the fields match our expectations
          $pdoShelter = Shelter::getShelterByShelterId($this->getPDO(), $shelter->getShelterId());
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("shelter"));
-         $this->assertEquals($pdoShelter->getProfileId(), $shelterId);
-         $this->assertEquals($pdoShelter->getProfileActivationToken(), $this->VALID_SHELTER_ADDRESS);
-         $this->assertEquals($pdoShelter->getProfileAtHandle(), $this->VALID_SHELTER_NAME);
-         $this->assertEquals($pdoShelter->getProfileAvatarUrl(), $this->VALID_SHELTER_PHONE);
+          $this->assertEquals($pdoShelter->getShelterId(), $shelterId);
+          $this->assertEquals($pdoShelter->getShelterAddress(), $this->VALID_SHELTER_ADDRESS);
+          $this->assertEquals($pdoShelter->getShelterName(), $this->VALID_SHELTER_NAME2);
+          $this->assertEquals($pdoShelter->getShelterPhone(), $this->VALID_SHELTER_PHONE);
       }
 
       /**
@@ -120,11 +136,11 @@
          $shelter->insert($this->getPDO());
 
 
-         // delete the Profile from mySQL
+         // delete the Shelter from mySQL
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("shelter"));
          $shelter->delete($this->getPDO());
 
-         // grab the data from mySQL and enforce the Profile does not exist
+         // grab the data from mySQL and enforce the Shelter does not exist
          $pdoShelter = Shelter::getShelterByShelterId($this->getPDO(), $shelter->getShelterId());
          $this->assertNull($pdoShelter);
          $this->assertEquals($numRows, $this->getConnection()->getRowCount("shelter"));
@@ -139,16 +155,16 @@
          $numRows = $this->getConnection()->getRowCount("shelter");
 
          $shelterId = generateUuidV4();
-         $shelter = new Profile($shelterId, $this->VALID_SHELTER_ADDRESS, $this->VALID_SHELTER_NAME, $this->VALID_SHELTER_PHONE);
+         $shelter = new Shelter($shelterId, $this->VALID_SHELTER_ADDRESS, $this->VALID_SHELTER_NAME, $this->VALID_SHELTER_PHONE);
          $shelter->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
          $pdoShelter = Shelter::getShelterByShelterId($this->getPDO(), $shelter->getShelterId());
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("shelter"));
-         $this->assertEquals($pdoShelter->getProfileId(), $shelterId);
-         $this->assertEquals($pdoShelter->getProfileActivationToken(), $this->VALID_SHELTER_ADDRESS);
-         $this->assertEquals($pdoShelter->getProfileAtHandle(), $this->VALID_SHELTER_NAME);
-         $this->assertEquals($pdoShelter->getProfileAvatarUrl(), $this->VALID_SHELTER_PHONE);
+          $this->assertEquals($pdoShelter->getShelterId(), $shelterId);
+          $this->assertEquals($pdoShelter->getShelterAddress(), $this->VALID_SHELTER_ADDRESS);
+          $this->assertEquals($pdoShelter->getShelterName(), $this->VALID_SHELTER_NAME2);
+          $this->assertEquals($pdoShelter->getShelterPhone(), $this->VALID_SHELTER_PHONE);
       }
 
 

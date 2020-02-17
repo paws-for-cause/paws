@@ -38,8 +38,9 @@
        */
 
       private $shelterPhone;
+       private  $shelterAddress;
 
-      /**
+       /**
        * Constructor for Shelter
        *
        * @param string $newShelterId id for the animal that shelter
@@ -86,7 +87,7 @@
             throw(new \InvalidArgumentException ("shelter Id is empty or insecure"));
          }
          // verify the new shelter id will fit in the database
-         if(strlen($newShelterId) > 16) {
+         if(strlen($newShelterId) < 16) {
             throw(new\RangeException ("shelter id is too long"));
          }
          //store the shelter id
@@ -182,7 +183,7 @@
             throw(new \InvalidArgumentException ("shelter phone is empty or insecure"));
          }
          // verify the new shelter phone is exactly 16 characters
-         if(strlen($newShelterPhone) != 16) {
+         if(strlen($newShelterPhone) != 10) {
             throw(new\RangeException ("shelter phone must be exactly 16 characters"));
          }
          //store the shelter phone
@@ -200,7 +201,7 @@
       public function insert(\PDO $pdo): void {
 
          // create query template
-         $query = "INSERT INTO Shelter (shelterId, shelterAddress, shelterName, shelterPhone) VALUES(:shelterId, :shelterAddress, :shelterName, :shelterPhone)";
+         $query = "INSERT INTO shelter (shelterId, shelterAddress, shelterName, shelterPhone) VALUES(:shelterId, :shelterAddress, :shelterName, :shelterPhone)";
          $statement = $pdo->prepare($query);
 
          // bind the member variables to the place holders in the template

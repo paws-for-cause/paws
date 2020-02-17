@@ -37,7 +37,7 @@
 
 
       /**
-       * valid activationToken to create the profile object to own the test
+       * boolean to determine if an animal was liked by a user or not
        * @var string $VALID_LIKE_APPROVED
        */
       protected $VALID_LIKE_APPROVED;
@@ -56,13 +56,13 @@
          $this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
          $this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 
-         // create and insert the mocked profile
-         $this->profile = new User (generateUuidV4(), null, "20", "she was a girl", "test@phpunit.de", $this->VALID_HASH, "+12125551212");
-         $this->profile->insert($this->getPDO());
+         // create and insert the mocked user
+         $this->user = new User (generateUuidV4(), null, "20", "she was a girl", "test@phpunit.de","Mr.Cool", $this->VALID_HASH, "Cool Potatos", "+12125551212");
+         $this->user->insert($this->getPDO());
 
          // create and insert the mocked animal
-         $this->animal = new Animal(generateUuidV4(), $this->profile->getUserId(), "1");
-         $this->tweet->insert($this->getPDO());
+         $this->animal = new Animal(generateUuidV4(), $this->user->getUserId(), "1");
+         $this->animal->insert($this->getPDO());
 
       }
 
@@ -99,7 +99,7 @@
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("like"));
          $like->delete($this->getPDO());
 
-         // grab the data from mySQL and enforce the Tweet does not exist
+         // grab the data from mySQL and enforce the Like does not exist
          $pdoLike = Like::getLikeByLikeAnimalIdAndByLikeUserId($this->getPDO(), $this->user->getUserId(), $this->animal->getAnimalId());
          $this->assertNull($pdoLike);
          $this->assertEquals($numRows, $this->getConnection()->getRowCount("like"));
@@ -108,7 +108,7 @@
       /**
        * test inserting a Like and regrabbing it from mySQL
        **/
-      public function testGetValidLikeByTweetIdAndProfileId(): void {
+      public function testGetLikeByLikeAnimalIdAndByLikeUserId(): void {
          // count the number of rows and save it for later
          $numRows = $this->getConnection()->getRowCount("like");
 
