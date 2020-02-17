@@ -529,7 +529,7 @@
       public
       function jsonSerialize() {
          $fields = get_object_vars($this);
-         $fields["userId"] = $this->profileId->toString();
+         $fields["userId"] = $this->userId->toString();
          unset($fields["userActivationToken"]);
          unset($fields["userHash"]);
          return ($fields);
