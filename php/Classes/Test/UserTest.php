@@ -33,7 +33,7 @@
        *  third valid at handle to use
        * @var integer $VALID_AGE
        */
-      protected $VALID_AGE = 47;
+      protected $VALID_AGE = "47";
 
       /**
        * valid user email to use
@@ -174,7 +174,7 @@
          $user->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
-         $pdoUser = User::getUserByActivationToken($this->getPDO(), $userId->getUserByActivationToken());
+         $pdoUser = User::getUserByActivationToken($this->getPDO(), $user->getUserActivationToken());
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);

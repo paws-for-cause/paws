@@ -497,7 +497,7 @@
        **/
       public
       static function getUserByActivationToken(\PDO $pdo, string $userActivationToken): ?User {
-         $userActivationToken = trim($userActivationToken);
+         $userActivationToken = strtolower($userActivationToken);
          if(ctype_xdigit($userActivationToken) === false) {
             throw (new \InvalidArgumentException("user activation token is empty or in the wrong format"));
          }
@@ -512,13 +512,13 @@
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
-               $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);}
+               $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
+            }
 
-            }
-         catch(\Exception $exception){
-               throw(new \PDOException($exception->getMessage(), 0, $exception));
-            }
-            return ($user);
+         } catch(\Exception $exception) {
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+         }
+         return ($user);
       }
 
       /**
