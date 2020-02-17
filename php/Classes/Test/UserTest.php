@@ -174,7 +174,7 @@
          $user->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
-         $pdoUser = User::getUserByActivationToken($this->getPDO(), $user->getUserActivationToken());
+         $pdoUser = User::getUserByActivationToken($this->getPDO(), $userId->getUserActivationToken());
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
