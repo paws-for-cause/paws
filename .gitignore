@@ -2,4 +2,4 @@
 /.idea
 */vendor
 /php/vendor
-/php/composer.lock
+/php/composer.lockgit
