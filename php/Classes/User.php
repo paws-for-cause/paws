@@ -278,7 +278,7 @@
             throw(new \InvalidArgumentException("profile hash is not a valid hash"));
          }
          //enforce that the hash is exactly 97 characters
-         if(strlen($newUserHash) === 97) {
+         if(strlen($newUserHash) > 97 || strlen($newUserHash) < 89 ) {
             throw(new \RangeException("user hash must be exactly 97 characters"));
          }
          //store the hash
