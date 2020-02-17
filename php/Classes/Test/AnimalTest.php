@@ -86,11 +86,11 @@ class AnimalTest extends PawsTest {
 	  parent::setUp();
 
 	   // create and insert an animal to assign status's to.
-	  $this->animal = new Animal(generateUuidV4(), generateUuidV4(), "Whatever", "Corgi", 1, "Olaf", "https://media.giphy.com", "Dog");
+	  $this->animal = new Animal(generateUuidV4(), "Whatever", "Corgi", 1, "Olaf", "https://media.giphy.com", "Dog");
 	  $this->animal->insert($this->getPDO());
 
-//	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "555-555-5555");
-//	  $this->shelter->insert($this->getPDO());
+	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "555-555-5555");
+	  $this->shelter->insert($this->getPDO());
 	  }
 
 
