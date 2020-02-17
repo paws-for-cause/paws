@@ -158,7 +158,7 @@
       public function insert(\PDO $pdo): void {
 
          // create query template
-         $query = "INSERT INTO LIKE (likeAnimalId, likeUserId, likeApproved) VALUES(:likeAnimalId, :likeUserId, :likeApproved)";
+         $query = "INSERT INTO like (likeAnimalId, likeUserId, likeApproved) VALUES(:likeAnimalId, :likeUserId, :likeApproved)";
          $statement = $pdo->prepare($query);
 
          // bind the member variables to the place holders in the template
