@@ -30,23 +30,10 @@
       protected $VALID_ACTIVATION;
 
       /**
-       * vaild at handle to use
-       * @var string $VALID_FIRST_NAME
+       *  third valid at handle to use
+       * @var integer $VALID_AGE
        */
-      protected $VALID_FIRST_NAME = "hank";
-
-      /**
-       * second valid at handle to use
-       * @var string $VALID_LAST_NAME
-       */
-      protected $VALID_LAST_NAME = "hill";
-
-      /*
-       * third valid at handle to use
-       * @var string $VALID_LAST_NAME2
-       *
-       **/
-      protected $VALID_AGE = "47";
+      protected $VALID_AGE = 47;
 
       /**
        * valid user email to use
@@ -61,10 +48,23 @@
       protected $VALID_EMAIL2 = "bobby.hill@gmail.com";
 
       /**
+       * vaild at handle to use
+       * @var string $VALID_FIRST_NAME
+       */
+      protected $VALID_FIRST_NAME = "hank";
+
+      /**
        * valid hash to use
        * @var $VALID_HASH
        */
       protected $VALID_HASH;
+
+
+      /**
+       * second valid at handle to use
+       * @var string $VALID_LAST_NAME
+       */
+      protected $VALID_LAST_NAME = "hill";
 
       /**
        * valid phone number to use
@@ -81,7 +81,7 @@
 
          //
          $password = "abc123";
-         $this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+         $this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 7]);
          $this->VALID_ACTIVATION = bin2hex(random_bytes(16));
       }
 
@@ -96,7 +96,6 @@
 
          $user = new User($userId, $this->VALID_ACTIVATION, $this->VALID_AGE, $this->VALID_EMAIL, $this->VALID_FIRST_NAME, $this->VALID_HASH, $this->VALID_LAST_NAME, $this->VALID_PHONE);
          $user->insert($this->getPDO());
-         var_dump($user);
 
          // grab the data from mySQL and enforce the fields match our expectations
          $pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
@@ -128,7 +127,7 @@
          $user->update($this->getPDO());
 
          //grab the data from mySQL and enforce the fields match our expectations
-         $pdoUser = User:: getUserByEmail($this->getPDO(), $user->getUserEmail());
+         $pdoUser = User:: getUserByUserEmail($this->getPDO(), $user->getUserByUserEmail());
 
          $this->assertEquals($numRows, +1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);

@@ -40,7 +40,7 @@
       private $userEmail;
       /**
        * first name of the user
-        * @var string $userFirstName ;
+       * @var string $userFirstName ;
        **/
       private $userFirstName;
       /**
@@ -62,7 +62,7 @@
       /**
        * constructor method for user
        * @param $userId id for the user
-       * @param $userActiviationToken activationtoken for the author
+       * @param $userActiviationToken activationtoken for the user
        * @param $userAge age of user
        * @param $userEmail user email
        * @param $userFirstName user first name
@@ -128,7 +128,7 @@
        * @return Uuid value of activation token
        **/
       public function getUserActivationToken(): ?string {
-         return $this->getUserActivationToken;
+         return $this->userActivationToken;
       }
 
       /**
@@ -278,13 +278,13 @@
             throw(new \InvalidArgumentException("profile hash is not a valid hash"));
          }
          //enforce that the hash is exactly 97 characters
-         if(strlen($newUserHash) !== 97) {
+         if(strlen($newUserHash) === 97) {
             throw(new \RangeException("user hash must be exactly 97 characters"));
          }
          //store the hash
          $this->userHash = $newUserHash;
-         var_dump($newUserHash);
       }
+
       /**
        * accessor method for user last name
        *
@@ -421,7 +421,7 @@
          }
 
          //create query template
-         $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone";
+         $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone FROM user WHERE userId = :userId";
          $statement = $pdo->prepare($query);
 
          //bind the user id to the place holder in the template
@@ -452,24 +452,24 @@
        * @throws \PDOException when mySQL related errors occur
        * @throws \TypeError when a variable are not the correct data type
        */
-      public static function getUserByEmail(\PDO $pdo, $userEmail, $exception): ?User {
-         //sanitize the userEmail before searching
-         try {
-            $userEmail = self::string($userEmail);
-         } catch(\InvalidArgumentException | \RangeException | \Exception |
-         \TypeError $exception) {
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+      public static function getUserByUserEmail(\PDO $pdo, $userEmail): ?User {
+         //sanitize the email before searching
+         $userEmail = trim($userEmail);
+         $userEmail = filter_var($userEmail, FILTER_VALIDATE_EMAIL);
+
+         if(empty($userEmail) === true) {
+            throw(new \PDOException("nota valid email"));
          }
 
-         //create query template
-         $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, user, userHash, userLastName, userPhone";
+         // create query template
+         $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone FROM user WHERE userEmail = :userEmail";
          $statement = $pdo->prepare($query);
 
-         //bind the user email to the place holder in the template
-         $parameters = ["userEmail" => $userEmail->getBytes()];
+         //bind the profile id to the place holder in the template
+         $parameters = ["userEmail" => $userEmail];
          $statement->execute($parameters);
 
-         //grab user from mySQL
+         //grab the user from mySQL
          try {
             $user = null;
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -480,9 +480,11 @@
          } catch(\Exception $exception) {
             //if the row couldn't be converted, rethrow it
             throw(new \PDOException($exception->getMessage(), 0, $exception));
+
          }
          return ($user);
       }
+
 
       /**
        * get user by activation token
@@ -493,7 +495,8 @@
        * @throws \PDOException when mySQL related errors occur
        * @throws \TypeError when a variable are not the correct data type
        **/
-      public static function getUserByActivationToken(\PDO $pdo, $userActivationToken): ?User {
+      public
+      static function getUserByActivationToken(\PDO $pdo, $userActivationToken): ?User {
          //sanitize the userActivationToken before searching
          try {
             $userActivationToken = self::ValidateUuid($userActivationToken);
@@ -502,7 +505,7 @@
          }
 
          //create query template
-         $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone";
+         $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone FROM user WHERE userActivationToken = :userActivationToken";
          $statement = $pdo->prepare($query);
 
          //bind the user activation token to the place holder in the template
@@ -529,7 +532,8 @@
        *
        * @return array resulting state variables to serialize
        **/
-      public function jsonSerialize() {
+      public
+      function jsonSerialize() {
          $fields = get_object_vars($this);
          $fields["userId"] = $this->profileId->toString();
          unset($fields["userActivationToken"]);
