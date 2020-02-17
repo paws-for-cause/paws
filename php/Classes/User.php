@@ -497,14 +497,14 @@
        **/
       public
       static function getUserByActivationToken(\PDO $pdo, string $userActivationToken): ?User {
-         $userActivationToken = strtolower($userActivationToken);
+         $userActivationToken = trim($userActivationToken);
          if(ctype_xdigit($userActivationToken) === false) {
             throw (new \InvalidArgumentException("user activation token is empty or in the wrong format"));
          }
          $query = "SELECT userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone FROM user WHERE userActivationToken = :userActivationToken";
          $statement = $pdo->prepare($query);
 
-         $parameters = ["userActivaitonToken" => $userActivationToken];
+         $parameters = ["userActivationToken" => $userActivationToken];
          $statement->execute($parameters);
 
          try {

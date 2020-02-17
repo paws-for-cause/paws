@@ -123,13 +123,13 @@
          $user->insert($this->getPDO());
 
          //edit the User and update it in mySQL
-         $user->setUserLastName($this->VALID_EMAIL2);
+         $user->setUserEmail($this->VALID_EMAIL2);
          $user->update($this->getPDO());
 
          //grab the data from mySQL and enforce the fields match our expectations
-         $pdoUser = User:: getUserByUserEmail($this->getPDO(), $user->getUserByUserEmail());
+         $pdoUser = User:: getUserByUserEmail($this->getPDO(), $user->getUserEmail());
 
-         $this->assertEquals($numRows, +1, $this->getConnection()->getRowCount("user"));
+         $this->assertEquals($numRows +1, $this->getConnection()->getRowCount("user"));
          $this->assertEquals($pdoUser->getUserId(), $userId);
          $this->assertEquals($pdoUser->getUserActivationToken(), $this->VALID_ACTIVATION);
          $this->assertEquals($pdoUser->getUserAge(), $this->VALID_AGE);
@@ -234,5 +234,13 @@
          $this->assertEquals($pdoUser->getUserHash(), $this->VALID_HASH);
          $this->assertEquals($pdoUser->getUserLastName(), $this->VALID_LAST_NAME);
          $this->assertEquals($pdoUser->getUserPhone(), $this->VALID_PHONE);
+      }
+
+      /**
+       * test grabbing the user by an activaiton token that does not exist
+       */
+      public function testGetInvalidActivation() : void {
+         $user = User::getUserByActivationToken($this->getPDO(), "d5e831b6ac6f1c9a3e9cb64b4a916f89");
+         $this->assertNull($user);
       }
    }
