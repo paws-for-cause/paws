@@ -4,6 +4,8 @@
    require_once(dirname(__DIR__) . "/vendor/autoload.php");
    require_once("autoload.php");
 
+   use Egulias\EmailValidator\Exception\ExpectingQPair;
+   use http\Exception\InvalidArgumentException;
    use Ramsey\Uuid\Uuid;
 
 
@@ -12,7 +14,8 @@
     *
     * @author Usaama Alnaji <ualnaji@cnm.edu> with help from Dylan McDonald's code
     */
-   class Shelter {
+   class Shelter implements \JsonSerializable{
+       use ValidateUuid;
       /**
        * shelter id for for this website. This is a primary key
        * @var string $shelterId
@@ -43,13 +46,17 @@
        /**
        * Constructor for Shelter
        *
-       * @param string $newShelterId id for the animal that shelter
+       * @param uuid $newShelterId id for the animal that shelter
        * @param string $newShelterAddress shelter's address
        * @param string $newShelterName shelter's name
        * @param string $newShelterPhone shelter's phone number
+        * @throws \InvalidArgumentException if data type is not valid
+        * @throws \RangeException if values are out of bounds
+        * @throws \Exception if some other exception occurs
+        * @throws \TypeError if data type violates data hint
        */
 
-      public function __construct(string $newShelterId, string $newShelterAddress, string $newShelterName, string $newShelterPhone) {
+      public function __construct($newShelterId, string $newShelterAddress, string $newShelterName, string $newShelterPhone) {
          try {
             $this->setShelterId($newShelterId);
             $this->setShelterAddress($newShelterAddress);
@@ -68,7 +75,7 @@
        * @return string value of the shelter id
        */
 
-      public function getShelterId(): string {
+      public function getShelterId(): uuid {
          return ($this->shelterId);
       }
 
@@ -79,20 +86,17 @@
        * @throws \RangeException if $newShelterId is longer than 16 characters
        * @throws \TypeException if $newShelterId is not a string
        */
-      public function setShelterId($newShelterId): void {
-         // verify the shelter id is secure
-         $newShelterId = trim($newShelterId);
-         $newShelterId = filter_var($newShelterId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-         if(empty($newShelterId) === true) {
-            throw(new \InvalidArgumentException ("shelter Id is empty or insecure"));
-         }
-         // verify the new shelter id will fit in the database
-         if(strlen($newShelterId) < 16) {
-            throw(new\RangeException ("shelter id is too long"));
-         }
-         //store the shelter id
-         $this->shelterId = $newShelterId;
-      }
+       public function setShelterId($newShelterId): void {
+           try {
+               $uuid = self::validateUuid($newShelterId);
+           } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+               $exceptionType = get_class($exception);
+               throw (new $exceptionType($exception->getMessage(), 0, $exception));
+           }
+
+           //convert and store author id
+           $this->shelterId = $uuid;
+       }
 
       /**
        * accessor method for shelter address
@@ -205,7 +209,7 @@
          $statement = $pdo->prepare($query);
 
          // bind the member variables to the place holders in the template
-         $parameters = ["shelterId" => $this->shelterId, "shelterAddress" => $this->shelterAddress, "shelterName" => $this->shelterName, "shelterPhone => $this->shelterPhone"];
+         $parameters = ["shelterId" => $this->shelterId->getBytes(), "shelterAddress" => $this->shelterAddress, "shelterName" => $this->shelterName, "shelterPhone" => $this->shelterPhone];
          $statement->execute($parameters);
       }
 
@@ -220,11 +224,11 @@
       public function update(\PDO $pdo): void {
 
          // create query template
-         $query = "UPDATE Shelter SET shelterId = :shelterId, shelterAddress = :shelterAddress, shelterName = :shelterName, shelterPhone = :shelterPhone WHERE shelterId = :shelterId ";
+         $query = "UPDATE shelter SET shelterId = :shelterId, shelterAddress = :shelterAddress, shelterName = :shelterName, shelterPhone = :shelterPhone";
 
          $statement = $pdo->prepare($query);
 
-         $parameters = ["shelterId" => $this->shelterId, "shelterAddress" => $this->shelterAddress, "shelterName" => $this->shelterName, "shelterPhone => $this->shelterPhone"]; // not sure what this quotation mark is connected to
+         $parameters = ["shelterId" => $this->shelterId->getBytes(), "shelterAddress" => $this->shelterAddress, "shelterName" => $this->shelterName, "shelterPhone" => $this->shelterPhone];
          $statement->execute($parameters);
 
       }
@@ -238,11 +242,11 @@
 
       public function delete(\PDO $pdo): void {
          //create query template
-         $query = "DELETE FROM Shelter WHERE shelterId = :shelterId";
+         $query = "DELETE FROM shelter WHERE shelterId = :shelterId";
          $statement = $pdo->prepare($query);
 
          //bind the member variable to the place holder in the template
-         $parameters = ["shelterId" => $this->shelterId()];
+         $parameters = ["shelterId" => $this->shelterId->getBytes()];
          $statement->execute($parameters);
 
       }
@@ -267,7 +271,7 @@
          }
 
          //create query template
-         $query = "SELECT shelterId, shelterAddress, shelterName, shelterPhone FROM Shelter WHERE shelterId = :shelterId";
+         $query = "SELECT shelterId, shelterAddress, shelterName, shelterPhone FROM shelter WHERE shelterId = :shelterId";
          $statement = $pdo->prepare($query);
 
          //bind the shelter id to the place holder in the template
@@ -278,7 +282,7 @@
          try {
             $shelter = null;
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
-            $row = $statement->false();
+            $row = $statement->fetch();
             if($row !== false) {
                $shelter = new Shelter($row["shelterId"], $row["shelterAddress"], $row["shelterName"], $row["shelterPhone"]);
             }
@@ -288,8 +292,21 @@
             throw(new \PDOException ($exception->getMessage(), 0, $exception));
          }
          return ($shelter);
+
       }
+       /**
+        * formats the state variables for JSON serialization
+        *
+        * @return array resulting state variables to serialize
+        **/
+       public
+       function jsonSerialize() {
+           $fields = get_object_vars($this);
+           $fields["shelterId"] = $this->shelterId->toString();
+           return ($fields);
+       }
    }
+
 
 
 

@@ -70,7 +70,7 @@
 
            //
            $password = "abc123";
-           $this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+           $this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 7]);
            $this->VALID_ACTIVATION = bin2hex(random_bytes(15));
        }
 
@@ -80,7 +80,7 @@
          $numRows = $this->getConnection()->getRowCount("shelter");
 
          $shelterId = generateUuidV4();
-         $shelter = new Shelter($shelterId, $this->VALID_SHELTER_ADDRESS, $this->VALID_SHELTER_NAME, $this->VALID_SHELTER_PHONE);
+         $shelter = new Shelter($shelterId, $this->VALID_SHELTER_ADDRESS, $this->VALID_SHELTER_NAME2, $this->VALID_SHELTER_PHONE);
          $shelter->insert($this->getPDO());
 
 
@@ -163,7 +163,7 @@
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("shelter"));
           $this->assertEquals($pdoShelter->getShelterId(), $shelterId);
           $this->assertEquals($pdoShelter->getShelterAddress(), $this->VALID_SHELTER_ADDRESS);
-          $this->assertEquals($pdoShelter->getShelterName(), $this->VALID_SHELTER_NAME2);
+          $this->assertEquals($pdoShelter->getShelterName(), $this->VALID_SHELTER_NAME);
           $this->assertEquals($pdoShelter->getShelterPhone(), $this->VALID_SHELTER_PHONE);
       }
 
