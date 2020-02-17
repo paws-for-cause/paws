@@ -225,7 +225,7 @@
 //** TinyInt mutator */
       function setAnimalGender(string $newAnimalGender) {
          // verify the gender input is valid
-         if(($newAnimalGender > 1) || ($newAnimalGender < 0)) ;
+         if(($newAnimalGender > 1) || ($newAnimalGender < 0))
          {
             throw(new \RangeException("animal gender value is invalid"));
 
@@ -475,10 +475,10 @@
       public function insert(\PDO $pdo): void {
 
          // create query template
-         $query = "INSERT INTO Animal(animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies) VALUES(:animalId, :animalShelterId, :animalAdoptionStatus, :animalBreed, :animalGender, :animalName, :animalPhotoUrl, :animalSpecies)";
+         $query = "INSERT INTO animal(animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies) VALUES(:animalId, :animalShelterId, :animalAdoptionStatus, :animalBreed, :animalGender, :animalName, :animalPhotoUrl, :animalSpecies)";
          $statement = $pdo->prepare($query);
 
-         $parameters = ["animalId" => $this->animalId->getBytes(), "animalShelterId" => $this->animalShelterId->getBytes(), "animalAdoptionStatus" => $this->animalAdoptionStatus, "animalBreed" => $this->animalBreed, "animalGender" => $this->animalGender, "animalName" => $this->animalName, "animalPhotoUrl" => $this->animalPhotoUrl, "animalSpecies" => $this->animaSpecies];
+         $parameters = ["animalId" => $this->animalId->getBytes(), "animalShelterId" => $this->animalShelterId->getBytes(), "animalAdoptionStatus" => $this->animalAdoptionStatus, "animalBreed" => $this->animalBreed, "animalGender" => $this->animalGender, "animalName" => $this->animalName, "animalPhotoUrl" => $this->animalPhotoUrl, "animalSpecies" => $this->animalSpecies];
          $statement->execute($parameters);
       }
 
