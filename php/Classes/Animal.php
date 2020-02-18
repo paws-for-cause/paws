@@ -80,7 +80,7 @@
        * @Documentation https://php.net/manual/en/language.oop5.decon.php
        **/
 
-      public function __construct($newAnimalId, $newAnimalShelterId, string $newAnimalAdoptionStatus, string $newAnimalBreed, string $newAnimalGender, string $newAnimalName, string $newAnimalPhotoUrl, string $newAnimalSpecies) {
+      public function __construct($newAnimalId, $newAnimalShelterId, string $newAnimalAdoptionStatus, string $newAnimalBreed, int $newAnimalGender, string $newAnimalName, string $newAnimalPhotoUrl, string $newAnimalSpecies) {
          try {
             $this->setAnimalId($newAnimalId);
             $this->setAnimalShelterId($newAnimalShelterId);
@@ -195,7 +195,7 @@
             throw(new \RangeException("adoption status is too large"));
          }
          // store the at handle
-         $this->animalName = $newAnimalAdoptionStatus;
+         $this->animalAdoptionStatus = $newAnimalAdoptionStatus;
       }
 
       /**
@@ -218,7 +218,7 @@
             throw(new \RangeException("name of animal breed is too large"));
          }
          // store the at handle
-         $this->animalName = $newAnimalBreed;
+         $this->animalBreed = $newAnimalBreed;
       }
 
 
@@ -226,13 +226,12 @@
       function setAnimalGender(string $newAnimalGender) {
          // verify the gender input is valid
          if(($newAnimalGender > 1) || ($newAnimalGender < 0))
-         {
+
             throw(new \RangeException("animal gender value is invalid"));
 
             // store the animal gender
             $this->animalGender = $newAnimalGender;
          }
-      }
 
       /**
        * mutator method for animal name

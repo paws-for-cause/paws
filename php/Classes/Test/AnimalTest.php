@@ -32,17 +32,22 @@ class AnimalTest extends PawsTest {
 	 */
 	protected $animal = null;
 
+
+
+	protected $shelter = null;
+
 	/**
+	 * valid animal Shelter Id that is related to the animal
+	 * @var Shelter $shelter
+	 **/
+	protected $VALID_ANIMAL_SHELTER_ID;
+
+	/**
+	 *
 	 * valid Animal Id for the animal
 	 * @var $VALID_ANIMAL_ID
 	 */
 	protected $VALID_ANIMAL_ID;
-
-	/**
-	 * valid animal Shelter Id that is related to the animal
-	 * @var $VALID_ANIMAL_SHELTER_ID ;
-	 **/
-	protected $VALID_ANIMAL_SHELTER_ID;
 
 	/**
 	 * Animal Adoption Status, whether or not the animal has been adopted
@@ -88,7 +93,7 @@ class AnimalTest extends PawsTest {
 	  parent::setUp();
 
 	   // create and insert an animal to assign status's to.
-	  $this->animal = new Animal(generateUuidV4(), "7bcf13b0-4d38-4c89-bf10-7c6065a0d09d", "Adopted", "Corgi", 1, "Olaf", "www.somephothere.edu", "Dawg");
+	  $this->animal = new Animal(generateUuidV4(), "7bcf13b0-4d38-4c89-bf10-7c6065a0d09d", "ABCD", "Corgi", 0, "Olaf", "www.somephothere.edu", "Dawg");
 	  $this->animal->insert($this->getPDO());
 
 	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "555-555-5555");
@@ -111,7 +116,7 @@ class AnimalTest extends PawsTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoAnimal = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalid());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
-		$this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
+		$this->assertEquals($pdoAnimal->getAnimalId()->toString(), $animalId->toString());
 		$this->assertEquals($pdoAnimal->getAnimalShelterId(), $this->shelter->getShelterId());
 		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
 		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
@@ -215,7 +220,7 @@ class AnimalTest extends PawsTest {
 		$pdoAnimal = $results[0];
 
 		$this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
-		$this->assertEquals($pdoAnimal->getAnimalId(), $this->shelter->getAnimalShelterId());
+		$this->assertEquals($pdoAnimal->getAnimalId(), $this->shelter->getShelterId());
 		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
 		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
 		$this->assertEquals($pdoAnimal->getAnimalGender(), $this->VALID_ANIMAL_GENDER);
@@ -246,7 +251,7 @@ class AnimalTest extends PawsTest {
 		$pdoAnimal = $results[0];
 
 		$this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
-		$this->assertEquals($pdoAnimal->getAnimalId(), $this->shelter->getAnimalShelterId());
+		$this->assertEquals($pdoAnimal->getAnimalId(), $this->shelter->getShelterId());
 		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
 		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
 		$this->assertEquals($pdoAnimal->getAnimalGender(), $this->VALID_ANIMAL_GENDER);
