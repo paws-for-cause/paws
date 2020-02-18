@@ -104,7 +104,7 @@ class AnimalTest extends PawsTest {
 		$pdoAnimal = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalid());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
 		$this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
-		$this->assertEquals($pdoAnimal->getAnimalShelterId(), $shelter->getShelterId()->toString());
+		$this->assertEquals($pdoAnimal->getAnimalShelterId(), $this->shelter->getShelterId()->toString());
 		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
 		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
 		$this->assertEquals($pdoAnimal->getAnimalGender(), $this->VALID_ANIMAL_GENDER);

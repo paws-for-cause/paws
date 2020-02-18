@@ -109,28 +109,28 @@
 			return ($this->animalShelterId);
 		}
 
-		public function getAnimalAdoptionStatus($animalAdoptionStatus) {
-			$this->animalAdoptionStatus;
+		public function getAnimalAdoptionStatus() :string {
+			return ($this->animalAdoptionStatus);
 		}
 
-		public function getAnimalBreed($animalBreed) {
-			$this->animalBreed;
+		public function getAnimalBreed() :string {
+			return ($this->animalBreed);
 		}
 
-		public function getAnimalGender($animalGender) {
+		public function getAnimalGender() {
 			$this->animalGender;
 		}
 
-		public function getAnimalName($animalName) {
-			$this->animalName;
+		public function getAnimalName() {
+			return ($this->animalName);
 		}
 
-		public function getAnimalPhotoUrl($animalPhotoUrl) {
-			$this->animalPhotoUrl;
+		public function getAnimalPhotoUrl() {
+			return ($this->animalPhotoUrl);
 		}
 
-		public function getAnimalSpecies($animalSpecies) {
-			$this->animalSpecies;
+		public function getAnimalSpecies() {
+			return ($this->animalSpecies);
 		}
 
 
