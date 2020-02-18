@@ -338,7 +338,7 @@
 			}
 
 			// create query template
-			$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies FROM animal LIKE :animalShelterId";
+			$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies FROM animal WHERE animalId = :animalId";
 			$statement = $pdo->prepare($query);
 
 			// bind the animal id to the place holder in the template
