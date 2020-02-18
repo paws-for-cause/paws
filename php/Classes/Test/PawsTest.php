@@ -11,6 +11,7 @@
 // grab the encrypted properties file
    require_once"/etc/apache2/capstone-mysql/Secrets.php";
    require_once(dirname(__DIR__) . "/autoload.php");
+
    require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
    /**
