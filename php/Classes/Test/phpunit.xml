@@ -1,7 +1,7 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="Paws For Cause">
-			<file>UserTest.php</file>
+			<!---<file>UserTest.php</file> -->
 		   <file>AnimalTest.php</file>
 			<!--- <file>LikeTest.php</file> -->
 			<file>ShelterTest.php</file>
