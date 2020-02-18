@@ -33,7 +33,10 @@ class AnimalTest extends PawsTest {
 	protected $animal = null;
 
 
-
+	/**
+	 * This is the class that is referenced for the animalShelterId
+	 * @var Shelter|null
+	 */
 	protected $shelter = null;
 
 	/**
