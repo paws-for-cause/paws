@@ -2,7 +2,9 @@
 
 namespace PawsForCause\Paws\Test;
 
-use PawsForCause\Paws\{Animal, Shelter};
+use PawsForCause\Paws\ {
+	Animal, Shelter
+};
 
 
 
@@ -26,12 +28,6 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
  * @author Thomas Dameron <tdameron1@cnm.edu>
  */
 class AnimalTest extends PawsTest {
-	/**
-	 * animalId that is in the database; this is for foreign key relations
-	 * @var Animal animalId
-	 */
-	protected $animal = null;
-
 
 	/**
 	 * This is the class that is referenced for the animalShelterId
@@ -96,7 +92,7 @@ class AnimalTest extends PawsTest {
 	  parent::setUp();
 
 	   // create and insert an animal to assign status's to.
-	  $this->animal = new Animal(generateUuidV4(), "7bcf13b0-4d38-4c89-bf10-7c6065a0d09d", "ABCD", "Corgi", 0, "Olaf", "www.somephothere.edu", "Dawg");
+	  $this->animal = new Animal(generateUuidV4(), null, "ABCD", "Corgi", 0, "Olaf", "www.somephothere.edu", "Dawg");
 	  $this->animal->insert($this->getPDO());
 
 	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "555-555-5555");
@@ -120,7 +116,7 @@ class AnimalTest extends PawsTest {
 		$pdoAnimal = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalid());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
 		$this->assertEquals($pdoAnimal->getAnimalId()->toString(), $animalId->toString());
-		$this->assertEquals($pdoAnimal->getAnimalShelterId(), $this->shelter->getShelterId());
+		$this->assertEquals($pdoAnimal->getAnimalShelterId(), $shelter->getShelterId()->toString());
 		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
 		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
 		$this->assertEquals($pdoAnimal->getAnimalGender(), $this->VALID_ANIMAL_GENDER);

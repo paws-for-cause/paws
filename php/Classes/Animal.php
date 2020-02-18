@@ -13,7 +13,7 @@
     * @author Thomas Dameron <tdameron1@cnm.edu>
     * @version 1.0.0
     **/
-   class Animal {
+   class Animal{
       use ValidateUuid;
 
       //properties below
