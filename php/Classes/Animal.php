@@ -330,7 +330,7 @@
        * @param string $animalId
        * @return animalSplFixedArray
        */
-      public static function getAnimalByAnimalId(\PDO $pdo, string $animalId): \SPLFixedarray {
+      public static function getAnimalByAnimalId(\PDO $pdo, string $animalId): \SplFixedarray {
 
          //sanitize the description before searching
          //** trims the animal username to a set number of characters for security */
@@ -346,7 +346,7 @@
          $animalId = str_replace("_", "\\", $result);
 
          // create query template
-         $query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalId";
+         $query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies FROM animal WHERE animalId = :animalId";
          $statement = $pdo->prepare($query);
          //bind the animalId to the place holder in the template
          $animalId = "%animalId%";
@@ -354,7 +354,7 @@
          $statement->execute($parameters);
 
          // building an array of Anuimals
-         $animalArray = SplFixedArray($statement->rowCount());
+         $animalArray = new \SplFixedArray($statement->rowCount());
          $statement->setFetchMode(\PDO::FETCH_ASSOC);
          while(($row = $statement->fetch()) !== false) {
             try {
@@ -395,7 +395,7 @@
          $animalId = str_replace("_", "\\", $result);
 
          // create query template
-         $query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animaPhotoUrl, animalSpecies FROM Animal LIKE :animalShelterId";
+         $query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies FROM animal LIKE :animalShelterId";
          $statement = $pdo->prepare($query);
          //bind the animalId to the place holder in the template
          $animalShelterId = "%animalShelterId%";

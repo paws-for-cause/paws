@@ -2,17 +2,10 @@
 
 namespace PawsForCause\Paws\Test;
 
-use PawsForCause\Paws\ {
+use PawsForCause\Paws\{
 	Animal, Shelter
 };
 
-
-
-use PHPUnit\Framework\TestCase;
-use PHPUnit\DbUnit\TestCaseTrait;
-use PHPUnit\DbUnit\DataSet\QueryDataSet;
-use PHPUnit\DbUnit\Database\Connection;
-use PHPUnit\DbUnit\Operation\{Composite, Factory, Operation};
 
 // grab the encrypted properties file
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
@@ -29,24 +22,19 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
  */
 class AnimalTest extends PawsTest {
 
-	/**
-	 * This is the class that is referenced for the animalShelterId
-	 * @var Shelter|null
-	 */
-	protected $shelter = null;
 
 	/**
 	 * valid animal Shelter Id that is related to the animal
 	 * @var Shelter $shelter
 	 **/
-	protected $VALID_ANIMAL_SHELTER_ID;
+	protected $shelter = null;
+
+
+//	protected $VALID_ANIMAL_SHELTER_ID;
 
 	/**
-	 *
-	 * valid Animal Id for the animal
-	 * @var $VALID_ANIMAL_ID
-	 */
-	protected $VALID_ANIMAL_ID;
+
+//	protected $VALID_ANIMAL_ID;
 
 	/**
 	 * Animal Adoption Status, whether or not the animal has been adopted
@@ -62,9 +50,9 @@ class AnimalTest extends PawsTest {
 
 	/**
 	 * The gender of the animal
-	 * @var string $VALID_ANIMAL_GENDER
+	 * @var tinyint $VALID_ANIMAL_GENDER
 	 **/
-	protected $VALID_ANIMAL_GENDER = "PHPUnit test passing";
+	protected $VALID_ANIMAL_GENDER = 1;
 
 	/**
 	 * The name of the animal
@@ -92,10 +80,10 @@ class AnimalTest extends PawsTest {
 	  parent::setUp();
 
 	   // create and insert an animal to assign status's to.
-	  $this->animal = new Animal(generateUuidV4(), null, "ABCD", "Corgi", 0, "Olaf", "www.somephothere.edu", "Dawg");
-	  $this->animal->insert($this->getPDO());
+//	  $this->animal = new Animal(generateUuidV4(), null, "ABCD", "Corgi", 0, "Olaf", "www.somephothere.edu", "Dawg");
+//	  $this->animal->insert($this->getPDO());
 
-	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "555-555-5555");
+	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "5555555555");
 	  $this->shelter->insert($this->getPDO());
 	  }
 
