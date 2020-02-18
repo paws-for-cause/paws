@@ -103,7 +103,7 @@ class AnimalTest extends PawsTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoAnimal = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalid());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
-		$this->assertEquals($pdoAnimal->getAnimalId()->toString(), $animalId->toString());
+		$this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
 		$this->assertEquals($pdoAnimal->getAnimalShelterId(), $shelter->getShelterId()->toString());
 		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
 		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
