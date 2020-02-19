@@ -6,7 +6,8 @@
 //require_once("ValidateUuid.php");
    require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
-   use Ramsey\Uuid\Uuid;
+	use phpDocumentor\Reflection\Types\Integer;
+	use Ramsey\Uuid\Uuid;
 
    /**
     *
@@ -45,7 +46,7 @@
 		private $animalBreed;
 		/**
 		 * The gender of the animal
-		 * @var string $animalGender
+		 * @var int $animalGender
 		 */
 		private $animalGender;
 		/**
@@ -73,7 +74,7 @@
 		 * @param string|Uuid $newAnimalShelterId
 		 * @param string $newAnimalAdoptionStatus
 		 * @param string|$newAnimalBreed
-		 * @param string $newAnimalGender
+		 * @param int $newAnimalGender
 		 * @param string $newAnimalName
 		 * @param string $newAnimalPhotoUrl
 		 * @param string $newAnimalSpecies
@@ -234,8 +235,8 @@
 		}
 
 
-//** TinyInt mutator */
-		function setAnimalGender(string $newAnimalGender) {
+//** Tinyint mutator */
+		function setAnimalGender(int $newAnimalGender) {
 			// verify the gender input is valid
 			if(($newAnimalGender > 1) || ($newAnimalGender < 0))
 
@@ -351,7 +352,7 @@
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
 				$row = $statement->fetch();
 				if($row !== false) {
-					$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+					$animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row['animalGender'], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
 				}
 			} catch(\Exception $exception) {
 						// if the row coudn't be converted, rethrow it

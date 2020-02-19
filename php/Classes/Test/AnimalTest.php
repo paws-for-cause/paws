@@ -24,33 +24,39 @@ class AnimalTest extends PawsTest {
 
 
 	/**
+	 * This is the class that is referenced for the animalShelterId
+	 * @var Shelter|null
+	 */
+	protected $shelter = null;
+
+	/**
 	 * valid animal Shelter Id that is related to the animal
 	 * @var Shelter $shelter
 	 **/
-	protected $shelter = null;
-
-
-//	protected $VALID_ANIMAL_SHELTER_ID;
+	protected $VALID_ANIMAL_SHELTER_ID;
 
 	/**
-
-//	protected $VALID_ANIMAL_ID;
+	 *
+	 * valid Animal Id for the animal
+	 * @var $VALID_ANIMAL_ID
+	 */
+	protected $VALID_ANIMAL_ID;
 
 	/**
 	 * Animal Adoption Status, whether or not the animal has been adopted
 	 * @var string $VALID_ANIMAL_ADOPTION_STATUS
 	 **/
-	protected $VALID_ANIMAL_ADOPTION_STATUS = "PHPUnit test passing";
+	protected $VALID_ANIMAL_ADOPTION_STATUS = "Adopted";
 
 	/**
 	 * The breed of the animal
 	 * @var string $ANIMAL_BREED
 	 **/
-	protected $VALID_ANIMAL_BREED = "PHPUnit test passing";
+	protected $VALID_ANIMAL_BREED = "Corgi";
 
 	/**
 	 * The gender of the animal
-	 * @var tinyint $VALID_ANIMAL_GENDER
+	 * @var int $VALID_ANIMAL_GENDER
 	 **/
 	protected $VALID_ANIMAL_GENDER = 1;
 
@@ -58,19 +64,19 @@ class AnimalTest extends PawsTest {
 	 * The name of the animal
 	 * @var string $VALID_ANIMAL_NAME
 	 **/
-	protected $VALID_ANIMAL_NAME = "PHPUnit test passing";
+	protected $VALID_ANIMAL_NAME = "Olaf";
 
 	/**
 	 * The Photo URL of the animal
 	 * @var string $VALID_ANIMAL_PHOTO_URL ;
 	 **/
-	protected $VALID_ANIMAL_PHOTO_URL = "PHPUnit test passing";
+	protected $VALID_ANIMAL_PHOTO_URL = "www.megamoneymillionaires.gov";
 
 	/**
 	 * The animal species
 	 * @var string $VALID_ANIMAL_SPECIES ;
 	 **/
-	protected $VALID_ANIMAL_SPECIES = "PHPUnit test passing";
+	protected $VALID_ANIMAL_SPECIES = "Dog";
 
 
 	/** create dependant objects before running each test **/
@@ -79,11 +85,9 @@ class AnimalTest extends PawsTest {
 	  // run the default setUp method first
 	  parent::setUp();
 
-	   // create and insert an animal to assign status's to.
-//	  $this->animal = new Animal(generateUuidV4(), null, "ABCD", "Corgi", 0, "Olaf", "www.somephothere.edu", "Dawg");
-//	  $this->animal->insert($this->getPDO());
+	   // create and insert an animal to assign status's to
 
-	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "5555555555");
+	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "1234567890");
 	  $this->shelter->insert($this->getPDO());
 	  }
 
@@ -103,7 +107,7 @@ class AnimalTest extends PawsTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoAnimal = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalid());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
-		$this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
+		$this->assertEquals($pdoAnimal->getAnimalId()->toString(), $animalId->toString());
 		$this->assertEquals($pdoAnimal->getAnimalShelterId(), $this->shelter->getShelterId()->toString());
 		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
 		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
