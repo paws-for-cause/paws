@@ -551,7 +551,7 @@
 			$statement = $pdo->prepare($query);
 
 
-			$parameters = ["animalId" => $this->animalId->getBytes()];
+			$parameters = ["animalId" => $this->animalId->getBytes(), "animalShelterId" => $this->animalShelterId->getBytes(), "animalAdoptionStatus" => $this->animalAdoptionStatus, "animalBreed" => $this->animalBreed, "animalGender" => $this->animalGender, "animalName" => $this->animalName, "animalPhotoUrl" => $this->animalPhotoUrl, "animalSpecies" => $this->animalSpecies];
 			$statement->execute($parameters);
 		}
 	}

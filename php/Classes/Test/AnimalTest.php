@@ -126,16 +126,30 @@ class AnimalTest extends PawsTest {
 
 		// create a new animal and insert it into my SQL
 		$animalId = generateUuidv4();
-		$animal = new Animal($animalId, $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal = new Animal($animalId, $this->shelter->getShelterId(), $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
 		$animal->insert($this->getPDO());
 
 		//edit the animal and update it in mySQL
-		$animal = setAnimalAdoptionStatus($this->VALID_ANIMAL_ADOPTION_STATUS);
-		$animal = setAnimalBreed($this->VALID_ANIMAL_BREED);
+		$animal->setAnimalAdoptionStatus($this->VALID_ANIMAL_ADOPTION_STATUS);
+		$animal->setAnimalBreed($this->VALID_ANIMAL_BREED);
 		$animal->setAnimalGender($this->VALID_ANIMAL_GENDER);
 		$animal->setAnimalName($this->VALID_ANIMAL_NAME);
 		$animal->setAnimalPhotoUrl($this->VALID_ANIMAL_PHOTO_URL);
 		$animal->setAnimalSpecies($this->VALID_ANIMAL_SPECIES);
+		$animal->update($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+
+		$pdoAnimal = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalid());
+		$this->assertEquals($pdoAnimal->getAnimalId()->toString(), $animalId->toString());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
+		$this->assertEquals($pdoAnimal->getAnimalShelterId(), $this->shelter->getShelterId()->toString());
+		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
+		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
+		$this->assertEquals($pdoAnimal->getAnimalGender(), $this->VALID_ANIMAL_GENDER);
+		$this->assertEquals($pdoAnimal->getAnimalName(), $this->VALID_ANIMAL_NAME);
+		$this->assertEquals($pdoAnimal->getAnimalPhotoUrl(), $this->VALID_ANIMAL_PHOTO_URL);
+		$this->assertEquals($pdoAnimal->getAnimalSpecies(), $this->VALID_ANIMAL_SPECIES);
 	}
 
 	/**
@@ -147,7 +161,7 @@ class AnimalTest extends PawsTest {
 
 		// create a new animal and insert it into my SQL
 		$animalId = generateUuidv4();
-		$animal = new Animal($animalId, $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal = new Animal($animalId, $this->shelter->getShelterId(), $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
 		$animal->insert($this->getPDO());
 
 		//delete the animal from mySQL
@@ -166,7 +180,7 @@ class AnimalTest extends PawsTest {
 
 		// create a new Animal and insert into mySQL
 		$animalId = generateUuidV4();
-		$animal = new Animal($animalId, $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal = new Animal($animalId, $this->shelter->getShelterId(), $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
 		$animal->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -198,7 +212,7 @@ class AnimalTest extends PawsTest {
 
 		// create a new animal and insert to mySQL
 		$animalId = generateUuidV4();
-		$animal = new Animal($animalId, $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal = new Animal($animalId, $this->shelter->getShelterId(), $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
 		$animal->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -229,7 +243,7 @@ class AnimalTest extends PawsTest {
 
 		// create a new animal and insert to mySQL
 		$animalId = generateUuidV4();
-		$animal = new Animal($animalId, $this->VALID_ANIMAL_SHELTER_ID, $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+		$animal = new Animal($animalId, $this->shelter->getShelterId(), $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
 		$animal->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
