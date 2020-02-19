@@ -415,31 +415,23 @@
 			 * @param string $animalShelterId
 			 * @return animalSplFixedArray
 			 */
-			public static function getAnimalByShelterId(\PDO $pdo, string $animalId): \SPLFixedarray {
+			public static function getAnimalByShelterId(\PDO $pdo, string $animalShelterId): \SPLFixedarray {
 
-				//sanitize the description before searching
-				//** trims the animal username to a set number of characters for security */
-				$animalId = trim($animalId);
-				//**filter_var filters a variable, the format is: filter_var($animalId <-variable goes here, FILTER_SANITIZE_STRING <- filters go here seperated by commas)
-				//**FILTER_SANITZE_STRING will strip tags, FILTER_FLAG_NO_ENCODE_QUOTES will strip invalid characters. **//
-				$animalId = filter_var($animalId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-
-				// escape any mySQL wild cards
-				//** str_replace("%","\\%", $animalId) will replace the command "%" with the string character "%", this will prevent security breaches.*/
-				$result = str_replace("%", "\\%", $animalId);
-				$animalId = str_replace("_", "\\", $result);
+				try {
+					$animalShelterId = self::validateUuid($animalShelterId);
+				} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError | \TypeError $exception) {
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
 
 				// create query template
-				$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies FROM animal LIKE :animalShelterId";
+				$query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies FROM animal WHERE animalShelterId = :animalShelterId";
 				$statement = $pdo->prepare($query);
 				//bind the animalId to the place holder in the template
-				$animalShelterId = "%animalShelterId%";
-				$parameters = ["animalShelterId" => $animalShelterId];
+				$parameters = ["animalShelterId" => $animalShelterId->getBytes()];
 				$statement->execute($parameters);
 
 				// building an array of Animals
-				$animalArray = SplFixedArray($statement->rowCount());
+				$animalArray = new \SplFixedArray($statement->rowCount());
 				$statement->setFetchMode(\PDO::FETCH_ASSOC);
 				while(($row = $statement->fetch()) !== false) {
 					try {
