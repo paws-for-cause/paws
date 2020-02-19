@@ -530,7 +530,7 @@
 		public function delete(\PDO $pdo): void {
 
 			// create query template
-			$query = "DELETE FROM Animal WHERE animalId = :animalId";
+			$query = "DELETE FROM animal WHERE animalId = :animalId";
 			$statement = $pdo->prepare($query);
 
 			// bind the member variables to the place holder in the template
