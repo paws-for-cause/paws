@@ -473,7 +473,7 @@
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 			// create query template
-			$query = "SELECT animal.animalId, animal.animalShelterId, animal.adoptionStatus, animal.animalBreed, animal.animalGender, animal.animalName, animal.animalPhotoUrl FROM animal INNER JOIN `like` ON animal.animalId = `like`.likeUserId WHERE likeUserId = :likeUserId";
+			$query = "SELECT animal.animalId, animal.animalShelterId, animal.adoptionStatus, animal.animalBreed, animal.animalGender, animal.animalName, animal.animalPhotoUrl, animal.animalSpecies FROM animal INNER JOIN `like` ON animal.animalId = `like`.likeUserId WHERE likeUserId = :likeUserId";
 			$statement = $pdo->prepare($query);
 			// bind the user like id to the place holder in the template
 			$parameters = ["likeUserId" => $likeUserId->getBytes()];
@@ -491,6 +491,7 @@
 						"animalGender" => $row["animalGender"],
 						"animalName" => $row["animalName"],
 						"animalPhotoUrl" => $row["animalPhotoUrl"],
+						"animalSpecies" => $row["animalSpecies"]
 					];
 					$animalArray[$animalArray->key()] = $object;
 					$animalArray->next();
@@ -547,7 +548,7 @@
 		public function update(\PDO $pdo): void {
 
 			// create query template
-			$query = "UPDATE Animal SET animalId = :animalId WHERE animalId = :animalId";
+			$query = "UPDATE animal SET animalShelterId = :animalShelterId, animalAdoptionStatus = :animalAdoptionStatus, animalBreed = :animalBreed, animalGender = :animalGender, animalName = :animalName, animalPhotoUrl = :animalPhotoUrl, animalSpecies = :animalSpecies WHERE animalId = :animalId";
 			$statement = $pdo->prepare($query);
 
 
