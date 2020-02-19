@@ -184,17 +184,10 @@ class AnimalTest extends PawsTest {
 		$animal->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalId());
+		$pdoAnimal = Animal::getAnimalByAnimalId($this->getPDO(), $animal->getAnimalId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("PawsForCause\Paws\Animal", $results);
-
-
-		//grab the result from the array and validate it
-		$pdoAnimal = $results[0];
 
 		$this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
-		$this->assertEquals($pdoAnimal->getAnimalId(), $this->animal->getAnimalId());
 		$this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
 		$this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
 		$this->assertEquals($pdoAnimal->getAnimalGender(), $this->VALID_ANIMAL_GENDER);
