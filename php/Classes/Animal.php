@@ -6,6 +6,7 @@
 //require_once("ValidateUuid.php");
    require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
+	use Cassandra\Tinyint;
 	use phpDocumentor\Reflection\Types\Integer;
 	use Ramsey\Uuid\Uuid;
 
@@ -46,7 +47,7 @@
 		private $animalBreed;
 		/**
 		 * The gender of the animal
-		 * @var int $animalGender
+		 * @var tinyint $animalGender
 		 */
 		private $animalGender;
 		/**
@@ -74,14 +75,14 @@
 		 * @param string|Uuid $newAnimalShelterId
 		 * @param string $newAnimalAdoptionStatus
 		 * @param string|$newAnimalBreed
-		 * @param int $newAnimalGender
+		 * @param tinyint $newAnimalGender
 		 * @param string $newAnimalName
 		 * @param string $newAnimalPhotoUrl
 		 * @param string $newAnimalSpecies
 		 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 		 **/
 
-		public function __construct($newAnimalId, $newAnimalShelterId, string $newAnimalAdoptionStatus, string $newAnimalBreed, int $newAnimalGender, string $newAnimalName, string $newAnimalPhotoUrl, string $newAnimalSpecies) {
+		public function __construct($newAnimalId, $newAnimalShelterId, string $newAnimalAdoptionStatus, string $newAnimalBreed, string $newAnimalGender, string $newAnimalName, string $newAnimalPhotoUrl, string $newAnimalSpecies) {
 			try {
 				$this->setAnimalId($newAnimalId);
 				$this->setAnimalShelterId($newAnimalShelterId);
@@ -106,6 +107,11 @@
 			return ($this->animalId);
 		}
 
+		/**
+		 * accessor method for animalShelterId
+		 *
+		 * @return Uuid
+		 */
 		public function getAnimalShelterId(): Uuid {
 			return ($this->animalShelterId);
 		}
@@ -118,8 +124,8 @@
 			return ($this->animalBreed);
 		}
 
-		public function getAnimalGender() {
-			$this->animalGender;
+		public function getAnimalGender(): int {
+			return ($this->animalGender);
 		}
 
 		public function getAnimalName() {
