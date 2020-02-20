@@ -2,9 +2,7 @@
 
 namespace PawsForCause\Paws\Test;
 
-use PawsForCause\Paws\{
-	Shelter, Animal
-};
+use PawsForCause\Paws\{Like, Shelter, Animal, User};
 
 
 // grab the encrypted properties file
@@ -89,6 +87,11 @@ class AnimalTest extends PawsTest {
 
 	  $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "1234567890");
 	  $this->shelter->insert($this->getPDO());
+
+	  //todo create a user object and insert it into the database
+
+//	  $this->user = new User (generateUuidV4(), "c7fb39c60e144d2887c3e3b7e31f1330", 32, "pleasework@begmail.com", "Carlton", "HASH HERE HASH HERE HASH HERE","Banks", "1234567890");
+//	  $this->user->insert($this->getPDO());
 	  }
 
 
@@ -239,8 +242,13 @@ class AnimalTest extends PawsTest {
 		$animal = new Animal($animalId, $this->shelter->getShelterId(), $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
 		$animal->insert($this->getPDO());
 
+		//todo create a like object(use the getUserId accessor and getAnimalId accessor for the foreign keys) and insert it into the database
+		$this->like = new Like("getAnimalId", "getUserId", "Justwhateverhere");
+
+
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Animal::getAnimalBylikeUserId($this->getPDO(), $animal->getAnimalShelterId());
+		//todo use the getuserId accessor to pass the userId into getAnimalByLikeUserId
+		$pdoAnimal = Animal::getAnimalBylikeUserId($this->getPDO(), $animal->getAnimalShelterId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("PawsForCause\Paws\Animal", $results);
