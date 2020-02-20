@@ -1,5 +1,10 @@
 .DS_Store
 /.idea
 */vendor
+<<<<<<< HEAD
 php/vendor
 /php/composer.lock
+=======
+/php/vendor
+/php/composer.lockgit
+>>>>>>> refs/remotes/origin/sprint2
