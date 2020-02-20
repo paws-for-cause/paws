@@ -73,7 +73,7 @@
          $numRows = $this->getConnection()->getRowCount("like");
 
          // create a new Like and insert to into mySQL
-         $like = new Like($this->user->getUserId(), $this->aniaml->getAnimalId());
+         $like = new Like($this->user->getUserId(), $this->animal->getAnimalId());
          $like->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
