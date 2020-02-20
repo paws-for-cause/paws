@@ -1,3 +1,5 @@
 .DS_Store
 /.idea
 */vendor
+php/vendor
+/php/composer.lock
