@@ -90,8 +90,8 @@ class AnimalTest extends PawsTest {
 
 	  //todo create a user object and insert it into the database
 
-//	  $this->user = new User (generateUuidV4(), "c7fb39c60e144d2887c3e3b7e31f1330", 32, "pleasework@begmail.com", "Carlton", "HASH HERE HASH HERE HASH HERE","Banks", "1234567890");
-//	  $this->user->insert($this->getPDO());
+$this->user = new User (generateUuidV4(), "c7fb39c60e144d2887c3e3b7e31f1330", 32, "pleasework@begmail.com", "Carlton", '$argon2i$v=19$m=1024,t=384,p=2$dE55dm5kRm9DTEYxNFlFUA$nNEMItrDUtwnDhZ41nwVm7ncBLrJzjh5mGIjj8RlzVA',"Banks", "1234567890");
+$this->user->insert($this->getPDO());
 	  }
 
 
@@ -243,7 +243,7 @@ class AnimalTest extends PawsTest {
 		$animal->insert($this->getPDO());
 
 		//todo create a like object(use the getUserId accessor and getAnimalId accessor for the foreign keys) and insert it into the database
-		$this->like = new Like("getAnimalId", "getUserId", "Justwhateverhere");
+		$like = new Like($animalId->getBytes(), $this->user->getUserId()->getBytes(), "Justwhateverhere");
 
 
 		// grab the data from mySQL and enforce the fields match our expectations
