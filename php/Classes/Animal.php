@@ -465,7 +465,7 @@
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 			// create query template
-			$query = "SELECT animal.animalId, animal.animalShelterId, animal.adoptionStatus, animal.animalBreed, animal.animalGender, animal.animalName, animal.animalPhotoUrl, animal.animalSpecies FROM animal INNER JOIN `like` ON animal.animalId = `like`.likeAnimalId WHERE likeUserId = :likeUserId";
+			$query = "SELECT animal.animalId, animal.animalShelterId, animal.animalAdoptionStatus, animal.animalBreed, animal.animalGender, animal.animalName, animal.animalPhotoUrl, animal.animalSpecies FROM animal INNER JOIN `like` ON animal.animalId = `like`.likeAnimalId WHERE likeUserId = :likeUserId";
 			$statement = $pdo->prepare($query);
 			// bind the user like id to the place holder in the template
 			$parameters = ["likeUserId" => $likeUserId->getBytes()];

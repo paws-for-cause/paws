@@ -13,6 +13,7 @@
     * @author Usaama Alnaji <ualnaji@cnm.edu> with help from Dylan McDonald's code
     */
    class Like {
+      use ValidateUuid;
       /**
        * Like animal ID for this website. This is a foreign key.
        * @var uuid $likeAnimalId
@@ -43,7 +44,7 @@
        * @param tinyint $newLikeApproved tinyint for if the like is a "yes"
        */
 
-      public function __construct($newLikeAnimalId, $newLikeUserId, $newLikeApproved) {
+      public function __construct($newLikeAnimalId, $newLikeUserId, int $newLikeApproved) {
          try {
             $this->setLikeAnimalId($newLikeAnimalId);
             $this->setLikeUserId($newLikeUserId);
@@ -89,7 +90,7 @@
        * @return string value of the like user id
        */
 
-      public function getLikeUserId(): void {
+      public function getLikeUserId(): Uuid {
          return ($this->likeUserId);
       }
 
@@ -108,7 +109,7 @@
            throw(new $exceptionType($exception->getMessage(), 0, $exception));
         }
             //convert and store the like user id
-         $this->likeUserId() = $uuid;
+         $this->likeUserId = $uuid;
 
 }
 
