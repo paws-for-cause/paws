@@ -59,10 +59,10 @@
       /**
        * accessor method for like animal id
        *
-       * @return string value of the like animal id
+       * @return uuid value of the like animal id
        */
 
-      public function getLikeAnimalId(): uuid {
+      public function getLikeAnimalId(): Uuid {
          return ($this->likeAnimalId);
       }
 
@@ -81,13 +81,13 @@
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
          }
          //convert and store the animal id
-         $this->getLikeAnimalId = $uuid;
+         $this->likeAnimalId = $uuid;
       }
 
       /**
        * accessor method for like user id
        *
-       * @return string value of the like user id
+       * @return uuid value of the like user id
        */
 
       public function getLikeUserId(): Uuid {
@@ -152,11 +152,11 @@
       public function insert(\PDO $pdo): void {
 
          // create query template
-         $query = "INSERT INTO like (likeAnimalId, likeUserId, likeApproved) VALUES(:likeAnimalId, :likeUserId, :likeApproved)";
+         $query = "INSERT INTO `like` (likeAnimalId, likeUserId, likeApproved) VALUES(:likeAnimalId, :likeUserId, :likeApproved)";
          $statement = $pdo->prepare($query);
 
          // bind the member variables to the place holders in the template
-         $parameters = ["likeAnimalId" => $this->likeAnimalId, "likeUserId" => $this->likeUserId, "likeApproved" => $this->likeApproved];
+         $parameters = ["likeAnimalId" => $this->likeAnimalId->getBytes(), "likeUserId" => $this->likeUserId->getBytes(), "likeApproved" => $this->likeApproved];
          $statement->execute($parameters);
       }
 
@@ -225,7 +225,7 @@
          }
 
          // create query template
-         $query = "SELECT likeAnimalId, likeUserId FROM `Like` WHERE likeAnimalId = :likeAnimalId AND likeUserId = :likeUserId";
+         $query = "SELECT likeAnimalId, likeUserId FROM `like` WHERE likeAnimalId = :likeAnimalId AND likeUserId = :likeUserId";
          $statement = $pdo->prepare($query);
 
          //bind the animal id and user id to the place holder in the template
@@ -238,7 +238,7 @@
             $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
-               $like = new Like($row["likeAnimal"], $row["likeUserId"]);
+               $like = new Like($row["likeAnimalId"], $row["likeUserId"]);
             }
          } catch(\Exception $exception) {
             // if the row couldn't be converted, rethrow it

@@ -77,11 +77,11 @@
          $numRows = $this->getConnection()->getRowCount("like");
 
          // create a new Like and insert to into mySQL
-         $like = new Like($this->animal->getAnimalId(), $this->user->getUserEmail(), 1);
+         $like = new Like($this->animal->getAnimalId(), $this->user->getUserId(), 1);
          $like->insert($this->getPDO());
 
          // grab the data from mySQL and enforce the fields match our expectations
-         $pdoLike = Like::getLikeByLikeAnimalIdAndByLikeUserId($this->getPDO(), $this->user->getUserId(), $this->animal->getAnimalId());
+         $pdoLike = Like::getLikeByLikeAnimalIdAndByLikeUserId($this->getPDO(), $this->animal->getAnimalId(), $this->user->getUserId());
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("like"));
          $this->assertEquals($pdoLike->getLikeAnimalId(), $this->animal->getAnimalId());
          $this->assertEquals($pdoLike->getLikeUserId(), $this->user->getUserId());
