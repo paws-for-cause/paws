@@ -2,7 +2,11 @@
    namespace PawsForCause\Paws;
    require_once (dirname(__DIR__) . "/Classes/autoload.php");
    require_once(dirname(__DIR__, 2) . "/php/vendor/autoload.php");
+
+   use InvalidArgumentException;
    use Ramsey\Uuid\Uuid;
+   use RangeException;
+
    /**
     * Trait to validate a uuid
     *
@@ -23,8 +27,8 @@
        *
        * @param string|Uuid $newUuid uuid to validate
        * @return Uuid object with validated uuid
-       * @throws \InvalidArgumentException if $newUuid is not a valid uuid
-       * @throws \RangeException if $newUuid is not a valid uuid v4
+       * @throws InvalidArgumentException if $newUuid is not a valid uuid
+       * @throws RangeException if $newUuid is not a valid uuid v4
        **/
       private static function validateUuid($newUuid) : Uuid {
          // verify a string uuid
@@ -37,22 +41,22 @@
             // 36 characters is a human readable uuid
             if(strlen($newUuid) === 36) {
                if(Uuid::isValid($newUuid) === false) {
-                  throw(new \InvalidArgumentException("invalid uuid"));
+                  throw(new InvalidArgumentException("invalid uuid"));
                }
                $uuid = Uuid::fromString($newUuid);
             } else {
-               throw(new \InvalidArgumentException("invalid uuid"));
+               throw(new InvalidArgumentException("invalid uuid"));
             }
          } else if(gettype($newUuid) === "object" && get_class($newUuid) === "Ramsey\\Uuid\\Uuid") {
             // if the misquote id is already a valid UUID, press on
             $uuid = $newUuid;
          } else {
             // throw out any other trash
-            throw(new \InvalidArgumentException("invalid uuid"));
+            throw(new InvalidArgumentException("invalid uuid"));
          }
          // verify the uuid is uuid v4
          if($uuid->getVersion() !== 4) {
-            throw(new \RangeException("uuid is incorrect version"));
+            throw(new RangeException("uuid is incorrect version"));
          }
          return($uuid);
       }

@@ -15,7 +15,7 @@ CREATE TABLE `user`(
   userFirstName VARCHAR (32) NOT NULL,
   userHash CHAR (97) NOT NULL,
   userLastName VARCHAR (32) NOT NULL,
-  userPhone VARCHAR (11) NOT NULL,
+  userPhone VARCHAR (16) NOT NULL,
   UNIQUE (userEmail),
   PRIMARY KEY (userId)
 );
@@ -24,9 +24,9 @@ CREATE TABLE `user`(
 
 CREATE TABLE shelter (
   shelterId BINARY(16) NOT NULL,
-  shelterAddress VARCHAR(64) NOT NULL,
-  shelterName VARCHAR(32) NOT NULL,
-  shelterPhone VARCHAR(10) NOT NULL,
+  shelterAddress VARCHAR(256) NOT NULL,
+  shelterName VARCHAR(64) NOT NULL,
+  shelterPhone VARCHAR(16) NOT NULL,
   UNIQUE (shelterName),
   PRIMARY KEY (shelterId)
 );
@@ -40,7 +40,7 @@ CREATE TABLE animal (
   animalBreed VARCHAR(32) NOT NULL,
   animalGender TINYINT(1) NOT NULL,
   animalName VARCHAR(32) NOT NULL,
-  animalPhotoUrl VARCHAR(32) NOT NULL,
+  animalPhotoUrl VARCHAR(256) NOT NULL,
   animalSpecies VARCHAR(32) NOT NULL,
   INDEX(animalShelterId),
   FOREIGN KEY (animalShelterId) references shelter(shelterId),

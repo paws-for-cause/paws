@@ -2,11 +2,13 @@
 
    namespace PawsForCause\Paws\Test;
 
+   use PDO;
    use PHPUnit\Framework\TestCase;
    use PHPUnit\DbUnit\TestCaseTrait;
    use PHPUnit\DbUnit\DataSet\QueryDataSet;
    use PHPUnit\DbUnit\Database\Connection;
    use PHPUnit\DbUnit\Operation\{Composite, Factory, Operation};
+   use Secrets;
 
 // grab the encrypted properties file
    require_once"/etc/apache2/capstone-mysql/Secrets.php";
@@ -92,7 +94,7 @@
             // connect to mySQL and provide the interface to PHPUnit
 
 
-            $secrets = new \Secrets("/etc/apache2/capstone-mysql/paws.ini");
+            $secrets = new Secrets("/etc/apache2/capstone-mysql/paws.ini");
             $pdo = $secrets->getPdoObject();
             $this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
          }
@@ -102,7 +104,7 @@
       /**
        * returns the actual PDO object; this is a convenience method
        *
-       * @return \PDO active PDO object
+       * @return PDO active PDO object
        **/
       public final function getPDO() {
          return ($this->getConnection()->getConnection());

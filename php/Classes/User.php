@@ -1,12 +1,19 @@
 <?php
+   // go thru and add context to @params
 
    namespace PawsForCause\Paws;
 
    require_once("autoload.php");
    require_once (dirname(__DIR__)) . "/vendor/autoload.php";
 
+   use Exception;
    use http\Exception\InvalidArgumentException;
+   use JsonSerializable;
+   use PDO;
+   use PDOException;
    use Ramsey\Uuid\Uuid;
+   use RangeException;
+   use TypeError;
 
    /**
     * User Class
@@ -16,7 +23,7 @@
     * @author Matthew Urrea <matt.urrea.code@gmail.com>
     *
     **/
-   class User implements \JsonSerializable {
+   class User implements JsonSerializable {
       use ValidateUuid;
       /**
        * id for the user; this is the primary key
@@ -70,9 +77,9 @@
        * @param $userLastName user last name
        * @param $userPhone user phone number
        * @throws \InvalidArgumentException if data types are not valid
-       * @throws \RangeException if data values are out of bounds
-       * @throws \TypeError if a data type violates a data hint
-       * @throws \Exception if some other exception occurs
+       * @throws RangeException if data values are out of bounds
+       * @throws TypeError if a data type violates a data hint
+       * @throws Exception if some other exception occurs
        *
        *
        **/
@@ -86,7 +93,7 @@
             $this->setUserHash($newUserHash);
             $this->setUserLastName($newUserLastName);
             $this->setUserPhone($newUserPhone);
-         } catch(\InvalidArgumentException | \RangeException | \TypeError | \Exception $exception) {
+         } catch(\InvalidArgumentException | RangeException | TypeError | Exception $exception) {
             //determine what exception type was thrown
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -107,13 +114,13 @@
        * mutator method for user id
        *
        * @param Uuid|string $newUserId new value of user id
-       * @throws \RangeException if $newUserId is not positive
-       * @throws \TypeError if $newUserId is not a uuid or string
+       * @throws RangeException if $newUserId is not positive
+       * @throws TypeError if $newUserId is not a uuid or string
        **/
       public function setUserId($newUserId): void {
          try {
             $uuid = self::validateUuid($newUserId);
-         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+         } catch(\InvalidArgumentException | RangeException | Exception | TypeError $exception) {
             $exceptionType = get_class($exception);
             throw (new $exceptionType($exception->getMessage(), 0, $exception));
          }
@@ -136,8 +143,8 @@
        *
        * @param string $newUserActivationToken
        * @throws \InvalidArgumentException if the token is not a string or insecure
-       * @throws \RangeException if $newUserActivationToken is not exactly 32 characters
-       * @throws \TypeError if $newUserActivationToken is not a string
+       * @throws RangeException if $newUserActivationToken is not exactly 32 characters
+       * @throws TypeError if $newUserActivationToken is not a string
        **/
       public function setUserActivationToken(?string $newUserActivationToken): void {
          if($newUserActivationToken === null) {
@@ -146,7 +153,7 @@
          }
          $newUserActivationToken = strtolower(trim($newUserActivationToken));
          if(ctype_xdigit($newUserActivationToken) === false) {
-            throw(new\RangeException("user activation token is not valid"));
+            throw(newRangeException("user activation token is not valid"));
          }
          $this->userActivationToken = $newUserActivationToken;
       }
@@ -165,8 +172,8 @@
        *
        * @param integer $newUserAge new value of the users age
        * @throws \InvalidArgumentException if $newUserAge is not a integer or insecure
-       * @throws \RangeException if $newUserAge is > 120
-       * @throws \TypeError if $newUserAge is not a integer
+       * @throws RangeException if $newUserAge is > 120
+       * @throws TypeError if $newUserAge is not a integer
        **/
       public function setUserAge(int $newUserAge): void {
          //verify the age integer is secure
@@ -177,7 +184,7 @@
          }
          //verify age
          if($newUserAge > 120) {
-            throw (new \RangeException("Age value too large"));
+            throw (new RangeException("Age value too large"));
          }
          //store the age value
          $this->userAge = $newUserAge;
@@ -197,8 +204,8 @@
        *
        * @param string $newUserEmail
        * @throws \InvalidArgumentException if the email is not a string or insecure
-       * @throws \RangeException if $newUserEmail is not over 64 characters
-       * @throws \TypeError if $newUserEmail is not a string
+       * @throws RangeException if $newUserEmail is not over 64 characters
+       * @throws TypeError if $newUserEmail is not a string
        **/
       public function setUserEmail(string $newUserEmail): void {
          //verify that the user email is secure
@@ -209,7 +216,7 @@
          }
          //verify that the user email will fit in the database
          if(strlen($newUserEmail) > 64) {
-            throw(new \RangeException("User email is too long"));
+            throw(new RangeException("User email is too long"));
          }
 
          //store the user email
@@ -230,8 +237,8 @@
        *
        * @param string $newUserFirstName new value for user first name
        * @throws \InvalidArgumentException if $newUserFirstName is not a string or insecure
-       * @throws \RangeException if $newUserFirstName is > 32 characters
-       * @throws \TypeError if $newUserFirstName is not a string
+       * @throws RangeException if $newUserFirstName is > 32 characters
+       * @throws TypeError if $newUserFirstName is not a string
        **/
       public function setUserFirstName(string $newUserFirstName): void {
          //verify that the user first name is secure
@@ -242,7 +249,7 @@
          }
          //verify that the user first name will fit in the database
          if(strlen($newUserFirstName) > 32) {
-            throw(new \RangeException("User first name is too long"));
+            throw(new RangeException("User first name is too long"));
          }
 
          //store the user email
@@ -263,8 +270,8 @@
        *
        * @param string $newUserHash string containing encrypted password
        * @throws \InvalidArgumentException if the hash is not secure
-       * @throws \RangeException if $newUserHash is not 97 characters
-       * @throws \TypeError if $newUserHash is not a sting
+       * @throws RangeException if $newUserHash is not 97 characters
+       * @throws TypeError if $newUserHash is not a sting
        **/
       public function setUserHash(string $newUserHash): void {
          //enforce that the hash is properly formatted
@@ -279,7 +286,7 @@
          }
          //enforce that the hash is exactly 97 characters
          if(strlen($newUserHash) > 97 || strlen($newUserHash) < 89 ) {
-            throw(new \RangeException("user hash must be exactly 97 characters"));
+            throw(new RangeException("user hash must be exactly 97 characters"));
          }
          //store the hash
          $this->userHash = $newUserHash;
@@ -299,8 +306,8 @@
        *
        * @param string $newUserLastName new value for user first name
        * @throws \InvalidArgumentException if $newUserLastName is not a string or insecure
-       * @throws \RangeException if $newUserLastName is > 32 characters
-       * @throws \TypeError if $newUserLastName is not a string
+       * @throws RangeException if $newUserLastName is > 32 characters
+       * @throws TypeError if $newUserLastName is not a string
        **/
       public function setUserLastName(string $newUserLastName): void {
          //verify that the user last name is secure
@@ -311,7 +318,7 @@
          }
          //verify that the user last name will fit in the database
          if(strlen($newUserLastName) > 32) {
-            throw(new \RangeException("User last name is too long"));
+            throw(new RangeException("User last name is too long"));
          }
 
          //store the user last name
@@ -332,8 +339,8 @@
        *
        * @param string $newUserPhone new value of user phone number
        * @throws \InvalidArgumentException if $newUserPhone is not a string or insecure
-       * @throws \RangeException if $newUserPhone is > 11 characters
-       * @throws \TypeError if $newUserPhone is not a string
+       * @throws RangeException if $newUserPhone is > 11 characters
+       * @throws TypeError if $newUserPhone is not a string
        **/
       public function setUserPhone(string $newUserPhone): void {
          //verify the phone number is a string and secure
@@ -345,7 +352,7 @@
 
          //verify the phone number will fit in the database
          if(strlen($newUserPhone) > 11) {
-            throw(new \RangeException("user phone number is too long"));
+            throw(new RangeException("user phone number is too long"));
          }
 
          //store phone number
@@ -355,11 +362,11 @@
       /**
        * inserts user into mySQL
        *
-       * @param \PDO $pdo PDO connection object
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError if $pdo is not a PDO connection object
+       * @param PDO $pdo PDO connection object
+       * @throws PDOException when mySQL related errors occur
+       * @throws TypeError if $pdo is not a PDO connection object
        **/
-      public function insert(\PDO $pdo): void {
+      public function insert(PDO $pdo): void {
 
          //create query template
          $query = "INSERT INTO  user(userId, userActivationToken, userAge, userEmail, userFirstName, userHash, userLastName, userPhone) VALUES (:userId, :userActivationToken, :userAge, :userEmail, :userFirstName, :userHash, :userLastName, :userPhone)";
@@ -373,11 +380,11 @@
       /**
        * deletes user from mySQL
        *
-       * @param \PDO $pdo PDO connection object
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError if $pdo is not a PDO connection object
+       * @param PDO $pdo PDO connection object
+       * @throws PDOException when mySQL related errors occur
+       * @throws TypeError if $pdo is not a PDO connection object
        **/
-      public function delete(\PDO $pdo): void {
+      public function delete(PDO $pdo): void {
          //create query template
          $query = "DELETE FROM user WHERE userId = :userId";
          $statement = $pdo->prepare($query);
@@ -390,11 +397,11 @@
       /**
        * updates the user in mySQL
        *
-       * @param \PDO $pdo PDO connection object
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError if $pdo is not a PDO connection object
+       * @param PDO $pdo PDO connection object
+       * @throws PDOException when mySQL related errors occur
+       * @throws TypeError if $pdo is not a PDO connection object
        **/
-      public function update(\PDO $pdo): void {
+      public function update(PDO $pdo): void {
          //create query template
          $query = "UPDATE user SET userId = :userId, userActivationToken = :userActivationToken, userAge = :userAge, userEmail = :userEmail, userFirstName = :userFirstName, userHash = :userHash, userLastName = :userLastName, userPhone = :userPhone";
          $statement = $pdo->prepare($query);
@@ -406,18 +413,18 @@
       /**
        * gets user by userId
        *
-       * @param \PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object
        * @param Uuid|string $userId user id to search for
        * @return User|null user found or null if not found
-       * @throws \PDOException when my SQL related errors occur
-       * @throws \TypeError when a variable are not the correct data type
+       * @throws PDOException when my SQL related errors occur
+       * @throws TypeError when a variable are not the correct data type
        **/
-      public static function getUserByUserId(\PDO $pdo, $userId): ?User {
+      public static function getUserByUserId(PDO $pdo, $userId): ?User {
          //sanitize the userId before searching
          try {
             $userId = self::validateUuid($userId);
-         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+         } catch(\InvalidArgumentException | RangeException | Exception | TypeError $exception) {
+            throw(new PDOException($exception->getMessage(), 0, $exception));
          }
 
          //create query template
@@ -431,14 +438,14 @@
          //grab user from mySQL
          try {
             $user = null;
-            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
                $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
             }
-         } catch(\Exception $exception) {
+         } catch(Exception $exception) {
             //if the row couldn't be converted, rethrow it
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+            throw(new PDOException($exception->getMessage(), 0, $exception));
          }
          return ($user);
       }
@@ -446,19 +453,19 @@
       /**
        * gets user by userEmail
        *
-       * @param \PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object
        * @param Uuid|string $userEmail email value to search for
        * @return User|null User found or null if not found
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError when a variable are not the correct data type
+       * @throws PDOException when mySQL related errors occur
+       * @throws TypeError when a variable are not the correct data type
        */
-      public static function getUserByUserEmail(\PDO $pdo, $userEmail): ?User {
+      public static function getUserByUserEmail(PDO $pdo, $userEmail): ?User {
          //sanitize the email before searching
          $userEmail = trim($userEmail);
          $userEmail = filter_var($userEmail, FILTER_VALIDATE_EMAIL);
 
          if(empty($userEmail) === true) {
-            throw(new \PDOException("nota valid email"));
+            throw(new PDOException("nota valid email"));
          }
 
          // create query template
@@ -472,14 +479,14 @@
          //grab the user from mySQL
          try {
             $user = null;
-            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
                $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
             }
-         } catch(\Exception $exception) {
+         } catch(Exception $exception) {
             //if the row couldn't be converted, rethrow it
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+            throw(new PDOException($exception->getMessage(), 0, $exception));
 
          }
          return ($user);
@@ -489,14 +496,14 @@
       /**
        * get user by activation token
        *
-       * @param \PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object
        * @param Uuid|string $userActivationToken activation token value to search for
        * @return User|null User found or null if not found
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError when a variable are not the correct data type
+       * @throws PDOException when mySQL related errors occur
+       * @throws TypeError when a variable are not the correct data type
        **/
       public
-      static function getUserByActivationToken(\PDO $pdo, string $userActivationToken): ?User {
+      static function getUserByActivationToken(PDO $pdo, string $userActivationToken): ?User {
          $userActivationToken = trim($userActivationToken);
          if(ctype_xdigit($userActivationToken) === false) {
             throw (new \InvalidArgumentException("user activation token is empty or in the wrong format"));
@@ -509,14 +516,14 @@
 
          try {
             $user = null;
-            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
                $user = new User($row["userId"], $row["userActivationToken"], $row["userAge"], $row["userEmail"], $row["userFirstName"], $row["userHash"], $row["userLastName"], $row["userPhone"]);
             }
 
-         } catch(\Exception $exception) {
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+         } catch(Exception $exception) {
+            throw(new PDOException($exception->getMessage(), 0, $exception));
          }
          return ($user);
       }

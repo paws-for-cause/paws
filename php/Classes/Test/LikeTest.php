@@ -1,5 +1,5 @@
 <?php
-
+//TODO: Assert Equals like is approved
    namespace PawsForCause\Paws\Test;
 
    use PawsForCause\Paws\ {User, Shelter, Animal,  Like};
@@ -37,7 +37,7 @@
 
       /**
        * boolean to determine if an animal was liked by a user or not
-       * @var tinyint $VALID_LIKE_APPROVED
+       * @var int $VALID_LIKE_APPROVED
        */
       protected $VALID_LIKE_APPROVED = 1;
 
@@ -89,7 +89,7 @@
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("like"));
          $this->assertEquals($pdoLike->getLikeAnimalId(), $this->animal->getAnimalId());
          $this->assertEquals($pdoLike->getLikeUserId(), $this->user->getUserId());
-
+         $this->assertEquals($pdoLike->getLikeApproved(),$like->getLikeApproved());
       }
 
       /**

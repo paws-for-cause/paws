@@ -6,7 +6,6 @@
 
    use Ramsey\Uuid\Uuid;
 
-
    /**
     * Constructors, getters, setters, PDO for Like
     *
@@ -30,7 +29,7 @@
 
       /**
        * Like Approved for this website.
-       * @var tinyint $likeApproved
+       * @var int $likeApproved
        */
 
       private $likeApproved;
@@ -41,7 +40,7 @@
        *
        * @param string $newLikeAnimalId id for the animal that can been liked
        * @param string $newLikeUserId id for the user who is viewing the animals
-       * @param tinyint $newLikeApproved tinyint for if the like is a "yes"
+       * @param int $newLikeApproved int for if the like is a "yes"
        */
 
       public function __construct($newLikeAnimalId, $newLikeUserId, int $newLikeApproved) {
@@ -49,7 +48,7 @@
             $this->setLikeAnimalId($newLikeAnimalId);
             $this->setLikeUserId($newLikeUserId);
             $this->setLikeApproved($newLikeApproved);
-         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
             //determine what exception type was thrown
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -69,14 +68,14 @@
       /**
        * mutator method for like animal id
        * @param $newLikeAnimalId new like animal id
-       * @throws \InvalidArgumentException Exception if $newLikeAnimalId is not a string or insecure
-       * @throws \RangeException if $newLikeAnimalId is loner than 32 characters
-       * @throws \TypeException if $newLikeAnimalId is not a string
+       * @throws InvalidArgumentException Exception if $newLikeAnimalId is not a string or insecure
+       * @throws RangeException if $newLikeAnimalId is loner than 32 characters
+       * @throws TypeException if $newLikeAnimalId is not a string
        */
       public function setLikeAnimalId($newLikeAnimalId): void {
          try {
             $uuid = self::validateUuid($newLikeAnimalId);
-         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
          }
@@ -97,14 +96,14 @@
       /**
        * mutator method for like user id
        * @param $newLikeUserId new like user id
-       * @throws \InvalidArgument Exception if $new likeUserId is not a string or insecure
-       * @throws \RangeException if $newLikeUserId is loner than 32 characters
-       * @throws \TypeException if $newLikeUserId is not a string
+       * @throws InvalidArgument Exception if $new likeUserId is not a string or insecure
+       * @throws RangeException if $newLikeUserId is loner than 32 characters
+       * @throws TypeException if $newLikeUserId is not a string
        */
       public function setLikeUserId($newLikeUserId): void {
          try {
             $uuid = self::validateUuid($newLikeUserId);
-         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
          }
@@ -116,10 +115,10 @@
       /**
        * accessor method for like approved
        *
-       * @return tinyint value of the like approved
+       * @return int value of the like approved
        */
 
-      public function getLikeApproved(): tinyint {
+      public function getLikeApproved(): int {
          return ($this->likeApproved);
       }
 
@@ -127,15 +126,15 @@
        * mutator method for like approved
        *
        * @param string $newLikeApproved
-       * @throws \RangeException if $newLikeApproved is not within range
+       * @throws RangeException if $newLikeApproved is not within range
        **/
 
 
-      function setLikeApproved(string $newLikeApproved) {
+      function setLikeApproved(int $newLikeApproved) {
          // verify the like input is valid
          if(($newLikeApproved > 1) || ($newLikeApproved < 0))
 
-            throw(new \RangeException("animal gender value is invalid"));
+            throw(new RangeException("animal gender value is invalid"));
 
          // store the approved like
          $this->likeApproved = $newLikeApproved;
@@ -145,11 +144,11 @@
       /**
        * inserts this new Like into mySQL
        *
-       * @param \PDO $pdo PDO connection object
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError if $pdo is not a PDO connection object
+       * @param PDO $pdo PDO connection object
+       * @throws PDOException when mySQL related errors occur
+       * @throws TypeError if $pdo is not a PDO connection object
        **/
-      public function insert(\PDO $pdo): void {
+      public function insert(PDO $pdo): void {
 
          // create query template
          $query = "INSERT INTO `like` (likeAnimalId, likeUserId, likeApproved) VALUES(:likeAnimalId, :likeUserId, :likeApproved)";
@@ -160,34 +159,14 @@
          $statement->execute($parameters);
       }
 
-//possibly un-needed
-      /**
-       * updates this Like in mySQL
-       *
-       * @param \PDO $pdo PDO connection object
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError if $pdo is not a PDO connection object
-       **/
-      /*    public function update(\PDO $pdo): void {
-
-             // create query template
-             $query = "UPDATE Like SET likeAnimalId = :likeAnimalId, likeUserId = :likeUserId, likeApproved = :likeApproved WHERE likeAnimalId = :likeAnimalId ";
-
-             $statement = $pdo->prepare($query);
-
-             $parameters = ["likeAnimalId" => $this->likeAnimalId, "likeUserId" => $this->likeUserId, "likeApproved" => $this->likeApproved];
-             $statement->execute($parameters);
-
-          }*/
-
       /**
        * deletes this Like from mySql
-       * @param \PDO $pdo PDO connection object
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError if $pdo is not a PDO connection object
+       * @param PDO $pdo PDO connection object
+       * @throws PDOException when mySQL related errors occur
+       * @throws TypeError if $pdo is not a PDO connection object
        */
 
-      public function delete(\PDO $pdo): void {
+      public function delete(PDO $pdo): void {
          //create query template
          $query = "DELETE FROM `like` WHERE likeAnimalId = :likeAnimalId AND likeUserId = :likeUserId";
          $statement = $pdo->prepare($query);
@@ -200,28 +179,28 @@
 
       /**
        * get like by like animal id and by like user id (which animals have been liked by which users?)
-       *eee
-       * @param \PDO $pdo PDO connection object
+       *
+       * @param PDO $pdo PDO connection object
        * @param string $likeAnimalId
        * @param string $likeUserId
        * @return Like|null Like or null if not found
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError when a variable is not the correct data type
+       * @throws PDOException when mySQL related errors occur
+       * @throws TypeError when a variable is not the correct data type
        */
 
-      public static function getLikeByLikeAnimalIdAndByLikeUserId(\PDO $pdo, string $likeAnimalId, string $likeUserId): ?Like {
+      public static function getLikeByLikeAnimalIdAndByLikeUserId(PDO $pdo, string $likeAnimalId, string $likeUserId): ?Like {
 
          //
          try {
             $likeAnimalId = self::validateUuid($likeAnimalId);
-         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
+            throw(new PDOException($exception->getMessage(), 0, $exception));
          }
 
          try {
             $likeUserId = self::validateUuid($likeUserId);
-         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
+            throw(new PDOException($exception->getMessage(), 0, $exception));
          }
 
          // create query template
@@ -235,14 +214,14 @@
          //grab the link from mySQL
          try {
             $like = null;
-            $statement->setFetchMode(\PDO::FETCH_ASSOC);
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
                $like = new Like($row["likeAnimalId"], $row["likeUserId"], $row["likeApproved"]);
             }
-         } catch(\Exception $exception) {
+         } catch(Exception $exception) {
             // if the row couldn't be converted, rethrow it
-            throw(new \PDOException($exception->getMessage(), 0, $exception));
+            throw(new PDOException($exception->getMessage(), 0, $exception));
          }
          return ($like);
 
