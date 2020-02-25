@@ -131,56 +131,7 @@
          $this->assertEquals($pdoLike->getLikeUserId(), $this->user->getUserId());
 
       }
-
-      /**
-       * test grabbing a Like by animal id
-       **/
-      /*public function testGetValidLikeByAnimalId(): void {
-         // count the number of rows and save it for later
-         $numRows = $this->getConnection()->getRowCount("like");
-
-         // create a new Like and insert to into mySQL
-         $like = new Like($this->animal->getAnimalId(), $this->user->getUserId(),  1);
-         $like->insert($this->getPDO());
-
-         // grab the data from mySQL and enforce the fields match our expectations
-         $results = Like::getLikeByLikeAnimalIdAndByLikeUserId($this->getPDO(), $this->animal->getAnimalId(), $this->user->getUserId());
-         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("like"));
-         $this->assertCount(1, $results);
-         $this->assertContainsOnlyInstancesOf("PawsForCause\\Paws\\Like", $results);
-
-         // grab the result from the array and validate it
-         $pdoLike = $results[0];
-         $this->assertEquals($pdoLike->getLikeAnimalId(), $this->animal->getAnimalId());
-         $this->assertEquals($pdoLike->getLikeUserId(), $this->user->getUserId());
-      }*/
-
-
-      /**
-       * test grabbing a Like by user id
-       **/
-/*      public function testGetValidLikeByUserId(): void {
-         // count the number of rows and save it for later
-         $numRows = $this->getConnection()->getRowCount("like");
-
-         // create a new Like and insert to into mySQL
-         $like = new Like($this->animal->getAnimalId(), $this->user->setUserId(), $this->VALID_LIKE_APPROVED);
-         $like->insert($this->getPDO());
-
-         // grab the data from mySQL and enforce the fields match our expectations
-         $results = Like::getLikeByLikeAnimalIdAndByLikeUserId($this->getPDO(), $this->user->getUserId());
-         $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("like"));
-         $this->assertCount(1, $results);
-
-         // enforce no other objects are bleeding into the test
-         $this->assertContainsOnlyInstancesOf("PawsForCause\\Paws\\Like", $results);
-
-         // grab the result from the array and validate it
-         $pdoLike = $results[0];
-         $this->assertEquals($pdoLike->getLikeAnimalId(), $this->animal->getAnimalId());
-         $this->assertEquals($pdoLike->getLikeUserId(), $this->user->getUserId());
-      }*/
-
+      
       /**
        * Test grabbing animal by Shelter Id
        **/
