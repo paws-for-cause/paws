@@ -1,19 +1,12 @@
 <?php
-   // go thru and add context to @params
+
 
    namespace PawsForCause\Paws;
 
    require_once("autoload.php");
    require_once (dirname(__DIR__)) . "/vendor/autoload.php";
 
-   use Exception;
-   use http\Exception\InvalidArgumentException;
-   use JsonSerializable;
-   use PDO;
-   use PDOException;
    use Ramsey\Uuid\Uuid;
-   use RangeException;
-   use TypeError;
 
    /**
     * User Class
@@ -68,14 +61,14 @@
 
       /**
        * constructor method for user
-       * @param $userId id for the user
-       * @param $userActiviationToken activationtoken for the user
-       * @param $userAge age of user
-       * @param $userEmail user email
-       * @param $userFirstName user first name
-       * @param $userHash password for the user
-       * @param $userLastName user last name
-       * @param $userPhone user phone number
+       * @param $userId id value for the user
+       * @param $userActiviationToken activationtoken value for the user
+       * @param $userAge age value of user
+       * @param $userEmail user email of the user
+       * @param $userFirstName user first name of the user
+       * @param $userHash password hash for the user
+       * @param $userLastName user last name of the user
+       * @param $userPhone user phone number of the user
        * @throws \InvalidArgumentException if data types are not valid
        * @throws RangeException if data values are out of bounds
        * @throws TypeError if a data type violates a data hint
@@ -141,7 +134,7 @@
       /**
        * mutator method for author activation token
        *
-       * @param string $newUserActivationToken
+       * @param string $newUserActivationToken new value of the user activation token
        * @throws \InvalidArgumentException if the token is not a string or insecure
        * @throws RangeException if $newUserActivationToken is not exactly 32 characters
        * @throws TypeError if $newUserActivationToken is not a string
@@ -202,7 +195,7 @@
       /**
        * mutator method for user email
        *
-       * @param string $newUserEmail
+       * @param string $newUserEmail new email value for the user
        * @throws \InvalidArgumentException if the email is not a string or insecure
        * @throws RangeException if $newUserEmail is not over 64 characters
        * @throws TypeError if $newUserEmail is not a string
@@ -285,7 +278,7 @@
             throw(new \InvalidArgumentException("profile hash is not a valid hash"));
          }
          //enforce that the hash is exactly 97 characters
-         if(strlen($newUserHash) > 97 || strlen($newUserHash) < 89 ) {
+         if(strlen($newUserHash) > 97 || strlen($newUserHash) < 89) {
             throw(new RangeException("user hash must be exactly 97 characters"));
          }
          //store the hash
@@ -339,7 +332,7 @@
        *
        * @param string $newUserPhone new value of user phone number
        * @throws \InvalidArgumentException if $newUserPhone is not a string or insecure
-       * @throws RangeException if $newUserPhone is > 11 characters
+       * @throws RangeException if $newUserPhone is > 16 characters
        * @throws TypeError if $newUserPhone is not a string
        **/
       public function setUserPhone(string $newUserPhone): void {
@@ -351,7 +344,7 @@
          }
 
          //verify the phone number will fit in the database
-         if(strlen($newUserPhone) > 11) {
+         if(strlen($newUserPhone) > 16) {
             throw(new RangeException("user phone number is too long"));
          }
 
@@ -362,7 +355,7 @@
       /**
        * inserts user into mySQL
        *
-       * @param PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object for inserting the user value into mySQL statement
        * @throws PDOException when mySQL related errors occur
        * @throws TypeError if $pdo is not a PDO connection object
        **/
@@ -380,7 +373,7 @@
       /**
        * deletes user from mySQL
        *
-       * @param PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object for deleting the user value from the mySQL statement
        * @throws PDOException when mySQL related errors occur
        * @throws TypeError if $pdo is not a PDO connection object
        **/
@@ -397,7 +390,7 @@
       /**
        * updates the user in mySQL
        *
-       * @param PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object updates the user value in the mySQL statement
        * @throws PDOException when mySQL related errors occur
        * @throws TypeError if $pdo is not a PDO connection object
        **/
@@ -413,7 +406,7 @@
       /**
        * gets user by userId
        *
-       * @param PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object to find the user by the user's id
        * @param Uuid|string $userId user id to search for
        * @return User|null user found or null if not found
        * @throws PDOException when my SQL related errors occur
@@ -453,7 +446,7 @@
       /**
        * gets user by userEmail
        *
-       * @param PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object to find a user by their email
        * @param Uuid|string $userEmail email value to search for
        * @return User|null User found or null if not found
        * @throws PDOException when mySQL related errors occur
@@ -496,7 +489,7 @@
       /**
        * get user by activation token
        *
-       * @param PDO $pdo PDO connection object
+       * @param PDO $pdo PDO connection object to find a user by their activation token
        * @param Uuid|string $userActivationToken activation token value to search for
        * @return User|null User found or null if not found
        * @throws PDOException when mySQL related errors occur
