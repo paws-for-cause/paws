@@ -88,7 +88,6 @@ class AnimalTest extends PawsTest {
       $this->shelter = new Shelter(generateUuidV4(), "444 Fakelane 83729", "Magic Mountain", "1234567890");
       $this->shelter->insert($this->getPDO());
 
-      //todo create a user object and insert it into the database
 
       $this->user = new User (generateUuidV4(), "c7fb39c60e144d2887c3e3b7e31f1330", 32, "pleasework@begmail.com", "Carlton", '$argon2i$v=19$m=1024,t=384,p=2$dE55dm5kRm9DTEYxNFlFUA$nNEMItrDUtwnDhZ41nwVm7ncBLrJzjh5mGIjj8RlzVA', "Banks", "1234567890");
       $this->user->insert($this->getPDO());

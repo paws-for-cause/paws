@@ -32,19 +32,17 @@
        * id for the animal, this is the primary key
        **/
       private $animalId;
+
       /**
        * id for the Animal Shelter; this is the foreign key
        * @var Uuid $animalShelterId
        **/
-
       private $animalShelterId;
 
       /**
        * the status of whether or not the animal has been adopted yet,
        * @var string $animalAdoptionStatus
        **/
-
-
       private $animalAdoptionStatus;
 
       /**
@@ -52,42 +50,47 @@
        * @var string $animalBreed
        */
       private $animalBreed;
+
       /**
        * The gender of the animal
        * @var int $animalGender
        */
       private $animalGender;
+
       /**
        * The name of the animal
        * @var string $animalName
        */
       private $animalName;
+
       /**
        * animalPhotoUrl
        * The URL for the photo of the animal
        * @var string $animalPhotoUrl
        */
       private $animalPhotoUrl;
+
       /**
        * The species of the animal
        * @var string $animalSpecies
        */
-
       private $animalSpecies;
-
-      // TODO: Add more detail to @param docblock - Check whole class
 
       /**
        * constructor for the animal class
        *
-       * @param string|Uuid $newAnimalId
-       * @param string|Uuid $newAnimalShelterId
-       * @param string $newAnimalAdoptionStatus
-       * @param string|$newAnimalBreed
-       * @param int $newAnimalGender
-       * @param string $newAnimalName
-       * @param string $newAnimalPhotoUrl
-       * @param string $newAnimalSpecies
+       * @param string|Uuid $newAnimalId the id for the animal
+       * @param string|Uuid $newAnimalShelterId new animal shelter id for animal class
+       * @param string $newAnimalAdoptionStatus whether or not the animal has been adopted
+       * @param string|$newAnimalBreed the breed of the animal
+       * @param int $newAnimalGender the gender of the animal
+       * @param string $newAnimalName the name of the animal
+       * @param string $newAnimalPhotoUrl the Url of the photo that is associated with the naimal
+       * @param string $newAnimalSpecies the species of the animal
+		 * @throws \InvalidArgumentException if data types are not valid
+		 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+		 * @throws \TypeError if data types violate type hints
+		 * @throws \Exception if some other exception occurs
        * @Documentation https://php.net/manual/en/language.oop5.decon.php
        **/
 
@@ -116,8 +119,6 @@
          return ($this->animalId);
       }
 
-      //TODO: Add docblocks to every method
-
       /**
        * accessor method for animalShelterId
        *
@@ -127,26 +128,57 @@
          return ($this->animalShelterId);
       }
 
+		/**
+		 * accessor method for the Animal Adoption Status
+		 *
+		 * @return string
+		 */
       public function getAnimalAdoptionStatus(): string {
          return ($this->animalAdoptionStatus);
       }
+
+		/**
+		 * accessor method for the animal breed
+		 *
+		 * @return string
+		 */
 
       public function getAnimalBreed(): string {
          return ($this->animalBreed);
       }
 
+		/**
+		 * accessor method for the Animal Gender
+		 *
+		 * @return int
+		 */
       public function getAnimalGender(): int {
          return ($this->animalGender);
       }
 
+		/**
+		 * accessor method for the name of the animal
+		 *
+		 * @return string
+		 */
       public function getAnimalName() {
          return ($this->animalName);
       }
 
+		/**
+		 * accessor for the photo url of the animal
+		 *
+		 * @return string
+		 */
       public function getAnimalPhotoUrl() {
          return ($this->animalPhotoUrl);
       }
 
+		/**
+		 * accessor method for the species of the animal
+		 *
+		 * @return string
+		 */
       public function getAnimalSpecies() {
          return ($this->animalSpecies);
       }
@@ -327,16 +359,19 @@
 
 //**getFooByBar methods below**//
 
-      //TODO - Rewrite whole docblock
+      //TODO - Rewrite whole docblock <-- (instructions unclear) Look at User for the example.
+		//TODO- WRITE A GET ALL ANIMALS, CHECK WHERE IT IS SUPPOSED TO GO
       /**
        *
        * getAnimalByAnimalId
        *
-       * a method that returns an SplFixedArray of all animals
+       * gets the animal by animalID
        *
-       * @param PDO $pdo
-       * @param string $animalId
-       * @return animal
+       * @param PDO $pdo - PDO connection object
+       * @param string $animalId - the animal id to search for
+       * @return animal - returns the animal that is in the database
+		 * @throws RangeException if the $animalId is out of too many/few characters
+		 * @throws TypeError if the $animalId is not a uuid or string
        */
       public static function getAnimalByAnimalId(PDO $pdo, string $animalId): ?Animal {
          // sanitize the animalId before searching
@@ -378,6 +413,7 @@
        * @param PDO $pdo
        * @param string $animalShelterId
        * @return animalSplFixedArray
+		 * @throws rangExceotion
        */
       public static function getAnimalByShelterId(PDO $pdo, string $animalShelterId): SPLFixedarray {
 
