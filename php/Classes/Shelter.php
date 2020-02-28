@@ -301,16 +301,3 @@
            return ($fields);
        }
    }
-
-
-
-
-   /**
-    * Why is something a primary key as opposed to any other key?
-    *splfixedarray singobject
-    * What does "::" mean?
-    * What does "getBytes" do?
-    * What does "execute($parameters) do?
-    * What does "setFetchMode" do?
-    **/
-

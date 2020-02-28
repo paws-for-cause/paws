@@ -129,7 +129,7 @@
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("like"));
          $this->assertEquals($pdoLike->getLikeAnimalId(), $this->animal->getAnimalId());
          $this->assertEquals($pdoLike->getLikeUserId(), $this->user->getUserId());
-
+         $this->assertEquals($pdoLike->getLikeApproved(),$like->getLikeApproved());
       }
       
       /**
@@ -152,7 +152,7 @@
 
 
          // grab the data from mySQL and enforce the fields match our expectations
-         //todo use the getuserId accessor to pass the userId into getAnimalByLikeUserId
+         //git todo use the getuserId accessor to pass the userId into getAnimalByLikeUserId
          $results = Animal::getAnimalByLikeUserId($this->getPDO(), $this->user->getUserId());
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
          $this->assertCount(1, $results);
