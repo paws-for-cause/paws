@@ -229,4 +229,36 @@ class AnimalTest extends PawsTest {
       $this->assertEquals($pdoAnimal->getAnimalSpecies(), $this->VALID_ANIMAL_SPECIES);
    }
 
+   /**
+    * test grabbing all Animals
+    **/
+   public function testGetAllValidAnimals() : void {
+      // count the number of rows and save it for later
+      $numRows = $this->getConnection()->getRowCount("animal");
+
+      // create a new Animal and insert to into mySQL
+      $animalId = generateUuidV4();
+      $animal = new Animal($animalId, $this->shelter->getShelterId(), $this->VALID_ANIMAL_ADOPTION_STATUS, $this->VALID_ANIMAL_BREED, $this->VALID_ANIMAL_GENDER, $this->VALID_ANIMAL_NAME, $this->VALID_ANIMAL_PHOTO_URL, $this->VALID_ANIMAL_SPECIES);
+      $animal->insert($this->getPDO());
+
+      // grab the data from mySQL and enforce the fields match our expectations
+      $results = Animal::getAllAnimals($this->getPDO());
+      $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
+      $this->assertCount(1, $results);
+      $this->assertContainsOnlyInstancesOf("PawsForCause\\Paws\\Animal\\Test", $results);
+
+      // grab the result from the array and validate it
+      $pdoAnimal = $results[0];
+
+      $this->assertEquals($pdoAnimal->getAnimalId(), $animalId);
+      $this->assertEquals($pdoAnimal->getAnimalShelterId(), $this->shelter->getShelterId());
+      $this->assertEquals($pdoAnimal->getAnimalAdoptionStatus(), $this->VALID_ANIMAL_ADOPTION_STATUS);
+      $this->assertEquals($pdoAnimal->getAnimalBreed(), $this->VALID_ANIMAL_BREED);
+      $this->assertEquals($pdoAnimal->getAnimalGender(), $this->VALID_ANIMAL_GENDER);
+      $this->assertEquals($pdoAnimal->getAnimalName(), $this->VALID_ANIMAL_NAME);
+      $this->assertEquals($pdoAnimal->getAnimalPhotoUrl(), $this->VALID_ANIMAL_PHOTO_URL);
+      $this->assertEquals($pdoAnimal->getAnimalSpecies(), $this->VALID_ANIMAL_SPECIES);
+   }
+
+
 }
