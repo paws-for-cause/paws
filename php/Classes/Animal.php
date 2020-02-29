@@ -9,7 +9,7 @@
    use Cassandra\Tinyint;
    use Exception;
    use InvalidArgumentException;
-   use PDO;
+   use \PDO;
    use PDOException;
    use phpDocumentor\Reflection\Types\Integer;
    use Ramsey\Uuid\Uuid;
@@ -192,14 +192,14 @@
        * Mutator Method for animalId - This is the Primary Key
        *
        * @param string $newAnimalId
-       * @throws InvalidArgumentException if the data types are not InvalidArgumentException
-       * @throws RangeException if the data values are out of bounds (i.e. too long or negative)
-       * @throws TypeError if data types violate type hints
+       * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
+       * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
+       * @throws \TypeError if data types violate type hints
        **/
       public function setAnimalId($newAnimalId): void {
          try {
             $uuid = self::validateUuid($newAnimalId);
-         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
+         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
          }
@@ -212,14 +212,14 @@
        * Mutator for animalShelterId - This is the foreign key
        *
        * @param string $newAnimalShelterId
-       * @throws InvalidArgumentException if the data types are not InvalidArgumentException
-       * @throws RangeException if the data values are out of bounds (i.e. too long or negative)
-       * @throws TypeError if data types violate type hints
+       * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
+       * @throws \RangeException if the data values are out of bounds (i.e. too long or negative)
+       * @throws \TypeError if data types violate type hints
        **/
       public function setAnimalShelterId($newAnimalShelterId): void {
          try {
             $uuid = self::validateUuid($newAnimalShelterId);
-         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
+         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
             $exceptionType = get_class($exception);
             throw(new $exceptionType($exception->getMessage(), 0, $exception));
          }
@@ -232,20 +232,20 @@
        * mutator method for animal adoption status
        *
        * @param string $newAnimalAdoptionStatus new value of at handle
-       * @throws InvalidArgumentException if $newAnimalAdoptionStatus is not a string or insecure
-       * @throws RangeException if $newAnimalAdoptionStatus is > 32 characters
-       * @throws TypeError if $newAnimalAdoptionStatus is not a string
+       * @throws \InvalidArgumentException if $newAnimalAdoptionStatus is not a string or insecure
+       * @throws \RangeException if $newAnimalAdoptionStatus is > 32 characters
+       * @throws \TypeError if $newAnimalAdoptionStatus is not a string
        **/
       public function setAnimalAdoptionStatus(string $newAnimalAdoptionStatus): void {
          // verify the adoption status is secure
          $newAnimalAdoptionStatus = trim($newAnimalAdoptionStatus);
          $newAnimalAdoptionStatus = filter_var($newAnimalAdoptionStatus, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
          if(empty($newAnimalAdoptionStatus) === true) {
-            throw(new InvalidArgumentException("adoption status is empty or insecure"));
+            throw(new \InvalidArgumentException("adoption status is empty or insecure"));
          }
          // verify the at handle will fit in the database
          if(strlen($newAnimalAdoptionStatus) > 32) {
-            throw(new RangeException("adoption status is too large"));
+            throw(new \RangeException("adoption status is too large"));
          }
          // store the at handle
          $this->animalAdoptionStatus = $newAnimalAdoptionStatus;
@@ -255,20 +255,20 @@
        * mutator method for animal breed
        *
        * @param string $newAnimalBreed new value of at handle
-       * @throws InvalidArgumentException if $newAnimalBreed is not a string or insecure
-       * @throws RangeException if $newAnimalBreed is > 32 characters
-       * @throws TypeError if $newAnimalBreed is not a string
+       * @throws \InvalidArgumentException if $newAnimalBreed is not a string or insecure
+       * @throws \RangeException if $newAnimalBreed is > 32 characters
+       * @throws \TypeError if $newAnimalBreed is not a string
        **/
       public function setAnimalBreed(string $newAnimalBreed): void {
          // verify the breed is secure
          $newAnimalBreed = trim($newAnimalBreed);
          $newAnimalBreed = filter_var($newAnimalBreed, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
          if(empty($newAnimalBreed) === true) {
-            throw(new InvalidArgumentException("animal name is empty or insecure"));
+            throw(new \InvalidArgumentException("animal name is empty or insecure"));
          }
          // verify the at handle will fit in the database
          if(strlen($newAnimalBreed) > 32) {
-            throw(new RangeException("name of animal breed is too large"));
+            throw(new \RangeException("name of animal breed is too large"));
          }
          // store the at handle
          $this->animalBreed = $newAnimalBreed;
@@ -280,7 +280,7 @@
          // verify the gender input is valid
          if(($newAnimalGender > 1) || ($newAnimalGender < 0))
 
-            throw(new RangeException("animal gender value is invalid"));
+            throw(new \RangeException("animal gender value is invalid"));
 
          // store the animal gender
          $this->animalGender = $newAnimalGender;
@@ -290,20 +290,20 @@
        * mutator method for animal name
        *
        * @param string $newAnimalName new value of at handle
-       * @throws InvalidArgumentException if $newAnimalName is not a string or insecure
-       * @throws RangeException if $newAnimalName is > 32 characters
-       * @throws TypeError if $newAnimalname is not a string
+       * @throws \InvalidArgumentException if $newAnimalName is not a string or insecure
+       * @throws \RangeException if $newAnimalName is > 32 characters
+       * @throws \TypeError if $newAnimalname is not a string
        **/
       public function setAnimalName(string $newAnimalName): void {
          // verify the at handle is secure
          $newAnimalName = trim($newAnimalName);
          $newAnimalName = filter_var($newAnimalName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
          if(empty($newAnimalName) === true) {
-            throw(new InvalidArgumentException("animal name is empty or insecure"));
+            throw(new \InvalidArgumentException("animal name is empty or insecure"));
          }
          // verify the at handle will fit in the database
          if(strlen($newAnimalName) > 32) {
-            throw(new RangeException("animal name is too large"));
+            throw(new \RangeException("animal name is too large"));
          }
          // store the at handle
          $this->animalName = $newAnimalName;
@@ -314,20 +314,20 @@
        * mutator method for the Animal Photo Url
        *
        * @param string $newAnimalPhotoUrl new value of at handle
-       * @throws InvalidArgumentException if $newAnimalPhotoUrl is not a string or insecure
-       * @throws RangeException if $newAnimalPhotoUrl is > 256 characters
-       * @throws TypeError if $newAnimalPhotoUrl is not a string
+       * @throws \InvalidArgumentException if $newAnimalPhotoUrl is not a string or insecure
+       * @throws \RangeException if $newAnimalPhotoUrl is > 256 characters
+       * @throws \TypeError if $newAnimalPhotoUrl is not a string
        **/
       public function setAnimalPhotoUrl(string $newAnimalPhotoUrl): void {
          // verify the at handle is secure
          $newAnimalPhotoUrl = trim($newAnimalPhotoUrl);
          $newAnimalPhotoUrl = filter_var($newAnimalPhotoUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
          if(empty($newAnimalPhotoUrl) === true) {
-            throw(new InvalidArgumentException("Avatar url is empty or insecure"));
+            throw(new \InvalidArgumentException("Avatar url is empty or insecure"));
          }
          // verify the at handle will fit in the database
          if(strlen($newAnimalPhotoUrl) > 256) {
-            throw(new RangeException("Avatar url is too large"));
+            throw(new \RangeException("Avatar url is too large"));
          }
          // store the at handle
          $this->animalPhotoUrl = $newAnimalPhotoUrl;
@@ -337,20 +337,20 @@
        * mutator method for animal species
        *
        * @param string $newAnimalSpecies new value of animal species
-       * @throws InvalidArgumentException if $newAnimalSpecies is not a string or insecure
-       * @throws RangeException if $newAnimalSpecies is > 32 characters
-       * @throws TypeError if $newAnimalSpecies is not a string
+       * @throws \InvalidArgumentException if $newAnimalSpecies is not a string or insecure
+       * @throws \RangeException if $newAnimalSpecies is > 32 characters
+       * @throws \TypeError if $newAnimalSpecies is not a string
        **/
       public function setAnimalSpecies(string $newAnimalSpecies): void {
          // verify the at handle is secure
          $newAnimalSpecies = trim($newAnimalSpecies);
          $newAnimalSpecies = filter_var($newAnimalSpecies, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
          if(empty($newAnimalSpecies) === true) {
-            throw(new InvalidArgumentException("animal species is empty or insecure"));
+            throw(new \InvalidArgumentException("animal species is empty or insecure"));
          }
          // verify the at handle will fit in the database
          if(strlen($newAnimalSpecies) > 32) {
-            throw(new RangeException("name of animal species is too large"));
+            throw(new \RangeException("name of animal species is too large"));
          }
          // store the at handle
          $this->animalSpecies = $newAnimalSpecies;
@@ -367,18 +367,18 @@
        *
        * gets the animal by animalID
        *
-       * @param PDO $pdo - PDO connection object
+       * @param \PDO $pdo - PDO connection object
        * @param string $animalId - the animal id to search for
        * @return animal - returns the animal that is in the database
-		 * @throws RangeException if the $animalId is out of too many/few characters
-		 * @throws TypeError if the $animalId is not a uuid or string
+		 * @throws \RangeException if the $animalId is out of too many/few characters
+		 * @throws \TypeError if the $animalId is not a uuid or string
        */
-      public static function getAnimalByAnimalId(PDO $pdo, string $animalId): ?Animal {
+      public static function getAnimalByAnimalId(\PDO $pdo, string $animalId): ?Animal {
          // sanitize the animalId before searching
          try {
             $animalId = self::validateUuid($animalId);
-         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
-            throw(new PDOException($exception->getMessage(), 0, $exception));
+         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
          }
 
          // create query template
@@ -392,14 +392,14 @@
          //grab the animal from mySQL
          try {
             $animal = null;
-            $statement->setFetchMode(PDO::FETCH_ASSOC);
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
                $animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row['animalGender'], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
             }
          } catch(Exception $exception) {
             // if the row coudn't be converted, rethrow it
-            throw (new PDOException($exception->getMessage(), 0, $exception));
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
          }
          return ($animal);
       }
@@ -410,17 +410,17 @@
        *
        * a method that returns an SplFixedArray of animal Shelter Ids
        *
-       * @param PDO $pdo
+       * @param \PDO $pdo
        * @param string $animalShelterId
-       * @return animalSplFixedArray
-		 * @throws rangExceotion
+       * @return animal SplFixedArray of animals
+		 * @throws \RangeException
        */
-      public static function getAnimalByShelterId(PDO $pdo, string $animalShelterId): SPLFixedarray {
+      public static function getAnimalByShelterId(\PDO $pdo, string $animalShelterId): SPLFixedarray {
 
          try {
             $animalShelterId = self::validateUuid($animalShelterId);
-         } catch(InvalidArgumentException | RangeException | Exception | TypeError | TypeError $exception) {
-            throw(new PDOException($exception->getMessage(), 0, $exception));
+         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
          }
 
          // create query template
@@ -432,7 +432,7 @@
 
          // building an array of Animals
          $animalArray = new SplFixedArray($statement->rowCount());
-         $statement->setFetchMode(PDO::FETCH_ASSOC);
+         $statement->setFetchMode(\PDO::FETCH_ASSOC);
          while(($row = $statement->fetch()) !== false) {
             try {
                $animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
@@ -441,7 +441,7 @@
 
             } catch(Exception $exception) {
                // if the row couldn't be converted, rethrow it
-               throw(new PDOException($exception->getMessage(), 0, $exception));
+               throw(new \PDOException($exception->getMessage(), 0, $exception));
             }
          }
          return ($animalArray);
@@ -452,17 +452,17 @@
 
       /**
        * gets the Animal by userLikeId
-       * @param PDO $pdo PDO connection object
+       * @param \PDO $pdo PDO connection object
        * @param string $likeUserId like id to search by
-       * @return SplFixedArray SplFixedArray of Animals found
-       * @throws PDOException when mySQL related errors occur
-       * @throws TypeError when variables are not the correct data type
+       * @return \SplFixedArray SplFixedArray of Animals found
+       * @throws \PDOException when mySQL related errors occur
+       * @throws \TypeError when variables are not the correct data type
        **/
-      public static function getAnimalByLikeUserId(PDO $pdo, string $likeUserId): SPLFixedArray {
+      public static function getAnimalByLikeUserId(\PDO $pdo, string $likeUserId): SPLFixedArray {
          try {
             $likeUserId = self::validateUuid($likeUserId);
-         } catch(InvalidArgumentException | RangeException | Exception | TypeError $exception) {
-            throw(new PDOException($exception->getMessage(), 0, $exception));
+         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
          }
          // create query template
          $query = "SELECT animal.animalId, animal.animalShelterId, animal.animalAdoptionStatus, animal.animalBreed, animal.animalGender, animal.animalName, animal.animalPhotoUrl, animal.animalSpecies FROM animal INNER JOIN `like` ON animal.animalId = `like`.likeAnimalId WHERE likeUserId = :likeUserId";
@@ -519,9 +519,9 @@
       /**
        * deletes this animal from mySQL
        *
-       * @param PDO $pdo PDO connection object
-       * @throws PDOException when mySQL related errors occur
-       * @throws TypeError if $pdo is not a PDO connection object
+       * @param \PDO $pdo PDO connection object
+       * @throws \PDOException when mySQL related errors occur
+       * @throws \TypeError if $pdo is not a PDO connection object
        **/
       public function delete(PDO $pdo): void {
 

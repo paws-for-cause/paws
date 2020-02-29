@@ -5,6 +5,7 @@
    require_once("autoload.php");
 
    use Ramsey\Uuid\Uuid;
+   use JsonSerializable;
 
    /**
     * Constructors, getters, setters, PDO for Shelter
@@ -46,9 +47,9 @@
        * @param string $newShelterName shelter's name
        * @param string $newShelterPhone shelter's phone number
         * @throws \InvalidArgumentException if data type is not valid
-        * @throws RangeException if values are out of bounds
-        * @throws Exception if some other exception occurs
-        * @throws TypeError if data type violates data hint
+        * @throws \RangeException if values are out of bounds
+        * @throws \Exception if some other exception occurs
+        * @throws \TypeError if data type violates data hint
        */
 
       public function __construct($newShelterId, string $newShelterAddress, string $newShelterName, string $newShelterPhone) {
@@ -77,14 +78,14 @@
       /**
        * mutator method for shelter id
        * @param $newshelterId new shelter id
-       * @throws InvalidArgument Exception if $newShelterId is not a string or insecure
-       * @throws RangeException if $newShelterId is longer than 16 characters
-       * @throws TypeException if $newShelterId is not a string
+       * @throws \InvalidArgument Exception if $newShelterId is not a string or insecure
+       * @throws \RangeException if $newShelterId is longer than 16 characters
+       * @throws \TypeException if $newShelterId is not a string
        */
        public function setShelterId($newShelterId): void {
            try {
                $uuid = self::validateUuid($newShelterId);
-           } catch(\InvalidArgumentException | RangeException | Exception | TypeError $exception) {
+           } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
                $exceptionType = get_class($exception);
                throw (new $exceptionType($exception->getMessage(), 0, $exception));
            }
@@ -106,9 +107,9 @@
       /**
        * mutator method for shelter address
        * @param $newshelterAddress new shelter address
-       * @throws InvalidArgument Exception if $newshelterAddress is not a string or insecure
-       * @throws RangeException if $newShelterAddress is longer than 16 characters
-       * @throws TypeException if $newShelterAddress is not a string
+       * @throws \InvalidArgument Exception if $newshelterAddress is not a string or insecure
+       * @throws \RangeException if $newShelterAddress is longer than 16 characters
+       * @throws \TypeException if $newShelterAddress is not a string
        */
       public function setShelterAddress($newShelterAddress): void {
          // verify the shelter address is secure
@@ -138,9 +139,9 @@
       /**
        * mutator method for shelter name
        * @param $newshelterName new  shelter name
-       * @throws InvalidArgument Exception if $newshelterName is not a string or insecure
-       * @throws RangeException if $newShelterName is longer than 16 characters
-       * @throws TypeException if $newShelterName is not a string
+       * @throws \InvalidArgumentException if $newshelterName is not a string or insecure
+       * @throws \RangeException if $newShelterName is longer than 16 characters
+       * @throws \TypeException if $newShelterName is not a string
        */
       public function setShelterName($newShelterName): void {
          // verify the shelter name is secure
@@ -170,9 +171,9 @@
       /**
        * mutator method for shelter phone
        * @param $newshelterPhone new shelter phone
-       * @throws InvalidArgument Exception if $newshelterPhone is not a string or insecure
-       * @throws RangeException if $newShelterPhone is longer than 16 characters
-       * @throws TypeException if $newShelterPhone is not a string
+       * @throws \InvalidArgument Exception if $newshelterPhone is not a string or insecure
+       * @throws \RangeException if $newShelterPhone is longer than 16 characters
+       * @throws \TypeException if $newShelterPhone is not a string
        */
       public function setShelterPhone($newShelterPhone): void {
          // verify the shelter phone is secure
@@ -193,11 +194,11 @@
       /**
        * inserts this new Shelter into mySQL
        *
-       * @param PDO $pdo PDO connection object
-       * @throws PDOException when mySQL related errors occur
-       * @throws TypeError if $pdo is not a PDO connection object
+       * @param \PDO $pdo PDO connection object
+       * @throws \PDOException when mySQL related errors occur
+       * @throws \TypeError if $pdo is not a PDO connection object
        **/
-      public function insert(PDO $pdo): void {
+      public function insert(\PDO $pdo): void {
 
          // create query template
          $query = "INSERT INTO shelter (shelterId, shelterAddress, shelterName, shelterPhone) VALUES(:shelterId, :shelterAddress, :shelterName, :shelterPhone)";
@@ -212,11 +213,11 @@
       /**
        * updates this Shelter in mySQL
        *
-       * @param PDO $pdo PDO connection object
-       * @throws PDOException when mySQL related errors occur
-       * @throws TypeError if $pdo is not a PDO connection object
+       * @param \PDO $pdo PDO connection object
+       * @throws \PDOException when mySQL related errors occur
+       * @throws \TypeError if $pdo is not a PDO connection object
        **/
-      public function update(PDO $pdo): void {
+      public function update(\PDO $pdo): void {
 
          // create query template
          $query = "UPDATE shelter SET shelterId = :shelterId, shelterAddress = :shelterAddress, shelterName = :shelterName, shelterPhone = :shelterPhone";
@@ -230,12 +231,12 @@
 
       /**
        * deletes this Shelter from mySql
-       * @param PDO $pdo PDO connection object
-       * @throws PDOException when mySQL related errors occur
-       * @throws TypeEror if $pdo is not a PDO connection object
+       * @param \PDO $pdo PDO connection object
+       * @throws \PDOException when mySQL related errors occur
+       * @throws \TypeEror if $pdo is not a PDO connection object
        */
 
-      public function delete(PDO $pdo): void {
+      public function delete(\PDO $pdo): void {
          //create query template
          $query = "DELETE FROM shelter WHERE shelterId = :shelterId";
          $statement = $pdo->prepare($query);
@@ -249,20 +250,23 @@
       /**
        * get the Shelter by ShelterId
        *
-       * @param PDO $pdo PDO connection object
+       * @param \PDO $pdo PDO connection object
        * @param string $shelterId shelter Id used for the search
        * @return Shelter | null Shelter or null if not found
-       * @throws PDOException when mySQL related errors occur
-       * @throws TypeError when a variable is not the correct data type
+       * @throws \PDOException when mySQL related errors occur
+       * @throws \InvalidArgumentException if shelterId is not a binary string or insecure
+       * @throws \RangeException if shelterId is larger than 16 characters
+       * @throws \Exception if any other error occurs
+       * @throws \TypeError when a variable is not the correct data type
        */
 
 
-      public static function getShelterByShelterId(PDO $pdo, $shelterId): ?Shelter {
+      public static function getShelterByShelterId(\PDO $pdo, $shelterId): ?Shelter {
          // sanitize the shelter id before searching
          try {
             $shelterId = self::validateUuid($shelterId);
-         } catch(\InvalidArgumentException | RangeException | Exception | TypeError $exception) {
-            throw (new PDOException($exception->getMessage(), 0, $exception));
+         } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+            throw (new \PDOException($exception->getMessage(), 0, $exception));
          }
 
          //create query template
@@ -276,7 +280,7 @@
          //grab the shelter from mySQL
          try {
             $shelter = null;
-            $statement->setFetchMode(PDO::FETCH_ASSOC);
+            $statement->setFetchMode(\PDO::FETCH_ASSOC);
             $row = $statement->fetch();
             if($row !== false) {
                $shelter = new Shelter($row["shelterId"], $row["shelterAddress"], $row["shelterName"], $row["shelterPhone"]);

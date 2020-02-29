@@ -245,7 +245,7 @@ class AnimalTest extends PawsTest {
       $results = Animal::getAllAnimals($this->getPDO());
       $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
       $this->assertCount(1, $results);
-      $this->assertContainsOnlyInstancesOf("PawsForCause\\Paws\\Animal\\Test", $results);
+      $this->assertContainsOnlyInstancesOf("PawsForCause\Paws\Animal", $results);
 
       // grab the result from the array and validate it
       $pdoAnimal = $results[0];
