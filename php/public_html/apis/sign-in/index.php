@@ -24,7 +24,7 @@
          session_start();
       }
       //grab mySQL statement
-      $secrets = new \Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini");
+      $secrets = new \Secrets("/etc/apache2/capstone-mysql/paws.ini");
       $pdo = $secrets->getPdoObject();
 
       //determine which HTTP method is being used

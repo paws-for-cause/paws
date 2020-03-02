@@ -6,7 +6,7 @@
    require_once dirname(__DIR__, 3) . "/lib/uuid.php";
    require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
-   use PawsForCause\Paws\User;
+   use UssHopper\DataDesign\Profile;
 
    /**
     * api for signing up too Paws
@@ -39,21 +39,11 @@
          $requestContent = file_get_contents("php://input");
          $requestObject = json_decode($requestContent);
 
-
-         //user first name is a required field
-         if(empty($requestObject->userFirstName) === true) {
-            throw(new \InvalidArgumentException ("No first name present", 405));
-         }
-
-         //user last name is a required field
-         if(empty($requestObject->userLastName) === true) {
-            throw(new \InvalidArgumentException("No last name present", 405));
-         }
-
-         //user age is a required field
-         if(empty($requestObject->userAge) === true) {
-            throw(new \InvalidArgumentException("No age value present"));
-         }
+/*
+         //profile at handle is a required field
+         if(empty($requestObject->profileAtHandle) === true) {
+            throw(new \InvalidArgumentException ("No profile @handle", 405));
+         }*/
 
          //user email is a required field
          if(empty($requestObject->userEmail) === true) {
@@ -90,8 +80,8 @@
          //insert the user into the database
          $user->insert($pdo);
 
-         //compose the email message to send with the activation token
-         $messageSubject = "You are one step closer to activating your account!";
+         //compose the email message to send with th activation token
+         $messageSubject = "One step closer to Sticky Head -- Account Activation";
 
          //building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
          //make sure URL is /public_html/api/activation/$activation
@@ -105,8 +95,8 @@
 
 //		//compose message to send with email
 //		$message = <<< EOF
-//<h2>Welcome to Paws!</h2>
-//<p>In order to start browsing you must confirm your account </p>
+//<h2>Welcome to DDCTwitter.</h2>
+//<p>In order to start posting tweets of cats you must confirm your account </p>
 //<p><a href="$confirmLink">$confirmLink</a></p>
 //EOF;
 //		//create swift email
@@ -167,7 +157,7 @@
 //		}
 
          // update reply
-         $reply->message = "Thank you for creating a profile with Paws!";
+         $reply->message = "Thank you for creating a profile with Paws";
       } else {
          throw (new InvalidArgumentException("invalid http request"));
       }

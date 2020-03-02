@@ -52,19 +52,12 @@
          //set XSRF cookie
          setXsrfCookie();
 
-         //gets a post by content
+         //gets a user by id or email
          if(empty($id) === false) {
             $reply->data = User::getUserByUserId($pdo, $id);
 
-         } else if(empty($userFirstName) === false) {
-            $reply->data = User::getUserByUserFirstName($pdo, $userFirstName);
-
          } else if(empty($userEmail) === false) {
             $reply->data = User::getUserByUserEmail($pdo, $userEmail);
-
-         } else if(empty($userPhone) === false) {
-
-            $reply->data = User::getUserByUserPhone($pdo, $userPhone);
          }
 
       } elseif($method === "PUT") {
@@ -92,11 +85,6 @@
             throw(new RuntimeException("User does not exist", 404));
          }
 
-         //User first name
-         if(empty($requestObject->userFirstName) === true) {
-            throw(new \InvalidArgumentException ("No user first name", 405));
-         }
-
          //user email is a required field
          if(empty($requestObject->userEmail) === true) {
             throw(new \InvalidArgumentException ("No user email present", 405));
@@ -107,7 +95,6 @@
             $requestObject->UserPhone = $user->getUserPhone();
          }
 
-         $user->setUserFirstName($requestObject->userFirstName);
          $user->setUserEmail($requestObject->userEmail);
          $user->setUserPhone($requestObject->userPhone);
          $user->update($pdo);
