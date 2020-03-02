@@ -4,3 +4,7 @@
 /php/vendor
 /php/composer.lock
 /app/src/setupProxy.js
+/.sync-config.cson
+/node_modules
+/app/node_modules
+/npm-debug.log
