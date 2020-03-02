@@ -3,3 +3,4 @@
 */vendor
 /php/vendor
 /php/composer.lock
+/app/src/setupProxy.js
