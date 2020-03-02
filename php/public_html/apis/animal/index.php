@@ -144,7 +144,7 @@
             //enforce the end user has a JWT token
             validateJwtHeader();
 
-            // create new tweet and insert into the database
+            // create new animal and insert into the database
             $animal = new Animal(generateUuidV4(), $_SESSION["shelter"]->getShelterId(), $requestObject->animalAdoptionStatus, $requestObject->animalBreed, $requestObject->animalGender, $requestObject->animalName, $requestObject->animalPhotoUrl, $requestObject->animalSpecies);
             $animal->insert($pdo);
 
