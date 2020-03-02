@@ -6,7 +6,7 @@
    require_once dirname(__DIR__, 3) . "/lib/uuid.php";
    require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
-   use UssHopper\DataDesign\Profile;
+   use UssHopper\DataDesign\User;
 
    /**
     * api for signing up too Paws

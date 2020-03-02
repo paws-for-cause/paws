@@ -1,4 +1,3 @@
-<!--TODO: write LIKE api-->
 <?php
 
    require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
@@ -9,7 +8,7 @@
    require_once dirname(__DIR__, 3) . "/lib/uuid.php";
 
 
-   use PawsForCause\Paws\Like;
+   use PawsForCause\Paws\{Like, User, Animal};
 
    /**
     * Api for the Like class
