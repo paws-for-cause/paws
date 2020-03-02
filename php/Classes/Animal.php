@@ -120,76 +120,7 @@
       }
 
       /**
-       * accessor method for animalShelterId
-       *
-       * @return Uuid
-       */
-      public function getAnimalShelterId(): Uuid {
-         return ($this->animalShelterId);
-      }
-
-		/**
-		 * accessor method for the Animal Adoption Status
-		 *
-		 * @return string
-		 */
-      public function getAnimalAdoptionStatus(): string {
-         return ($this->animalAdoptionStatus);
-      }
-
-		/**
-		 * accessor method for the animal breed
-		 *
-		 * @return string
-		 */
-
-      public function getAnimalBreed(): string {
-         return ($this->animalBreed);
-      }
-
-		/**
-		 * accessor method for the Animal Gender
-		 *
-		 * @return int
-		 */
-      public function getAnimalGender(): int {
-         return ($this->animalGender);
-      }
-
-		/**
-		 * accessor method for the name of the animal
-		 *
-		 * @return string
-		 */
-      public function getAnimalName() {
-         return ($this->animalName);
-      }
-
-		/**
-		 * accessor for the photo url of the animal
-		 *
-		 * @return string
-		 */
-      public function getAnimalPhotoUrl() {
-         return ($this->animalPhotoUrl);
-      }
-
-		/**
-		 * accessor method for the species of the animal
-		 *
-		 * @return string
-		 */
-      public function getAnimalSpecies() {
-         return ($this->animalSpecies);
-      }
-
-
-
-
-      //** MUTATORS BELOW  **//
-
-      /**
-       * Mutator Method for animalId - This is the Primary Key
+       * mutator method for animalId - This is the Primary Key
        *
        * @param string $newAnimalId
        * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
@@ -209,7 +140,16 @@
       }
 
       /**
-       * Mutator for animalShelterId - This is the foreign key
+       * accessor method for animalShelterId
+       *
+       * @return Uuid
+       */
+      public function getAnimalShelterId(): Uuid {
+         return ($this->animalShelterId);
+      }
+
+      /**
+       * mutator method for animal shelter id
        *
        * @param string $newAnimalShelterId
        * @throws \InvalidArgumentException if the data types are not InvalidArgumentException
@@ -226,6 +166,15 @@
 
          // convert and store the anima id
          $this->animalShelterId = $uuid;
+      }
+
+		/**
+		 * accessor method for the Animal Adoption Status
+		 *
+		 * @return string
+		 */
+      public function getAnimalAdoptionStatus(): string {
+         return ($this->animalAdoptionStatus);
       }
 
       /**
@@ -251,6 +200,16 @@
          $this->animalAdoptionStatus = $newAnimalAdoptionStatus;
       }
 
+		/**
+		 * accessor method for the animal breed
+		 *
+		 * @return string
+		 */
+
+      public function getAnimalBreed(): string {
+         return ($this->animalBreed);
+      }
+
       /**
        * mutator method for animal breed
        *
@@ -274,8 +233,21 @@
          $this->animalBreed = $newAnimalBreed;
       }
 
+		/**
+		 * accessor method for the Animal Gender
+		 *
+		 * @return int
+		 */
+      public function getAnimalGender(): int {
+         return ($this->animalGender);
+      }
 
-//** Tinyint mutator */
+      /**
+       * mutator method for animal gender
+       * @param int $newAnimalGender gender value for animal
+       * @throws \RangeException if $newAnimalGender is invalid
+       */
+
       function setAnimalGender(int $newAnimalGender) {
          // verify the gender input is valid
          if(($newAnimalGender > 1) || ($newAnimalGender < 0))
@@ -284,6 +256,15 @@
 
          // store the animal gender
          $this->animalGender = $newAnimalGender;
+      }
+
+		/**
+		 * accessor method for the name of the animal
+		 *
+		 * @return string
+		 */
+      public function getAnimalName() {
+         return ($this->animalName);
       }
 
       /**
@@ -309,6 +290,14 @@
          $this->animalName = $newAnimalName;
       }
 
+		/**
+		 * accessor for the photo url of the animal
+		 *
+		 * @return string
+		 */
+      public function getAnimalPhotoUrl() {
+         return ($this->animalPhotoUrl);
+      }
 
       /**
        * mutator method for the Animal Photo Url
@@ -331,6 +320,15 @@
          }
          // store the at handle
          $this->animalPhotoUrl = $newAnimalPhotoUrl;
+      }
+
+		/**
+		 * accessor method for the species of the animal
+		 *
+		 * @return string
+		 */
+      public function getAnimalSpecies() {
+         return ($this->animalSpecies);
       }
 
       /**
@@ -356,16 +354,9 @@
          $this->animalSpecies = $newAnimalSpecies;
       }
 
-
-//**getFooByBar methods below**//
-
-      //TODO - Rewrite whole docblock <-- (instructions unclear) Look at User for the example.
-		//TODO- WRITE A GET ALL ANIMALS, CHECK WHERE IT IS SUPPOSED TO GO
       /**
        *
-       * getAnimalByAnimalId
-       *
-       * gets the animal by animalID
+       * gets the animal by id
        *
        * @param \PDO $pdo - PDO connection object
        * @param string $animalId - the animal id to search for
@@ -406,14 +397,13 @@
 
       /**
        *
-       * getAnimaByShelterId
        *
-       * a method that returns an SplFixedArray of animal Shelter Ids
+       * gets animals by shelter id
        *
        * @param \PDO $pdo
-       * @param string $animalShelterId
+       * @param string $animalShelterId id for the shelter
        * @return animal SplFixedArray of animals
-		 * @throws \RangeException
+		 * @throws \RangeException if shelter value is invalid
        */
       public static function getAnimalByShelterId(\PDO $pdo, string $animalShelterId): SPLFixedarray {
 
@@ -447,11 +437,8 @@
          return ($animalArray);
       }
 
-
-//get Animals by likeUserId
-
       /**
-       * gets the Animal by userLikeId
+       * gets an array of animal by user like
        * @param \PDO $pdo PDO connection object
        * @param string $likeUserId like id to search by
        * @return \SplFixedArray SplFixedArray of Animals found
@@ -495,12 +482,39 @@
          return ($animalArray);
       }
 
+      /**
+       * gets all Animals
+       *
+       * @param \PDO $pdo PDO connection object
+       * @return \SplFixedArray SplFixedArray of Animals found or null if not found
+       * @throws \PDOException when mySQL related errors occur
+       * @throws \TypeError when variables are not the correct data type
+       **/
+      public static function getAllAnimals(\PDO $pdo) : \SPLFixedArray {
+         // create query template
+         $query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies FROM animal";
+         $statement = $pdo->prepare($query);
+         $statement->execute();
 
-      //WRITE GET ALL ANIMALS getFooByBar
+         // build an array of animals
+         $animals = new \SplFixedArray($statement->rowCount());
+         $statement->setFetchMode(\PDO::FETCH_ASSOC);
+         while(($row = $statement->fetch()) !== false) {
+            try {
+               $animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+               $animals[$animals->key()] = $animal;
+               $animals->next();
+            } catch(\Exception $exception) {
+               // if the row couldn't be converted, rethrow it
+               throw(new \PDOException($exception->getMessage(), 0, $exception));
+            }
+         }
+         return ($animals);
+      }
 
 
       /**
-       * inserts this Animal into mySQL
+       * inserts this animal into mySQL
        *
        * @param PDO $pdo PDO connection object
        * @throws PDOException when mySQL related errors occur
@@ -535,7 +549,7 @@
       }
 
       /**
-       * Updates this Animal in mySQL
+       * updates this animal in mySQL
        *
        * @param PDO $pdo PDO connection object
        * @throws PDOException when mySQL related errors occur
@@ -552,35 +566,6 @@
          $statement->execute($parameters);
       }
 
-      /**
-       * gets all Animals
-       *
-       * @param \PDO $pdo PDO connection object
-       * @return \SplFixedArray SplFixedArray of Animals found or null if not found
-       * @throws \PDOException when mySQL related errors occur
-       * @throws \TypeError when variables are not the correct data type
-       **/
-      public static function getAllAnimals(\PDO $pdo) : \SPLFixedArray {
-         // create query template
-         $query = "SELECT animalId, animalShelterId, animalAdoptionStatus, animalBreed, animalGender, animalName, animalPhotoUrl, animalSpecies FROM animal";
-         $statement = $pdo->prepare($query);
-         $statement->execute();
-
-         // build an array of animals
-         $animals = new \SplFixedArray($statement->rowCount());
-         $statement->setFetchMode(\PDO::FETCH_ASSOC);
-         while(($row = $statement->fetch()) !== false) {
-            try {
-               $animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
-               $animals[$animals->key()] = $animal;
-               $animals->next();
-            } catch(\Exception $exception) {
-               // if the row couldn't be converted, rethrow it
-               throw(new \PDOException($exception->getMessage(), 0, $exception));
-            }
-         }
-         return ($animals);
-      }
 
       /**
        * formats the state variables for JSON serialization
