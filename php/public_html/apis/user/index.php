@@ -7,12 +7,11 @@
    require_once dirname(__DIR__, 3) . "/lib/xsrf.php";
    require_once dirname(__DIR__, 3) . "/lib/jwt.php";
    require_once dirname(__DIR__, 3) . "/lib/uuid.php";
-   require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
    use PawsForCause\Paws\User;
 
    /**
-    * API for Tweet
+    * API for User
     *
     * @author Matthew Urrea <matt.urrea.code@gmail.com>
     * @version 1.0

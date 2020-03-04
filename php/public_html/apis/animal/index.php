@@ -7,7 +7,7 @@
    require_once dirname(__DIR__, 3) . "/lib/uuid.php";
    require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
-   use UssHopper\DataDesign\{Shelter, Animal};
+   use PawsForCause\Paws\{Shelter, Animal};
 
 
    /**
@@ -52,7 +52,7 @@
       }
 
 
-      // handle GET request - if id is present, that tweet is returned, otherwise all tweets are returned
+      // handle GET request - if id is present, that animal is returned, otherwise all animals are returned
       if($method === "GET") {
          //set XSRF cookie
          setXsrfCookie();
@@ -61,10 +61,10 @@
          if(empty($id) === false) {
             $reply->data = Animal::getAnimalByAnimalId($pdo, $id);
          } else if(empty($animalShelterId) === false) {
-            // if the user is logged in grab all the animals by that user based  on animals liked
+            // if the user is logged in grab all the animals by that user based on animals liked
             $reply->data = Animal::getAnimalByAnimalShelterId($pdo, $animalShelterId)->toArray();
 
-         } else if(empty($tweetContent) === false) {
+         } else if(empty($animalAdoptionStatus) === false) {
             $reply->data = Animal::getAnimalByLikeUserId($pdo, $likeUserId)->toArray();
 
          } else {
@@ -163,7 +163,7 @@
             throw(new RuntimeException("Animal does not exist", 404));
          }
 
-         //enforce the user is signed in and only trying to edit their own tweet
+         //enforce the shelter is signed in and only trying to edit their own animal
          if(empty($_SESSION["shelter"]) === true || $_SESSION["shelter"]->getShelterId()->toString() !== $animal->getAnimalId()->toString()) {
             throw(new \InvalidArgumentException("You are not allowed to delete this animal", 403));
          }
@@ -171,7 +171,7 @@
          //enforce the end user has a JWT token
          validateJwtHeader();
 
-         // delete tweet
+         // delete animal
          $animal->delete($pdo);
          // update reply
          $reply->message = "Animal deleted OK";

@@ -59,7 +59,7 @@
                //set activation to null
                $user->setUserActivationToken(null);
 
-               //update the profile in the database
+               //update the user in the database
                $user->update($pdo);
 
                //set the reply for the end user

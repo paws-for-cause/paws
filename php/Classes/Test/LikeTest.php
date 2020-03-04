@@ -1,5 +1,4 @@
 <?php
-//TODO: Assert Equals like is approved
    namespace PawsForCause\Paws\Test;
 
    use PawsForCause\Paws\ {User, Shelter, Animal,  Like};
@@ -144,7 +143,7 @@
          $animal = new Animal($animalId->getBytes(), $this->shelter->getShelterId(), "nope", "Lab", "0", "Bobo", "https://dogphoto.com/dogphoto", "chupacabra");
          $animal->insert($this->getPDO());
 
-         //todo create a like object(use the getUserId accessor and getAnimalId accessor for the foreign keys) and insert it into the database
+         //create a like object(use the getUserId accessor and getAnimalId accessor for the foreign keys) and insert it into the database
          $user = new User(generateUuidV4(), $this->VALID_ACTIVATION, "24", "email@email.com", "alsdfj", $this->VALID_HASH, "asdhflaks", "5052224848");
 
          $like = new Like($animalId->getBytes(), $this->user->getUserId(), 0);
@@ -152,7 +151,7 @@
 
 
          // grab the data from mySQL and enforce the fields match our expectations
-         //git todo use the getuserId accessor to pass the userId into getAnimalByLikeUserId
+         // use the getuserId accessor to pass the userId into getAnimalByLikeUserId
          $results = Animal::getAnimalByLikeUserId($this->getPDO(), $this->user->getUserId());
          $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("animal"));
          $this->assertCount(1, $results);

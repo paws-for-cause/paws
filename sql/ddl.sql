@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user`(
   userId BINARY(16) NOT NULL,
-  userActivationToken VARCHAR (32) NOT NULL,
+  userActivationToken VARCHAR (32),
   userAge SMALLINT SIGNED NOT NULL,
   userEmail VARCHAR (64) NOT NULL,
   userFirstName VARCHAR (32) NOT NULL,

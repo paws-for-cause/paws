@@ -55,7 +55,7 @@
 
          //grab the user from the database by the email provided
          $user = User::getUserByUserEmail($pdo, $userEmail);
-         if(empty($profile) === true) {
+         if(empty($user) === true) {
             throw(new InvalidArgumentException("Invalid Email", 401));
          }
          $user->setUserActivationToken(null);
