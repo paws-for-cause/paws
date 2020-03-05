@@ -94,8 +94,8 @@
 
 		//compose message to send with email
 		$message = <<< EOF
-      <h2>Welcome to DDCTwitter.</h2>
-      <p>In order to start posting tweets of cats you must confirm your account </p>
+      <h2>Welcome to Paws!</h2>
+      <p>In order to start viewing adoptable animals you must confirm your account </p>
       <p><a href="$confirmLink">$confirmLink</a></p>
       EOF;
 		//create swift email

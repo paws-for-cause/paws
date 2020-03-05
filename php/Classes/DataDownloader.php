@@ -1,0 +1,118 @@
+<?php
+
+   namespace PawsForCause\Paws;
+
+   /**
+    * Documenting our class identifiers compared to our data class identifiers
+    *
+    * $routeId = "OBJECTID"
+    * $routeName = "ParentPathName"
+    * $routeFile = ..... we will create
+    * $routeType = "PathType"
+    * $routeSpeedLimit = "PostedSpeedLimit_MPH"
+    * routeDescription = "Comments"
+    *$petFinder-> secret;
+    *$pet-finder->secrets;
+    **/
+
+   require_once("autoload.php");
+   require_once(dirname(__DIR__, 1) . "/vendor/autoload.php");
+   require_once("/etc/apache2/capstone-mysql/Secrets.php");
+   require_once(dirname(__DIR__, 2) . "/php/lib/uuid.php");
+
+   class DataDownloader {
+      public static function pullAnimals() {
+         $newAnimals = null;
+         $urlBase = "//api.petfinder.com/v2/animals";
+         $secrets = new \Secrets("/etc/apache2/capstone-mysql/paws.ini");
+         $petFinder = $secrets->getSecret("pet-finder");
+
+         $animals = self::readDataJson($urlBase);
+         var_dump($animals);
+         $newArray = [];
+//		var_dump($routes[0]->geometry->paths[0]);
+//		var_dump($routes[0]->attributes);
+//		[ParentPathName => [description => something, routeFile => [
+//			[x, y],
+//			[x, y],
+//			[x, y]
+//		] ]];
+//		for($i = 0; $i < sizeof($routes); $i++) {
+//			if($routes[$i]->attributes->PathType === "Paved Multiple Use Trail") {
+//				if(array_key_exists(trim($routes[$i]->attributes->ParentPathName), $newArray)) {
+//					array_push($newArray[trim($routes[$i]->attributes->ParentPathName)]["routeFile"], $routes[$i]->geometry->paths);
+//				} else {
+//					$newArray = $newArray + [trim($routes[$i]->attributes->ParentPathName) => ["description" => $routes[$i]->attributes->Comments, "routeSpeedLimit" => $routes[$i]->attributes->PostedSpeedLimit_MPH, "routeFile" => [
+//							$routes[$i]->geometry->paths
+//						]]];
+//				}
+//				$routeId = generateUuidV4();
+//				$description = $routes[$i]->attributes->Comments;
+//				$routeFile = json_encode($newArray[$routes[$i]->attributes->ParentPathName]["routeFile"]);
+//				$routeName = $routes[$i]->attributes->ParentPathName;
+//				$routeSpeedLimit = 5;
+//				$routeType = '';
+//				$newRoute = new Route($routeId, $description, $routeFile, $routeName, $routeSpeedLimit, $routeType);
+//				$newRoute->insert($pdo);
+//			}
+//		}
+
+//
+////				$newArray = ["routeName" => ["route" => []]];
+//
+////				if($newArray[$route->attributes->ParentPathName]) {
+////					$newArray[$route->attributes->ParentPathName] = $newArray[$route->attributes->ParentPathName]  + $route->geometry->paths;
+////				} else {
+////					$newArray = [$route->attributes->ParentPathName => $route->geometry->paths];
+////				}
+////				[$route-attributes->ParentPathType][$route-geometry->paths]
+////				$newArray = [$route->attributes->ParentPathName => $newArray[$route->attributes->ParentPathName ? $newArray[$route->attributes->ParentPathName] + $route->geometry->paths : $route->geometry->paths];
+////				array_push($newArray, [$route->attributes->ParentPathName, $route->geometry->paths]);
+//
+//			}
+//		}
+         // ORIGINAL DATA DOWNLOADER
+         foreach($animals as $animal) {
+            if($animal->attributes->PathType === "#") {
+
+               $animalId = generateUuidV4();
+               $animalShelterId = $animal->attributes->organization;
+               $animalAdoptionStatus = $animal->attributes->status;
+               $animalBreed = $animal->attributes->breed;
+               $animalGender = $animal->attributes->gender;
+               $animalName = $animal->attributes->name;
+               $animalPhotoUrl = $animal->attributes->photo;
+               $animalSpecies = $animal->attributes->types;
+//
+//				$newArray = ["routeId" => $routeId, "description" => $description, "routeFile" => $routeFile, "routeName" => $routeName, "routeSpeedLimit" => $routeSpeedLimit, "routeType" => $routeType];
+//				file_put_contents("../../images/bikepathsEdited.json", $newArray, FILE_APPEND);
+
+               // insert animal into database
+               $newAnimal = new Animal($animalId, $animalShelterId, $animalAdoptionStatus, $animalBreed, $animalGender, $animalName, $animalPhotoUrl, $animalSpecies);
+               $newAnimal->insert($pdo);
+            }
+         }
+      }
+
+      public static function readDataJson($url) {
+         $context = stream_context_create(["http" => ["ignore_errors" => true, "method" => "GET"]]);
+         try {
+            // file-get-contents returns file in string context
+            if(($jsonData = file_get_contents($url, null, $context)) === false) {
+               throw(new \RuntimeException("url doesn't produce results"));
+            }
+            // decode the Json file
+            $jsonConverted = json_decode($jsonData);
+
+//			var_dump($jsonConverted);
+
+
+            $newAnimals = \SplFixedArray::fromArray($jsonConverted->features);
+         } catch(\Exception $exception) {
+            throw(new \PDOException($exception->getMessage(), 0, $exception));
+         }
+         return ($newAnimals);
+      }
+   }
+
+   echo DataDownloader::pullAnimals();
