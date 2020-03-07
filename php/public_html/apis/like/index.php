@@ -53,11 +53,6 @@
                $reply->data = $like;
             }
             //if none of the search parameters are met throw an exception
-         } else if(empty($likeUserId) === false) {
-            $reply->data = Like::getLikeByLikeUserId($pdo, $likeUserId)->toArray();
-            //get all the likes associated with the animalId
-         } else if(empty($likeAnimalId) === false) {
-            $reply->data = Like::getLikeByLikeAnimalId($pdo, $likeAnimalId)->toArray();
          } else {
             throw new InvalidArgumentException("incorrect search parameters ", 404);
          }
@@ -68,13 +63,12 @@
          $requestContent = file_get_contents("php://input");
          $requestObject = json_decode($requestContent);
 
-         if(empty($requestObject->likeUserId) === true) {
-            throw (new \InvalidArgumentException("No User linked to the Like", 405));
-         }
 
-         if(empty($requestObject->likeAnimalId) === true) {
+
+         if(empty($requestObject->likeApproved) === true) {
             throw (new \InvalidArgumentException("No Animal linked to the Like", 405));
          }
+
 
          if($method === "POST") {
 
@@ -91,7 +85,7 @@
 
             validateJwtHeader();
 
-            $like = new Like($_SESSION["user"]->getUserId(), $requestObject->likeAnimalId);
+            $like = new Like($requestObject->likeAnimalId, $_SESSION["user"]->getUserId());
             $like->insert($pdo);
             $reply->message = "successfully liked animal";
 

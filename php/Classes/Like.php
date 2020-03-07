@@ -134,7 +134,7 @@
          // verify the like input is valid
          if(($newLikeApproved > 1) || ($newLikeApproved < 0))
 
-            throw(new \RangeException("animal gender value is invalid"));
+            throw(new \RangeException("animal like value is invalid"));
 
          // store the approved like
          $this->likeApproved = $newLikeApproved;

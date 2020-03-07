@@ -9,7 +9,7 @@
    require_once dirname(__DIR__, 3) . "/lib/uuid.php";
    require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
-   use UssHopper\DataDesign\Shelter;
+   use PawsForCause\Paws\Shelter;
 
    /**
     * API for Shelter

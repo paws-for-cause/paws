@@ -11,15 +11,15 @@
 
    $password = "password";
    $hash = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 45]);
-
-   $user1 = new User(generateUuidV4(), null, 100, "goober@gmail.com", "firstName", $hash, "userName", "1112223434");
+/*
+   $user1 = new User(generateUuidV4(), null, 100, "goober@gmail.com", "Joe", $hash, "Blah", "1112223434");
    $user1->insert($pdo);
 
-   $user2 = new User(generateUuidV4(), null, 50, "jambo@qwert.com", "alskdjf", $hash, "dksdjhdeu", "8383883838");
+   $user2 = new User(generateUuidV4(), null, 50, "jambo@gmail.com", "Chris", $hash, "McFake", "8383883838");
    $user2->insert($pdo);
 
-   $user3 = new User(generateUuidV4(), null, 53, "eueueu@wiwiw.com", "asldkfj", $hash, "lasjfietj", "2748329483");
-   $user3->insert($pdo);
+   $user3 = new User(generateUuidV4(), null, 53, "boop@beep.com", "Dan", $hash, "Man", "2748329483");
+   $user3->insert($pdo);*/
 
    $shelter1 = new Shelter(generateUuidV4(), "10001 Seven St.", "Squ Shelter", "5554442222");
    $shelter1->insert($pdo);
@@ -39,7 +39,7 @@
    $animal3 = new Animal(generateUuidV4(), $shelter3->getShelterId(),"not adopted","german kangaroo", 1, "Jan", "https://askdfa.com/aksjhf", "sksjdhfs");
    $animal3->insert($pdo);
 
-
+/*
    $like1 = new Like($animal1->getAnimalId(), $user1->getUserId(), 1);
    $like1->insert($pdo);
    echo "success1";
@@ -51,4 +51,4 @@
    $like3 = new Like( $animal3->getAnimalId(), $user3->getUserId(),1);
    $like3->insert($pdo);
    echo "success3";
-
+*/

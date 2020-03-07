@@ -6,12 +6,10 @@
 //require_once("ValidateUuid.php");
    require_once(dirname(__DIR__) . "/vendor/autoload.php");
 
-   use Cassandra\Tinyint;
    use Exception;
    use InvalidArgumentException;
    use \PDO;
    use PDOException;
-   use phpDocumentor\Reflection\Types\Integer;
    use Ramsey\Uuid\Uuid;
    use RangeException;
    use SplFixedArray;
@@ -22,7 +20,7 @@
     * @author Thomas Dameron <tdameron1@cnm.edu>
     * @version 1.0.0
     **/
-   class Animal {
+   class Animal implements \JsonSerializable {
       use ValidateUuid;
 
       //properties below
@@ -576,5 +574,6 @@
          $fields = get_object_vars($this);
 
          $fields["animalId"] = $this->animalId->toString();
+         return $fields;
       }
    }
