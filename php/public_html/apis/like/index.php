@@ -65,10 +65,13 @@
 
 
 
-         if(empty($requestObject->likeApproved) === true) {
+         if(empty($requestObject->likeAnimalId) === true) {
             throw (new \InvalidArgumentException("No Animal linked to the Like", 405));
          }
 
+         if(empty($requestObject->likeApproved) === true) {
+            throw (new \InvalidArgumentException("No action take on animal!", 405));
+         }
 
          if($method === "POST") {
 
@@ -85,7 +88,7 @@
 
             validateJwtHeader();
 
-            $like = new Like($requestObject->likeAnimalId, $_SESSION["user"]->getUserId());
+            $like = new Like($requestObject->likeAnimalId, $_SESSION["user"]->getUserId(), $requestObject->likeApproved);
             $like->insert($pdo);
             $reply->message = "successfully liked animal";
 
