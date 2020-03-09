@@ -1,10 +1,10 @@
 <?php
 
-   namespace PawsForCause\Paws;
    require_once("autoload.php");
    require_once(dirname(__DIR__, 1) . "/lib/uuid.php");
-   require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+   require_once(dirname(__DIR__) . "/vendor/autoload.php");
    require_once("/etc/apache2/capstone-mysql/paws.ini");
+   require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
    use GuzzleHttp\Client;
 
@@ -34,183 +34,96 @@
       private $authToken;
 
       /*
+       * @var string
+       */
+      private $secret;
+
+
+      /*
        * constructor for the class
        */
 
       public function __construct() {
-         $config = readConfig("/etc/apache2/capstone-mysql/nmoutdoors.ini");
          //connection to the api
-         $this->guzzle = new Client(["base_uri" => "https://ridb.recreation.gov/api/v1/");
-         $this->pdo = secrets("/etc/apache2/capstone-mysql/nmoutdoors.ini");
-         //deleting filled table entries before redownloading/updating
-//		$this->pdo->query("DELETE FROM activityType");
-//		$this->pdo->query("DELETE FROM recArea");
+         $this->guzzle = new Client(["base_uri" => "https://api.petfinder.com/v2/"]);
+         $secrets = new \Secrets("/etc/apache2/capstone-mysql/paws.ini");
+         $this->secret = $secrets->getSecret("pet-finder");
+         $this->pdo = $secrets->getPdoObject();
+         $this->getAuthHeader();
+         $this->getDogData();
+         $this->getCatData();
+         $this->getOrgsInNM();
+
       }
 
       /*
-       * function to call api and pull data and inject into SQL tables for both RecArea and Activity
+       * post method to get authorization header and token
+       * @return
        */
+      public function getAuthHeader(): void {
+         var_dump($this->secret->apiKey);
 
-      public function getRecAreaAndActivities(\stdClass $apiRecArea): void {
-         //place holder image in event that api does not provide RecAreaImageUrl
-         $imageUrl = "https://bootcamp-coders.cnm.edu/~sheckendorn/nm-outdoors/public_html/images/replacement%20image.jpg";
-         if(count($apiRecArea->MEDIA) > 0) {
-            $imageUrl = $apiRecArea->MEDIA[0]->URL;
-         }
-         //excludes from api call the recAreas that do not include lat and long
-         if(empty($apiRecArea->RecAreaLatitude) === true || empty ($apiRecArea->RecAreaLongitude) === true) {
-            return;
-         }
-         //process to inject api data into RecAreaSQL table
-         $recArea = new RecArea(generateUuidV4(), $apiRecArea->RecAreaDescription, $apiRecArea->RecAreaDirections, $imageUrl, $apiRecArea->RecAreaLatitude, $apiRecArea->RecAreaLongitude, $apiRecArea->RecAreaMapURL, $apiRecArea->RecAreaName);
-         $recArea->insert($this->pdo);
-         foreach($apiRecArea->ACTIVITY as $apiActivity) {
-            $currActivity = array_filter($this->activities, function ($mySqlActivity) use ($apiActivity) {
-               return strtolower($mySqlActivity->getActivityName()) === strtolower($apiActivity->ActivityName);
-            });
-            //process to inject api data into Activity SQL table
-            $currActivity = array_shift($currActivity);
-            if($currActivity !== null) {
-               $activityType = new ActivityType($currActivity->getActivityId(), $recArea->getRecAreaId());
-               $activityType->insert($this->pdo);
-            }
-         }
+         $request = $this->guzzle->request('POST', 'oauth2/token', [
+            'form_params' => [
+
+               'grant_type' => 'client_credentials',
+               "client_id" => $this->secret->apiKey,
+               'client_secret' => $this->secret->secretKey
+
+            ]
+         ]);
+         echo $request->getBody();
+         $this->accessArray = json_decode($request->getBody(), true);
+         $this->authToken = $this->accessArray['access_token'];
+      }
+
+      /**
+       * get method to get the dog data based on baseUri
+       *
+       */
+      public function getDogData(): void {
+         $data = $this->guzzle->request('GET', 'animals?type=dog&page=1', [ "headers" => ["Authorization" => "Bearer $this->authToken"]
+         ]);
+         //var_dump($data);
+      }
+
+      /**
+       * get method to get the dog data based on baseUri
+       *
+       */
+      public function getCatData(): void {
+        $data = $this->guzzle->request('GET', 'animals?type=cat&page=1', [ "headers" => ["Authorization" => "Bearer $this->authToken"]
+         ]);
+
+        //var_dump($data);
+
       }
 
       /*
-       * incorporates guzzle
-       * maps to json and loops 50x and then repeats until all data is acquired
+       * get method to get all shelters in new mexico
+       *
        */
+      public function getOrgsInNM(): void {
+         $organizations = $this->guzzle->request('GET', 'organizations?state=NM', [ "headers" => ["Authorization" => "Bearer $this->authToken"]
+         ]);
+         var_dump($organizations);
+         echo $organizations->getBody();
+         foreach ($organizations as $value ){
+            if ($value == ''){
+               echo "$value";
+            }
+         }
 
-      public function processJson(): void {
-         $currResult = 0;
-         $numResults = null;
-         do {
-            $reply = $this->guzzle->get("recareas.json", ["query" => ["full" => "true", "offset" => $currResult, "state" => "NM"]]);
-            $apiReply = json_decode($reply->getBody());
-            if ($numResults === null) {
-               $numResults = $apiReply->METADATA->RESULTS->TOTAL_COUNT;
-            }
-            foreach($apiReply->RECDATA as $apiRecArea) {
-               $this->getRecAreaAndActivities($apiRecArea);
-            }
-            $currResult = $currResult + 50;
-         } while($currResult < $numResults);
+
       }
-   }
-   try {
-      $downloader = new DataDownloader();
-      $downloader->processJson();
-   } catch(\Exception $exception) {
-      echo $exception->getMessage() . PHP_EOL;
-      echo $exception->getTraceAsString() . PHP_EOL;
+
+
    }
 
-   //<?php
-   //
-   //
-   //namespace HalfMortise\NmOutdoors;
-   //require_once("autoload.php");
-   //require_once(dirname(__DIR__, 1) . "/lib/uuid.php");
-   //require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
-   //require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
-   //
-   //use GuzzleHttp\Client;
-   //
-   //
-   ///**
-   // * This class will download data from  RIDB.Recreation.Gov.
-   // *
-   // * @author Dylan McDonald dmcdonald21@cnm.edu
-   // * @author HalfMortise <https://www.github.com/halfmortise>
-   // * @author SHeckendorn <https://www.github.com/sheckendorn>
-   // *
-   // **/
-   //class DataDownloader {
-   //	/*
-   //	 * @var array
-   //	 */
-   //	private $activities;
-   //	/**
-   //	 * @var Client
-   //	 */
-   //	private $guzzle;
-   //
-   //	/**
-   //	 * @var \PDO $pdo
-   //	 */
-   //	private $pdo;
-   //
-   //	/*
-   //	 * constructor for the class
-   //	 */
-   //
-   //	public function __construct() {
-   //		$config = readConfig("/etc/apache2/capstone-mysql/nmoutdoors.ini");
-   //		//connection to the api
-   //		$this->guzzle = new Client(["base_uri" => "https://ridb.recreation.gov/api/v1/", "headers" => ["apikey" => $config["recgov"]]]);
-   //		$this->pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/nmoutdoors.ini");
-   //		$this->activities = Activity::getAllActivities($this->pdo)->toArray();
-   //		//deleting filled table entries before redownloading/updating
-   ////		$this->pdo->query("DELETE FROM activityType");
-   ////		$this->pdo->query("DELETE FROM recArea");
-   //	}
-   //
-   //	/*
-   //	 * function to call api and pull data and inject into SQL tables for both RecArea and Activity
-   //	 */
-   //
-   //	public function getRecAreaAndActivities(\stdClass $apiRecArea): void {
-   //		//place holder image in event that api does not provide RecAreaImageUrl
-   //		$imageUrl = "https://bootcamp-coders.cnm.edu/~sheckendorn/nm-outdoors/public_html/images/replacement%20image.jpg";
-   //		if(count($apiRecArea->MEDIA) > 0) {
-   //			$imageUrl = $apiRecArea->MEDIA[0]->URL;
-   //		}
-   //		//excludes from api call the recAreas that do not include lat and long
-   //		if(empty($apiRecArea->FacilityLatitude) === true || empty ($apiRecArea->FacilityLongitude) === true) {
-   //			return;
-   //		}
-   //		//process to inject api data into RecAreaSQL table
-   //		$recArea = new RecArea(generateUuidV4(), $apiRecArea->FacilityDescription, $apiRecArea->FacilityDirections, $imageUrl, $apiRecArea->FacilityLatitude, $apiRecArea->FacilityLongitude, $apiRecArea->FacilityMapURL, $apiRecArea->FacilityName);
-   //		$recArea->insert($this->pdo);
-   //		foreach($apiRecArea->ACTIVITY as $apiActivity) {
-   //			$currActivity = array_filter($this->activities, function ($mySqlActivity) use ($apiActivity) {
-   //				return strtolower($mySqlActivity->getActivityName()) === strtolower($apiActivity->ActivityName);
-   //			});
-   //			//process to inject api data into Activity SQL table
-   //			$currActivity = array_shift($currActivity);
-   //			if($currActivity !== null) {
-   //				$activityType = new ActivityType($currActivity->getActivityId(), $recArea->getRecAreaId());
-   //				$activityType->insert($this->pdo);
-   //			}
-   //		}
-   //	}
-   //
-   //	/*
-   //	 * incorporates guzzle
-   //	 * maps to json and loops 50x and then repeats until all data is acquired
-   //	 */
-   //
-   //	public function processJson(): void {
-   //		$currResult = 0;
-   //		$numResults = null;
-   //		do {
-   //			$reply = $this->guzzle->get("facilities.json", ["query" => ["full" => "true", "offset" => $currResult, "state" => "NM"]]);
-   //			$apiReply = json_decode($reply->getBody());
-   //			if ($numResults === null) {
-   //				$numResults = $apiReply->METADATA->RESULTS->TOTAL_COUNT;
-   //			}
-   //			foreach($apiReply->RECDATA as $apiRecArea) {
-   //				$this->getRecAreaAndActivities($apiRecArea);
-   //			}
-   //			$currResult = $currResult + 50;
-   //		} while($currResult < $numResults);
-   //	}
-   //}
-   //try {
-   //	$downloader = new DataDownloader();
-   //	$downloader->processJson();
-   //} catch(\Exception $exception) {
-   //	echo $exception->getMessage() . PHP_EOL;
-   //	echo $exception->getTraceAsString() . PHP_EOL;
-   //}
+
+   new DataDownloader();
+
+/*
+   TODO Iterate over array to get Shelter, ID, Name, Address, Phone.
+   Get all cat and dog data related to ShelterId.
+Iterate over array to get desired animal values*/
