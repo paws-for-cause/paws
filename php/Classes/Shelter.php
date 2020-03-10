@@ -183,8 +183,8 @@
             throw(new \InvalidArgumentException ("shelter phone is empty or insecure"));
          }
          // verify the new shelter phone is exactly 16 characters
-         if(strlen($newShelterPhone) != 10) {
-            throw(newRangeException ("shelter phone must be exactly 16 characters"));
+         if(strlen($newShelterPhone) > 16) {
+            throw(newRangeException ("shelter phone must be less than or equal to 16 characters"));
          }
          //store the shelter phone
          $this->shelterPhone = $newShelterPhone;

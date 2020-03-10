@@ -1,5 +1,6 @@
 <?php
 
+   namespace PawsForCause\Paws;
    require_once("autoload.php");
    require_once(dirname(__DIR__, 1) . "/lib/uuid.php");
    require_once(dirname(__DIR__) . "/vendor/autoload.php");
@@ -8,11 +9,10 @@
 
    use GuzzleHttp\Client;
 
-
    /**
     * This class will download data from the Petfinder API.
     *
-    * @author Matthew Urrea <matt.urrea.code@gmail.com
+    * @author Matthew Urrea <matt.urrea.code@gmail.com>
     * @author HalfMortise <https://www.github.com/halfmortise>
     * @author SHeckendorn <https://www.github.com/sheckendorn>
     *
@@ -38,9 +38,8 @@
        */
       private $secret;
 
-
       /*
-       * constructor for the class
+       * constructor for new guzzle api interface
        */
 
       public function __construct() {
@@ -61,17 +60,14 @@
        * @return
        */
       public function getAuthHeader(): void {
-         //var_dump($this->secret->apiKey);
          $request = $this->guzzle->request('POST', 'oauth2/token', [
             'form_params' => [
-
                'grant_type' => 'client_credentials',
                "client_id" => $this->secret->apiKey,
                'client_secret' => $this->secret->secretKey
-
             ]
          ]);
-        // echo $request->getBody();
+         // echo $request->getBody();
          $this->accessArray = json_decode($request->getBody(), true);
          $this->authToken = $this->accessArray['access_token'];
       }
@@ -81,9 +77,9 @@
        *
        */
       public function getDogData(): void {
-         $data = $this->guzzle->request('GET', 'animals?type=dog&page=1', [ "headers" => ["Authorization" => "Bearer $this->authToken"]
+         $data = $this->guzzle->request('GET', 'animals?type=dog&page=1', ["headers" => ["Authorization" => "Bearer $this->authToken"]
          ]);
-         //var_dump($data);
+
       }
 
       /**
@@ -91,11 +87,8 @@
        *
        */
       public function getCatData(): void {
-        $data = $this->guzzle->request('GET', 'animals?type=cat&page=1', [ "headers" => ["Authorization" => "Bearer $this->authToken"]
+         $data = $this->guzzle->request('GET', 'animals?type=cat&page=1', ["headers" => ["Authorization" => "Bearer $this->authToken"]
          ]);
-
-        //var_dump($data);
-
       }
 
       /*
@@ -103,50 +96,65 @@
        *
        */
       public function getOrgsInNM(): void {
-         $organizations = $this->guzzle->request('GET', 'organizations?state=NM', [ "headers" => ["Authorization" => "Bearer $this->authToken"]
-         ]);
 
-         $this->orgObject = json_decode($organizations->getBody());
-         var_dump($this->orgObject);
+        $currentPage = 1;
 
-         /*FIRST ATTEMPT UNSUCCESSFUL
-          * foreach($this->orgObject['id'] as $key => $value) {
-            print($value);
-            print($this->orgObject['address'][$key]);
-            print($this->orgObject['name'][$key]);
-            print($this->orgObject['phone'][$key]);
-         }*/
 
-         /* SECOND ATTEMPT UNSCCESSFUL
-          * foreach($this->orgObject->values as $arr){
-            foreach ($arr as $obj) {
-               $id = $obj->group->id;
-               $address = $obj->group->address;
-               $name = $obj->group->name;
-               $phone = $obj->group->phone;
 
-            }*/
-         foreach($this->orgObject as $key => $value){
-            foreach ($value as $object) {
-               echo $object->id;
-               echo $object->address;
-               echo $object->name;
-               echo $object->phone;
-             }
+
+         do {
+
+            $organizations = $this->guzzle->request('GET', "organizations?state=NM&page=$currentPage", ["headers" => ["Authorization" => "Bearer $this->authToken"]
+            ]);
+            $this->orgObject = json_decode($organizations->getBody());
+            $orgAddress = null;
+            $currentPage = $this->orgObject->pagination->current_page;
+            $totalPages = $this->orgObject->pagination->total_pages;
+            var_dump($totalPages);
+            foreach($this->orgObject->organizations as $key => $organization) {
+            if($organization->address->address1 !== null && $organization->phone !== null) {
+               $orgAddress = $organization->address->address1 . " " . $organization->address->city . ", " . $organization->address->state . " " . $organization->address->postcode;
+               $orgName = $organization->name;
+               $orgPhone = $organization->phone === "" || $organization->phone === null ? $organization->phone : "no phone number";
+               $shelter = new Shelter(generateUuidV4(), $orgAddress, $orgName, $orgPhone);
+               //$this->getAnimalsInOrg($organization->id, $shelter->getShelterId());
+            }
          }
+
+
+
+
+         } while($currentPage < $totalPages);
+
+
       }
 
 
+      public function getAnimalsInOrg(string $petfinderOrgId, string $orgId): void {
+         $animalsInOrg = $this->guzzle->request('GET', "animals?organization=$petfinderOrgId", ["headers" => ["Authorization" => "Bearer $this->authToken"]
+         ]);
 
+         $animalsObject = json_decode($animalsInOrg->getBody());
+
+         foreach($animalsObject->animals as $key => $animal) {
+            if(empty($animal->photos) === false) {
+               //$animalAdoptionStatus = $animal->status;
+               $animalAdoptionStatus = 1; //adoption status
+               $animalBreed = $animal->breeds->primary;//breed of animaL
+               $animalName = $animal->name;  //name of animal
+               $animalPhoto = $animal->photos[0]->medium; //photos of animal
+               $animalSpecies = $animal->type;  //species of animal
+               if($animal->gender === 'male') { //gender of animal
+                  $animalGender = 1;
+               } else {
+                  $animalGender = 0;
+               }
+               $animal = new Animal(generateUuidV4(), $orgId, $animalAdoptionStatus, $animalBreed, $animalGender, $animalName, $animalPhoto, $animalSpecies);
+               var_dump($animal);
+            }
+         }
+      }
 
    }
 
-
    new DataDownloader();
-
-/*
-   TODO Iterate over array to get Shelter, ID, Name, Address, Phone.
-
-Get all cat and dog data related to ShelterId.
-
-Iterate over array to get desired animal values*/

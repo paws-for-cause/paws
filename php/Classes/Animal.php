@@ -213,7 +213,7 @@
        *
        * @param string $newAnimalBreed new value of at handle
        * @throws \InvalidArgumentException if $newAnimalBreed is not a string or insecure
-       * @throws \RangeException if $newAnimalBreed is > 32 characters
+       * @throws \RangeException if $newAnimalBreed is > 64 characters
        * @throws \TypeError if $newAnimalBreed is not a string
        **/
       public function setAnimalBreed(string $newAnimalBreed): void {
@@ -224,7 +224,7 @@
             throw(new \InvalidArgumentException("animal name is empty or insecure"));
          }
          // verify the at handle will fit in the database
-         if(strlen($newAnimalBreed) > 32) {
+         if(strlen($newAnimalBreed) > 64) {
             throw(new \RangeException("name of animal breed is too large"));
          }
          // store the at handle
