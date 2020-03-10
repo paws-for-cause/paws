@@ -50,8 +50,8 @@
          $this->secret = $secrets->getSecret("pet-finder");
          $this->pdo = $secrets->getPdoObject();
          $this->getAuthHeader();
-         $this->getDogData();
-         $this->getCatData();
+         // $this->getDogData();
+         // $this->getCatData();
          $this->getOrgsInNM();
 
       }
@@ -61,8 +61,7 @@
        * @return
        */
       public function getAuthHeader(): void {
-         var_dump($this->secret->apiKey);
-
+         //var_dump($this->secret->apiKey);
          $request = $this->guzzle->request('POST', 'oauth2/token', [
             'form_params' => [
 
@@ -72,7 +71,7 @@
 
             ]
          ]);
-         echo $request->getBody();
+        // echo $request->getBody();
          $this->accessArray = json_decode($request->getBody(), true);
          $this->authToken = $this->accessArray['access_token'];
       }
@@ -106,16 +105,38 @@
       public function getOrgsInNM(): void {
          $organizations = $this->guzzle->request('GET', 'organizations?state=NM', [ "headers" => ["Authorization" => "Bearer $this->authToken"]
          ]);
-         var_dump($organizations);
-         echo $organizations->getBody();
-         foreach ($organizations as $value ){
-            if ($value == ''){
-               echo "$value";
-            }
+
+         $this->orgObject = json_decode($organizations->getBody());
+         var_dump($this->orgObject);
+
+         /*FIRST ATTEMPT UNSUCCESSFUL
+          * foreach($this->orgObject['id'] as $key => $value) {
+            print($value);
+            print($this->orgObject['address'][$key]);
+            print($this->orgObject['name'][$key]);
+            print($this->orgObject['phone'][$key]);
+         }*/
+
+         /* SECOND ATTEMPT UNSCCESSFUL
+          * foreach($this->orgObject->values as $arr){
+            foreach ($arr as $obj) {
+               $id = $obj->group->id;
+               $address = $obj->group->address;
+               $name = $obj->group->name;
+               $phone = $obj->group->phone;
+
+            }*/
+         foreach($this->orgObject as $key => $value){
+            foreach ($value as $object) {
+               echo $object->id;
+               echo $object->address;
+               echo $object->name;
+               echo $object->phone;
+             }
          }
-
-
       }
+
+
 
 
    }
@@ -125,5 +146,7 @@
 
 /*
    TODO Iterate over array to get Shelter, ID, Name, Address, Phone.
-   Get all cat and dog data related to ShelterId.
+
+Get all cat and dog data related to ShelterId.
+
 Iterate over array to get desired animal values*/
