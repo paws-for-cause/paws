@@ -1,4 +1,4 @@
-iimport React from 'react';
+import React from 'react';
 import Logo from './Logo';
 
 const Header = () => (
@@ -19,6 +19,6 @@ const Header = () => (
             </button>
         </div>
     </header>
-);
+)
 
 export default Header;
