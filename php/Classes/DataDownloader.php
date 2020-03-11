@@ -97,31 +97,33 @@
        */
       public function getOrgsInNM(): void {
 
-        $currentPage = 1;
-
-
+         $currentPage = 1;
 
 
          do {
 
             $organizations = $this->guzzle->request('GET', "organizations?state=NM&page=$currentPage", ["headers" => ["Authorization" => "Bearer $this->authToken"]
             ]);
+
             $this->orgObject = json_decode($organizations->getBody());
+
             $orgAddress = null;
+
             $currentPage = $this->orgObject->pagination->current_page;
             $totalPages = $this->orgObject->pagination->total_pages;
+
             var_dump($totalPages);
+
             foreach($this->orgObject->organizations as $key => $organization) {
-            if($organization->address->address1 !== null && $organization->phone !== null) {
-               $orgAddress = $organization->address->address1 . " " . $organization->address->city . ", " . $organization->address->state . " " . $organization->address->postcode;
-               $orgName = $organization->name;
-               $orgPhone = $organization->phone === "" || $organization->phone === null ? $organization->phone : "no phone number";
-               $shelter = new Shelter(generateUuidV4(), $orgAddress, $orgName, $orgPhone);
-               //$this->getAnimalsInOrg($organization->id, $shelter->getShelterId());
+
+               if($organization->address->address1 !== null && $organization->phone !== null) {
+                  $orgAddress = $organization->address->address1 . " " . $organization->address->city . ", " . $organization->address->state . " " . $organization->address->postcode;
+                  $orgName = $organization->name;
+                  $orgPhone = $organization->phone === "" || $organization->phone === null ? $organization->phone : "no phone number";
+                  $shelter = new Shelter(generateUuidV4(), $orgAddress, $orgName, $orgPhone);
+                  //$this->getAnimalsInOrg($organization->id, $shelter->getShelterId());
+               }
             }
-         }
-
-
 
 
          } while($currentPage < $totalPages);
