@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import '../app.css';
-import Header from './components/Header';
-import Animal from './components/Animal';
-import Lonely from './components/Lonely';
+import './main-page.css';
+import Header from './Header';
+import Animal from './Animal';
+import Lonely from './Lonely';
 import data from './data.json';
 
-const LikeSwitch = () => {
+const MainPage = () => {
     const [animal, setAnimal] = useState(data);
     const [likedAnimals, setLikedAnimals] = useState([]);
     const [dislikedAnimals, setDislikedAnimals] = useState([]);
@@ -43,7 +43,7 @@ const LikeSwitch = () => {
     };
 
     return (
-        <div className="app">
+        <div className="mainPage">
             <Header />
             {animal[1] ? (
                 <Animal
@@ -62,4 +62,4 @@ const LikeSwitch = () => {
     );
 };
 
-export default LikeSwitch;
+export default MainPage;

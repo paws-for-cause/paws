@@ -1,5 +1,5 @@
 import React from 'react';
-import LikedAnimal from './LikedAnimal';
+import LikedAnimal from '../../components/LikedAnimal';
 
 const Lonely = ({ activeAnimalImage, likedAnimals }) => (
     <div id="lonely">

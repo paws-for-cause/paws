@@ -1,5 +1,5 @@
 import React from 'react';
-import Actions from './Actions';
+import Actions from '../../components/Actions';
 
 const Animal = ({ animal, modifyAnimalChoices }) => {
     const { name, breed, gender, image } = animal;
