@@ -17,7 +17,6 @@ const Routing = () => (
 
 		<BrowserRouter>
 			<div>
-				<NavBar/>
 				<Switch>
 					<Route exact path="/" component={SignIn}/>
 					<Route exact path="/sign-up" component={SignUp}/>
