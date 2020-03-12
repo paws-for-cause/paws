@@ -6,11 +6,11 @@ import {Route, Switch} from "react-router";
 import 'bootstrap/dist/css/bootstrap.css';
 
 import "./index.css";
-import {Bookmarks} from "./shared/components/NavBar";
-import {MainPage} from "./pages/home/Home";
-import {SignIn} from "./pages/about/About";
-import {SignUp} from "./pages/sign-up/Posts";
-import {FourOhFour} from "./pages/four-oh-four/FourOhFour";
+import {Bookmarks} from "./pages/Bookmarks";
+import {MainPage} from "./pages/MainPage";
+import {SignIn} from "./pages/SignIn";
+import {SignUp} from "./pages/SignUp";
+import {FourOhFour} from "./pages/FourOhFour";
 
 const Routing = () => (
 	<>
