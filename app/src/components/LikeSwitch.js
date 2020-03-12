@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import './app.css';
+import '../app.css';
 import Header from './components/Header';
 import Animal from './components/Animal';
 import Lonely from './components/Lonely';
 import data from './data.json';
 
-const App = () => {
+const LikeSwitch = () => {
     const [animal, setAnimal] = useState(data);
     const [likedAnimals, setLikedAnimals] = useState([]);
     const [dislikedAnimals, setDislikedAnimals] = useState([]);
@@ -62,4 +62,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default LikeSwitch;
