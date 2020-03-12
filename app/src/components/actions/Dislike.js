@@ -1,12 +1,11 @@
-
 import React from 'react';
 
-const Dislike = ({ userId, modifySuperficialChoices }) => (
+const Dislike = ({ animalId, modifyAnimalChoices }) => (
     <button
         type="button"
-        onClick={() => modifySuperficialChoices(userId, 'ADD_TO_DISLIKED_USERS')}
+        onClick={() => modifyAnimalChoices(animalId, 'ADD_TO_DISLIKED_USERS')}
     >
-        <img src="images/misc/dislike.png" alt="Dislike User" />
+        <img src="images/misc/dislike.png" alt="Dislike Animal" />
     </button>
 );
 

@@ -1,74 +1,61 @@
 import React, { useState } from 'react';
-import './App.css';
+import './app.css';
 import Header from './components/Header';
-import Person from './components/Person';
+import Animal from './components/Animal';
 import Lonely from './components/Lonely';
 import data from './data.json';
 
 const App = () => {
-    const [people, setPeople] = useState(data);
-    const [likedUsers, setLikedUsers] = useState([]);
-    const [superLikedUsers, setSuperLikedUsers] = useState([]);
-    const [dislikedUsers, setDislikedUsers] = useState([]);
-    const activeUser = 0;
+    const [animal, setAnimal] = useState(data);
+    const [likedAnimals, setLikedAnimals] = useState([]);
+    const [dislikedAnimals, setDislikedAnimals] = useState([]);
+    const activeAnimal = 0;
 
-    const removedPersonFromDataSrc = (peopleSource, userId) =>
-        peopleSource.filter(user => user.id !== userId);
+    const removedAnimalFromDataSrc = (animalSource, animalId) =>
+        animalSource.filter(animal => animal.id !== animalId);
 
-    const modifySuperficialChoices = (userId, action) => {
-        const newPeople = [...people];
-        const newLikedUsers = [...likedUsers];
-        const newSuperLikedUsers = [...superLikedUsers];
-        const newDislikedUsers = [...dislikedUsers];
+    const modifyAnimalChoices = (animalId, action) => {
+        const newAnimal = [...animal];
+        const newLikedAnimals = [...likedAnimals];
+        const newDislikedAnimals = [...dislikedAnimals];
 
         switch (action) {
             case 'ADD_TO_LIKED_USERS':
-                if (!people[activeUser].likedUsers.includes(userId)) {
-                    newPeople[activeUser].likedUsers.push(userId);
-                    newLikedUsers.push(data[userId]);
+                if (!animal[activeAnimal].likedAnimals.includes(animalId)) {
+                    newAnimal[activeAnimal].likedAnimals.push(animalId);
+                    newLikedAnimals.push(data[animalId]);
 
-                    setLikedUsers(newLikedUsers);
-                    setPeople(removedPersonFromDataSrc(people, userId));
+                    setLikedAnimals(newLikedAnimals);
+                    setAnimal(removedAnimalFromDataSrc(animal, animalId));
                 }
                 break;
             case 'ADD_TO_DISLIKED_USERS':
-                if (!people[activeUser].dislikedUsers.includes(userId)) {
-                    newPeople[activeUser].dislikedUsers.push(userId);
-                    newDislikedUsers.push(data[userId]);
+                if (!animal[activeAnimal].dislikedAnimals.includes(animalId)) {
+                    newAnimal[activeAnimal].dislikedAnimals.push(animalId);
+                    newDislikedAnimals.push(data[animalId]);
 
-                    setDislikedUsers(newLikedUsers);
-                    setPeople(removedPersonFromDataSrc(people, userId));
+                    setDislikedAnimals(newLikedAnimals);
+                    setAnimal(removedAnimalFromDataSrc(animal, animalId));
                 }
-                break;
-            case 'ADD_TO_SUPERLIKED_USERS':
-                if (!people[activeUser].superLikedUsers.includes(userId)) {
-                    newPeople[activeUser].superLikedUsers.push(userId);
-                    newSuperLikedUsers.push(data[userId]);
-
-                    setSuperLikedUsers(newSuperLikedUsers);
-                    setPeople(removedPersonFromDataSrc(people, userId));
-                }
-                break;
             default:
-                return people;
+                return animal;
         }
     };
 
     return (
         <div className="app">
             <Header />
-            {people[1] ? (
-                <Person
-                    key={people[1].id}
-                    person={people[1]}
-                    modifySuperficialChoices={modifySuperficialChoices}
-                    likedUsers={likedUsers}
+            {animal[1] ? (
+                <Animal
+                    key={animal[1].id}
+                    animal={animal[1]}
+                    modifyAnimalChoices={modifyAnimalChoices}
+                    likedAnimals={likedAnimals}
                 />
             ) : (
                 <Lonely
-                    activeUserImage={people[activeUser].image}
-                    likedUsers={likedUsers}
-                    superLikedUsers={superLikedUsers}
+                    activeAnimalImage={animal[activeAnimal].image}
+                    likedAnimals={likedAnimals}
                 />
             )}
         </div>

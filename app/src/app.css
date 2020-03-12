@@ -61,12 +61,12 @@ header .fl:last-child {
     text-align: right;
 }
 
-.person .person-photo {
+.animal .animal-photo {
     overflow: hidden;
     box-shadow: 0 2px 3px 0 rgba(0,0,0,0.3);
 }
 
-.person .person-description {
+.animal .animal-breed {
     text-align: left;
     padding: 20px;
     box-shadow: 0 2px 3px 0 rgba(0,0,0,0.1);
@@ -74,20 +74,20 @@ header .fl:last-child {
     background-color: white;
 }
 
-.person .person-name-age {
+.animal .animal-name-gender {
     font-weight: bold;
     font-size: 30px;
     margin-bottom: 10px;
     margin-top: 0;
 }
 
-.person .person-info {
+.animal .animal-info {
     margin-top: 0;
     margin-bottom: 0;
     font-size: 20px;
 }
 
-.person img {
+.animal img {
     width: 500px;
     height: 700px;
     display: block;
@@ -138,29 +138,28 @@ header .fl:last-child {
     border-top: 1px solid #eee;
 }
 
-#liked-people {
+#liked-animal {
     margin: auto;
     overflow: hidden;
 }
 
-#liked-people .liked-person {
+#liked-animal .liked-animal {
     display: inline-block;
     width: 33%;
     margin-top: 10px;
 }
 
-#liked-people .liked-person-image {
+#liked-animal .liked-animal-image {
     border-radius: 5px;
 }
 
-#liked-people .liked-person-image img {
+#liked-animal .liked-animal-image img {
     width: 140px;
     height: 100px;
     object-fit: cover;
     object-position: 50% 50%;
 }
 
-/* Stolen CSS */
 .pulse {
     margin: auto;
     width: 200px;

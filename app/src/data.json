@@ -2,78 +2,64 @@
   {
     "id": 0,
     "name": "Karl",
-    "desc": "Developer",
-    "age": 26,
+    "breed": "Developer",
+    "gender": "male",
     "image": "1.jpg",
-    "likedUsers": [],
-    "superLikedUsers": [],
-    "dislikedUsers": [],
-    "likedBy": []
+    "likedAnimals": [],
+    "dislikedAnimals": []
   },
   {
     "id": 1,
     "name": "Martin",
-    "desc": "Prisoner at Federal Correctional Institution",
-    "age": 35,
+    "breed": "Prisoner at Federal Correctional Institution",
+    "gender": "male",
     "image": "2.jpg",
-    "likedUsers": [],
-    "superLikedUsers": [],
-    "dislikedUsers": [],
-    "likedBy": []
+    "likedAnimals": [],
+    "dislikedAnimals": []
   },
   {
     "id": 2,
     "name": "Emily",
-    "desc": "Actress",
-    "age": 35,
+    "breed": "Actress",
+    "gender": "male",
     "image": "3.jpg",
-    "likedUsers": [],
-    "superLikedUsers": [],
-    "dislikedUsers": [],
-    "likedBy": []
+    "likedAnimals": [],
+    "dislikedAnimals": []
   },
   {
     "id": 3,
     "name": "Michael",
-    "desc": "Manager",
-    "age": 45,
+    "breed": "Manager",
+    "gender": "male",
     "image": "4.jpg",
-    "likedUsers": [],
-    "superLikedUsers": [],
-    "dislikedUsers": [],
-    "likedBy": []
+    "likedAnimals": [],
+    "dislikedAnimals": []
   },
   {
     "id": 4,
     "name": "Dwight",
-    "desc": "Sales",
-    "age": 40,
+    "breed": "Sales",
+    "gender": "male",
     "image": "5.jpg",
-    "likedUsers": [],
-    "superLikedUsers": [],
-    "dislikedUsers": [],
-    "likedBy": []
+    "likedAnimals": [],
+    "dislikedAnimals": []
   },
   {
     "id": 5,
     "name": "Jessica",
-    "desc": "Actress",
-    "age": 37,
+    "breed": "Actress",
+    "gender": "male",
     "image": "6.jpg",
-    "likedUsers": [],
-    "superLikedUsers": [],
-    "dislikedUsers": [],
-    "likedBy": []
+    "likedAnimals": [],
+    "dislikedAnimals": []
   },
   {
     "id": 6,
     "name": "Alexandra",
-    "desc": "Actress",
-    "age": 32,
+    "breed": "Actress",
+    "gender": "male",
     "image": "7.jpg",
-    "likedUsers": [],
-    "superLikedUsers": [],
-    "dislikedUsers": [],
-    "likedBy": []
+    "likedAnimals": [],
+    "dislikedAnimals": []
   }
 ]

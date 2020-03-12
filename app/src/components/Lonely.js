@@ -1,29 +1,23 @@
 import React from 'react';
-import LikedPerson from './LikedPerson';
+import LikedAnimal from './LikedAnimal';
 
-const Lonely = ({ activeUserImage, likedUsers, superLikedUsers }) => (
+const Lonely = ({ activeAnimalImage, likedAnimals }) => (
     <div id="lonely">
-        <p>There's no new around you.</p>
+        <p>There's no new animals around you.</p>
 
         <span className="pulse">
-      <img src={`/images/users/${activeUserImage}`} alt="You..." />
+      <img src={`/images/animals/${activeAnimalImage}`} alt="You..." />
     </span>
 
-        <div id="liked-people">
+        <div id="liked-animal">
             <p>
-                {likedUsers.length > 0
-                    ? "People you liked...let's hope they like you too!"
+                {likedAnimals.length > 0
+                    ? "Animals you liked...let's hope they like you too!"
                     : ''}
             </p>
 
-            {likedUsers.map(item => (
-                <LikedPerson key={item.id} person={item} />
-            ))}
-
-            <p>{superLikedUsers.length > 0 ? 'People you super liked!' : ''}</p>
-
-            {superLikedUsers.map(item => (
-                <LikedPerson key={item.id} person={item} />
+            {likedAnimals.map(item => (
+                <LikedAnimal key={item.id} animal={item} />
             ))}
         </div>
     </div>

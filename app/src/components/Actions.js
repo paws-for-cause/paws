@@ -2,22 +2,17 @@ import React from 'react';
 import Rewind from './actions/Rewind';
 import Dislike from './actions/Dislike';
 import Like from './actions/Like';
-import Superlike from './actions/Superlike';
 
-const Actions = ({ person, modifySuperficialChoices }) => (
+const Actions = ({ animal, modifyAnimalChoices }) => (
     <div id="actions">
-        <Rewind userId={person.id} />
+        <Rewind animalId={animal.id} />
         <Dislike
-            userId={person.id}
-            modifySuperficialChoices={modifySuperficialChoices}
+            animalId={animal.id}
+            modifyAnimalChoices={modifyAnimalChoices}
         />
         <Like
-            userId={person.id}
-            modifySuperficialChoices={modifySuperficialChoices}
-        />
-        <Superlike
-            userId={person.id}
-            modifySuperficialChoices={modifySuperficialChoices}
+            animalId={animal.id}
+            modifyAnimalChoices={modifyAnimalChoices}
         />
     </div>
 );
