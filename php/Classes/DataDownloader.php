@@ -100,7 +100,7 @@
          $currentPage = 1;
 
 
-         do {
+         //do {
 
             $organizations = $this->guzzle->request('GET', "organizations?state=NM&page=$currentPage", ["headers" => ["Authorization" => "Bearer $this->authToken"]
             ]);
@@ -119,14 +119,15 @@
                if($organization->address->address1 !== null && $organization->phone !== null) {
                   $orgAddress = $organization->address->address1 . " " . $organization->address->city . ", " . $organization->address->state . " " . $organization->address->postcode;
                   $orgName = $organization->name;
-                  $orgPhone = $organization->phone === "" || $organization->phone === null ? $organization->phone : "no phone number";
+                  $orgPhone = $organization->phone === "" || $organization->phone === null ? $organization->phone : "no phone number"git ;
                   $shelter = new Shelter(generateUuidV4(), $orgAddress, $orgName, $orgPhone);
-                  //$this->getAnimalsInOrg($organization->id, $shelter->getShelterId());
+                  $shelter->insert($this->pdo);
+                  $this->getAnimalsInOrg($organization->id, $shelter->getShelterId());
                }
             }
 
 
-         } while($currentPage < $totalPages);
+        // } while($currentPage < $totalPages);
 
 
       }
@@ -152,6 +153,7 @@
                   $animalGender = 0;
                }
                $animal = new Animal(generateUuidV4(), $orgId, $animalAdoptionStatus, $animalBreed, $animalGender, $animalName, $animalPhoto, $animalSpecies);
+               $animal->insert($this->pdo);
                var_dump($animal);
             }
          }
