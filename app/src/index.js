@@ -6,7 +6,7 @@ import {Route, Switch} from "react-router";
 import 'bootstrap/dist/css/bootstrap.css';
 
 import "./index.css";
-import Bookmarks from "./pages/Bookmarks";
+import Bookmarks from "./pages/Bookmarks/Bookmarks";
 import MainPage from "./pages/MainPage/MainPage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
