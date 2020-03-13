@@ -13,13 +13,11 @@ const FourOhFour = () => {
       <>
          <div className="bg">
          <main className="d-flex py-5" >
-            <Container fluid="true">
-               <Row>
+               <Row className="ml-auto">
                   <Col>
-                     <h1 className="text-light">404 Error: Y U NO FIND?</h1>
+                     <h1 className="text-white">404 Error: CaN I HaZ PaGe?</h1>
                   </Col>
                </Row>
-            </Container>
          </main>
          </div>
       </>

@@ -14,7 +14,15 @@ container {
 	background-size: cover;
 }
 
-.text-light {
+.margin-left{
+	margin-left: auto;
+}
 
+.text-white {
+	padding: 5px;
 	margin-top: 5em;
+	font-size: 50px;
+	font-weight: bold;
+	background-color: black;
+	border-radius: 15px;
 }
