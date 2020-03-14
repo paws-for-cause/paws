@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Container from "react-bootstrap/Container";
 import './main-page.css';
 import Header from './Header';
 import Animal from './Animal';
@@ -43,7 +44,9 @@ const MainPage = () => {
     };
 
     return (
-        <div className="mainPage">
+       <div className="mpbg">
+        <Container fluid="true" className="mainPage">
+
             <Header />
             {animal[1] ? (
                 <Animal
@@ -58,7 +61,8 @@ const MainPage = () => {
                     likedAnimals={likedAnimals}
                 />
             )}
-        </div>
+        </Container>
+    </div>
     );
 };
 

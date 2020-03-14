@@ -1,13 +1,15 @@
 import React from 'react';
 import Actions from '../../components/Actions';
+import Container from "react-bootstrap/Container";
 
 const Animal = ({ animal, modifyAnimalChoices }) => {
     const { name, breed, gender, image } = animal;
 
     return (
         <>
+           <Container>
             <div className="animal">
-                <div className="animal-photo">
+                <div className="animal-photo img-fluid">
                     <img src={`/images/animals/${image}`} alt={name} />
                 </div>
 
@@ -23,6 +25,7 @@ const Animal = ({ animal, modifyAnimalChoices }) => {
                 animal={animal}
                 modifyAnimalChoices={modifyAnimalChoices}
             />
+           </Container>
         </>
     );
 };

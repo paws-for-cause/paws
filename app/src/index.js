@@ -8,8 +8,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "./index.css";
 import Bookmarks from "./pages/Bookmarks/Bookmarks";
 import MainPage from "./pages/MainPage/MainPage";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
+import SignUp from "./pages/SignUp/SignUp";
+import Splash from "./pages/Splash/Splash";
 import FourOhFour from "./pages/FourOhFour/FourOhFour";
 
 const Routing = () => (
@@ -21,7 +22,8 @@ const Routing = () => (
 					<Route exact path="/bookmarks" component={Bookmarks}/>
 					<Route exact path="/main-page" component={MainPage}/>
 					<Route exact path="/sign-up" component={SignUp}/>
-					<Route exact path="/" component={SignIn}/>
+					<Route exact path="/sign-in" component={SignIn}/>
+					<Route exact path="/" component={Splash}/>
 					<Route component={FourOhFour}/>
 				</Switch>
 			</div>

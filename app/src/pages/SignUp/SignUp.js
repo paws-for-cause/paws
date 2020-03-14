@@ -8,20 +8,54 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
+import './SignUp.css'
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-export const SignIn = () => {
+const SignUp = () => {
 	return (
 		<>
-			<main className="d-flex align-items-center mh-80">
-				<Container fluid="true" className="mx-auto my-auto">
+			<main className="subg d-flex align-items-center mh-80">
+				<Container fluid="true" className="mx-auto">
 					<Row>
 						<Col>
 							<Card bg="transparent" className="border-0 rounded-0">
-								<h2 className="text-center">Sign In</h2>
+								<h2 className="text-center">Sign Up Today!</h2>
 								<Card.Body>
 									<Form>
+
+										<Form.Group>
+											<InputGroup>
+												<InputGroup.Prepend>
+													<InputGroup.Text>
+														<FontAwesomeIcon icon="user"/>
+													</InputGroup.Text>
+												</InputGroup.Prepend>
+												<FormControl type="text" placeholder="Your First Name"/>
+											</InputGroup>
+										</Form.Group>
+
+										<Form.Group>
+											<InputGroup>
+												<InputGroup.Prepend>
+													<InputGroup.Text>
+														<FontAwesomeIcon icon="user"/>
+													</InputGroup.Text>
+												</InputGroup.Prepend>
+												<FormControl type="text" placeholder="Your Last Name"/>
+											</InputGroup>
+										</Form.Group>
+
+										<Form.Group>
+											<InputGroup>
+												<InputGroup.Prepend>
+													<InputGroup.Text>
+														<FontAwesomeIcon icon="user"/>
+													</InputGroup.Text>
+												</InputGroup.Prepend>
+												<FormControl type="text" placeholder="Your Age"/>
+											</InputGroup>
+										</Form.Group>
 
 										<Form.Group>
 											<InputGroup>
@@ -33,6 +67,18 @@ export const SignIn = () => {
 												<FormControl type="email" placeholder="Your Email"/>
 											</InputGroup>
 										</Form.Group>
+
+										<Form.Group>
+											<InputGroup>
+												<InputGroup.Prepend>
+													<InputGroup.Text>
+														<FontAwesomeIcon icon="phone"/>
+													</InputGroup.Text>
+												</InputGroup.Prepend>
+												<FormControl type="phone" placeholder="Your Phone Number"/>
+											</InputGroup>
+										</Form.Group>
+
 
 										<Form.Group>
 											<InputGroup>
@@ -56,15 +102,9 @@ export const SignIn = () => {
 											</InputGroup>
 										</Form.Group>
 
-										<Form.Group className="text-center">
+										<Form.Group className="text-md-right">
 											<Button variant="primary" type="submit">
-												<FontAwesomeIcon icon="paw"/>&nbsp;Sign-In!
-											</Button>
-										</Form.Group>
-										<p>Don't have an account? Sign up today!</p>
-										<Form.Group className="text-center">
-											<Button variant="primary" type="submit">
-												<FontAwesomeIcon icon="paw"/>&nbsp;Sign-Up!
+												<FontAwesomeIcon icon="paw"/>&nbsp;<a href="main-page">Join Us!</a>
 											</Button>
 										</Form.Group>
 
@@ -79,4 +119,4 @@ export const SignIn = () => {
 	)
 };
 
-export default SignIn;
+export default SignUp;

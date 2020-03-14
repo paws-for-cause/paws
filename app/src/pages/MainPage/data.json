@@ -12,7 +12,7 @@
     "id": 1,
     "name": "Martin",
     "breed": "Prisoner at Federal Correctional Institution",
-    "gender": "male",
+    "gender": "Male",
     "image": "2.jpg",
     "likedAnimals": [],
     "dislikedAnimals": []
@@ -21,7 +21,7 @@
     "id": 2,
     "name": "Emily",
     "breed": "Actress",
-    "gender": "male",
+    "gender": "Female",
     "image": "3.jpg",
     "likedAnimals": [],
     "dislikedAnimals": []
@@ -30,7 +30,7 @@
     "id": 3,
     "name": "Michael",
     "breed": "Manager",
-    "gender": "male",
+    "gender": "Male",
     "image": "4.jpg",
     "likedAnimals": [],
     "dislikedAnimals": []
@@ -39,7 +39,7 @@
     "id": 4,
     "name": "Dwight",
     "breed": "Sales",
-    "gender": "male",
+    "gender": "Male",
     "image": "5.jpg",
     "likedAnimals": [],
     "dislikedAnimals": []
@@ -48,7 +48,7 @@
     "id": 5,
     "name": "Jessica",
     "breed": "Actress",
-    "gender": "male",
+    "gender": "Female",
     "image": "6.jpg",
     "likedAnimals": [],
     "dislikedAnimals": []
@@ -57,7 +57,7 @@
     "id": 6,
     "name": "Alexandra",
     "breed": "Actress",
-    "gender": "male",
+    "gender": "Female",
     "image": "7.jpg",
     "likedAnimals": [],
     "dislikedAnimals": []
