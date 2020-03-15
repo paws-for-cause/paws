@@ -1,5 +1,5 @@
 import React from 'react';
-import Actions from '../../components/Actions';
+import Actions from '../../shared/components/Actions';
 import Container from "react-bootstrap/Container";
 
 const Animal = ({ animal, modifyAnimalChoices }) => {

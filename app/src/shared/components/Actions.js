@@ -1,7 +1,7 @@
 import React from 'react';
-import Rewind from './actions/Rewind';
-import Dislike from './actions/Dislike';
-import Like from './actions/Like';
+import Rewind from '../actions/Rewind';
+import Dislike from '../actions/Dislike';
+import Like from '../actions/Like';
 
 const Actions = ({ animal, modifyAnimalChoices }) => (
     <div id="actions">

@@ -57,7 +57,7 @@
             $reply->data = Like::getLikeByLikeUserId($pdo, $likeUserId)->toArray();
             //get all the likes associated with the animalId
          } else if(empty($likeAnimalId) === false) {
-            $reply->data = Like::getLikeByLikeTweetId($pdo, $likeAnimalId)->toArray();
+            $reply->data = Like::getLikeByLikeAnimalId($pdo, $likeAnimalId)->toArray();
          } else {
             throw new InvalidArgumentException("incorrect search parameters ", 404);
          }

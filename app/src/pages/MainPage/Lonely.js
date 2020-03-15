@@ -1,5 +1,5 @@
 import React from 'react';
-import LikedAnimal from '../../components/LikedAnimal';
+import LikedAnimal from '../../shared/components/LikedAnimal';
 import Container from "react-bootstrap/Container";
 
 const Lonely = ({ activeAnimalImage, likedAnimals }) => (

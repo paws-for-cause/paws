@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../../components/Logo';
+import Logo from '../../shared/components/Logo';
 import Container from "react-bootstrap/Container";
 
 const Header = () => (

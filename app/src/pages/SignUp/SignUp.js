@@ -1,5 +1,6 @@
 import React from "react"
-
+import * as Yup from 'yup'
+import { httpConfig } from '../../shared/utils/http-config'
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -8,9 +9,48 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import './SignUp.css'
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+export function PostForm () {
+	const initailValues = {
+		postUserFirstName: "",
+		postUserLastName: "",
+		postUserAge:"",
+		postUserEmail:"",
+		postUserPhone:"",
+		postUserPassword:"",
+		postConfirmUserPassword:""
+	}
+
+	const validator = Yup. object().shape({
+
+		postUserFirstName: Yup.string().required('First name is required').max(32, ' Post Content is to long'),
+
+		postUserLastName: Yup.string().required('Last name is required').max(32, ' Post Content is to long'),
+
+		postUserAge: Yup.string().required('User Age is required').max(6, ' Post Content is to long'),
+
+		postUserEmail: Yup.string().required('User Email is required').max(64, ' Post Content is to long'),
+
+		postUserPhone: Yup.string().required('Phone number is required').max(16, 'Phone number is invalid'),
+
+		postUserPassword: Yup.string().required('Password is required').max(64, 'Password is too long'),
+
+	})
+
+	const submit = (values, { resetForm, setStatus }) => {
+		httpConfig.post('/apis/post', values).then(response => {
+			console.log(response)
+			let { message, type, status } = response
+			if (status === 200) {
+				resetForm()
+			}
+			console.log(message)
+			setStatus({ message, type})
+		})
+	}
+}
 
 const SignUp = () => {
 	return (
@@ -120,3 +160,13 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+// todo setup up reducers
+// applyMiddleware and CombineReduces
+// pass store into index.js
+// reducer for all api that GETs data (has cases for actions.)
+
+
+//todo define actions
+//"wired posts commit"
+//post.actions.js
