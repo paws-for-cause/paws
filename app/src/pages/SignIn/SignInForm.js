@@ -4,31 +4,32 @@ import * as Yup from "yup";
 import {Formik} from "formik";
 
 import {SignInFormContent} from "./SignInFormContent";
-
+import {useHistory} from "react-router-dom"
 export const SignInForm = () => {
 
 	const [status, setStatus] = useState(null);
 
+	const history = useHistory();
 	const signIn = {
-		postUserEmail: "",
-		postUserPassword: "",
-		postConfirmUserPassword: ""
+		userEmail: "",
+		userPassword: ""
 	};
 
 	const validator = Yup.object().shape({
 
-		postUserEmail: Yup.string().required('User Email is required').max(64, ' Post Content is to long'),
+		userEmail: Yup.string().required('User Email is required').max(64, ' Post Content is to long'),
 
-		postUserPassword: Yup.string().required('Password is required').max(64, 'Password is too long'),
+		userPassword: Yup.string().required('Password is required').max(64, 'Password is too long'),
 
 	})
 
 	const submitSignIn = (values, {resetForm, setStatus}) => {
-		httpConfig.post('/apis/post', values)
+		httpConfig.post('/apis/sign-in/', values)
 			.then(reply => {
 				let {message, type} = reply;
 				if(reply.status === 200) {
-					resetForm()
+					resetForm();
+					history.push("/main-page");
 					setStatus({message, type});
 				}
 			});

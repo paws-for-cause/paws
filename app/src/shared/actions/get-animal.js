@@ -19,3 +19,4 @@ export const getLikeByAnimalIdAndLikeUserId = () => async (dispatch) => {
 	const {data} = await httpConfig('apis/like')
 	dispatch({ type: "GET_LIKE_BY_ANIMAL_ID_AND_LIKE_USER_ID", payload: data})
 }
+

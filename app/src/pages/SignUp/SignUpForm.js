@@ -4,11 +4,13 @@ import * as Yup from "yup";
 import {Formik} from "formik";
 
 import {SignUpFormContent} from "./SignUpFormContent";
+import {useHistory} from "react-router-dom";
 
 export const SignUpForm = () => {
 
 	const [status, setStatus] = useState(null);
 
+	const history = useHistory();
 	const signUp = {
 		userFirstName: "",
 		userLastName: "",
@@ -36,12 +38,14 @@ export const SignUpForm = () => {
 	})
 
 	const submitSignUp = (values, {resetForm, setStatus}) => {
-		httpConfig.post('/apis/sign-up', values)
+		httpConfig.post('/apis/sign-up/', values)
 			.then(reply => {
 				let {message, type} = reply;
 				if(reply.status === 200) {
-					resetForm()
+					resetForm();
+					history.push("/sign-in");
 					setStatus({message, type});
+
 				}
 			});
 	};

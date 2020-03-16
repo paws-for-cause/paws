@@ -47,18 +47,18 @@ export const SignInFormContent = (props) => {
 													</InputGroup.Text>
 												</InputGroup.Prepend>
 												<FormControl
-													id="signinEmail"
+													id="userEmail"
 													onChange={handleChange}
 													onBlur={handleBlur}
 													placeholder="Your Email"
 													type="email"
-													value={values.signinEmail}
+													value={values.userEmail}
 												/>
 											</InputGroup>
 											{
-												errors.signinEmail && touched.signinEmail && (
+												errors.userEmail && touched.userEmail && (
 													<div className="alert alert-danger">
-														{errors.signinEmail}
+														{errors.userEmail}
 													</div>
 												)
 											}
@@ -72,43 +72,18 @@ export const SignInFormContent = (props) => {
 													</InputGroup.Text>
 												</InputGroup.Prepend>
 												<FormControl
-													id="signipPassword"
+													id="userPassword"
 													onChange={handleChange}
 													onBlur={handleBlur}
 													placeholder="Password"
 													type="password"
-													value={values.signinPassword}
+													value={values.userPassword}
 												/>
 											</InputGroup>
 											{
-												errors.signinPassword && touched.signinPassword && (
+												errors.userPassword && touched.userPassword && (
 													<div className="alert alert-danger">
-														{errors.signinPassword}
-													</div>
-												)
-											}
-										</Form.Group>
-
-										<Form.Group>
-											<InputGroup>
-												<InputGroup.Prepend>
-													<InputGroup.Text>
-														<FontAwesomeIcon icon="ellipsis"/>
-													</InputGroup.Text>
-												</InputGroup.Prepend>
-												<FormControl
-													id="signinConfirmPassword"
-													onChange={handleChange}
-													onBlur={handleBlur}
-													placeholder="Confirm Password"
-													type="password"
-													value={values.signinConfirmPassword}
-												/>
-											</InputGroup>
-											{
-												errors.signinConfirmPassword && touched.signinConfirmPassword && (
-													<div className="alert alert-danger">
-														{errors.signinConfirmPassword}
+														{errors.userPassword}
 													</div>
 												)
 											}
