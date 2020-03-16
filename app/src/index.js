@@ -29,7 +29,7 @@ import { Provider } from 'react-redux'
 library.add(faPencilAlt, faUserCircle, faSortDown, faEnvelope, faSignInAlt, faKey, faDog)
 
 const store = createStore(combinedReducers, applyMiddleware(thunk))
-const Routing = () => (
+const Routing = (store) => (
 	<>
 		<Provider store={store}>
 		<BrowserRouter>
@@ -37,7 +37,7 @@ const Routing = () => (
 				<Switch>
 					<Route exact path="/bookmarks" component={Bookmarks}/>
 					<Route exact path="/main-page" component={MainPage}/>
-					<Route exact path="/sign-up" component={SignUp}/>
+					{<Route exact path="/sign-up" component={SignUp}/>}
 					<Route exact path="/sign-in" component={SignIn}/>
 					<Route exact path="/" component={Splash}/>
 					<Route component={FourOhFour}/>
@@ -48,4 +48,4 @@ const Routing = () => (
 	</>
 );
 
-ReactDOM.render(Routing(), document.querySelector('#root'));
+ReactDOM.render(Routing(store), document.querySelector('#root'));
