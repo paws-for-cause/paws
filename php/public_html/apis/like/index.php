@@ -53,6 +53,11 @@
                $reply->data = $like;
             }
             //if none of the search parameters are met throw an exception
+         } else if(empty($likeUserId) === false) {
+            $reply->data = Like::getLikeByLikeUserId($pdo, $likeUserId)->toArray();
+            //get all the likes associated with the animalId
+         } else if(empty($likeAnimalId) === false) {
+            $reply->data = Like::getLikeByLikeAnimalId($pdo, $likeAnimalId)->toArray();
          } else {
             throw new InvalidArgumentException("incorrect search parameters ", 404);
          }
