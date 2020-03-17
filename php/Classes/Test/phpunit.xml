@@ -1,0 +1,15 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Paws For Cause">
+			<file>UserTest.php</file>
+		   <file>AnimalTest.php</file>
+			<file>LikeTest.php</file>
+		   <file>ShelterTest.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">..</directory>
+		</whitelist>
+	</filter>
+</phpunit>
