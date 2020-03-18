@@ -7,12 +7,15 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 
+import signPets from "../page-images/Paws Image 3.jpg";
+
 
 
 const SignIn = () => {
 	return (
 		<>
 			<main>
+				<img src= {signPets} alt='Missing Image'/>
 				<Container fluid="true" className="py-5">
 					<Row>
 						<Col>
