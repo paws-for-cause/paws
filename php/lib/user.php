@@ -10,5 +10,5 @@
    $hash = password_hash("abc123", PASSWORD_ARGON2I, ["time_cost" => 7]);
    var_dump($hash);
 
-   $newUser= new User(, "24234234324234234234234234234343", 43, "gmail@gmail.com", "Joe", $hash, "White", "15058675309");
+   $newUser= new User( "24234234324234234234234234234343", 43, "gmail@gmail.com", "Joe", $hash, "White", "15058675309");
    var_dump($newUser);

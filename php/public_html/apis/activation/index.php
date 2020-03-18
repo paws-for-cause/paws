@@ -7,6 +7,7 @@
 
 
    use PawsForCause\Paws\User;
+
    /**
     * API to check user activation status
     * @author Matthew Urrea <matt.urrea.code@gmail.com>
@@ -88,4 +89,5 @@
    if($reply->data === null){
       unset($reply->data);
    }
+   //encode and return reply to front end caller
    echo json_encode($reply);

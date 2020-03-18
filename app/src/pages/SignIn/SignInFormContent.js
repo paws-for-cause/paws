@@ -1,16 +1,16 @@
 import React from "react";
-
-import {FormDebugger} from "../../shared/components/FormDebugger";
+import {Link} from "react-router-dom"
 
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {FormDebugger} from "../../shared/components/FormDebugger";
 import './SignIn.css'
 
 export const SignInFormContent = (props) => {
@@ -89,12 +89,25 @@ export const SignInFormContent = (props) => {
 											}
 										</Form.Group>
 
-										<Form.Group className="text-md-right">
+										<Form.Group className="text-center">
 											<Button variant="primary" type="submit">
 												<FontAwesomeIcon icon="paw"/>&nbsp;Sign In!
 											</Button>
 										</Form.Group>
-										<FormDebugger {...props}/>
+
+										<h5>Don't have an account? Sign up today!</h5>
+
+										<Form.Group className="text-center">
+											<Button variant="primary" type="link">
+												<FontAwesomeIcon icon="paw"/>
+												<a href="/sign-up"
+													className="sign-up-button">
+													&nbsp;Sign Up!
+												</a>
+											</Button>
+										</Form.Group>
+
+											<FormDebugger {...props}/>
 									</Form>
 									{console.log(status)}
 									{status && (<div className={status.type}>{status.message}</div>)}
@@ -105,5 +118,5 @@ export const SignInFormContent = (props) => {
 				</Container>
 			</main>
 		</>
-	)
+)
 };

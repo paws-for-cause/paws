@@ -23,6 +23,7 @@
       if(session_status() !== PHP_SESSION_ACTIVE) {
          session_start();
       }
+
       //grab mySQL statement
       $secrets = new \Secrets("/etc/apache2/capstone-mysql/paws.ini");
       $pdo = $secrets->getPdoObject();
@@ -47,10 +48,10 @@
             $userEmail = filter_var($requestObject->userEmail, FILTER_SANITIZE_EMAIL);
          }
 
-         if(empty($requestObject->userHash) === true) {
+         if(empty($requestObject->userPassword) === true) {
             throw(new \InvalidArgumentException("Must enter a password.", 401));
          } else {
-            $userHash = $requestObject->userHash;
+            $userPassword = $requestObject->userPassword;
          }
 
          //grab the user from the database by the email provided
@@ -62,7 +63,7 @@
          $user->update($pdo);
 
          //verify hash is correct
-         if(password_verify($requestObject->userHash, $user->getUserHash()) === false) {
+         if(password_verify($requestObject->userPassword, $user->getUserHash()) === false) {
             throw(new \InvalidArgumentException("Password or email is incorrect.", 401));
          }
 
@@ -74,14 +75,13 @@
 
 
          //create the Auth payload
-         $authObject = (object) [
-            "userId" =>$user->getUserId(),
+         $authObject = (object)[
+            "userId" => $user->getUserId(),
             "userFirstName" => $user->getUserFirstName()
          ];
 
          // create and set th JWT TOKEN
-         setJwtAndAuthHeader("auth",$authObject);
-
+         setJwtAndAuthHeader("auth", $authObject);
 
 
          $reply->message = "Sign in was successful.";
@@ -94,5 +94,7 @@
       $reply->status = $exception->getCode();
       $reply->message = $exception->getMessage();
    }
+
+
    header("Content-type: application/json");
    echo json_encode($reply);
