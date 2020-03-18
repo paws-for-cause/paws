@@ -1,0 +1,8 @@
+.sign-up-button {
+	color: white;
+}
+
+.sign-up-button:hover{
+	color: white;
+	text-decoration: none;
+}
