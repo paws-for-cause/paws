@@ -14,5 +14,6 @@
 }
 
 .splash-pets{
-	width: 20px
+	width: 500px;
+	justify-content: flex-start;
 }

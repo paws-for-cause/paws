@@ -14,7 +14,7 @@ const Splash = () => {
 				<main>
 					<h1>P.A.W.S.</h1>
 					<h3>Pet Adoption and Welfare Solutions</h3>
-					<img src={SplashLogo}  alt ='Test Page image'/>
+						<img src={SplashLogo} className="splash-pets" alt ='Test Page image'/>
 					<Button variant="primary" type="link">
 						<a className="splash-link" href="sign-in">Enter</a>
 					</Button>
