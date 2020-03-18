@@ -4,6 +4,9 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import "./Splash.css"
 
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+
 import SplashLogo from '../page-images/Paws Image 1.jpg'
 
 const Splash = () => {
@@ -12,9 +15,13 @@ const Splash = () => {
 
 			<Container className="splash-bg">
 				<main>
-					<h1>P.A.W.S.</h1>
-					<h3>Pet Adoption and Welfare Solutions</h3>
-						<img src={SplashLogo} className="splash-pets" alt ='Test Page image'/>
+					<Row>
+						<Col sm={4} md={4} lg={12}>
+								<img src={SplashLogo} className="splash-pets" alt ='Test Page image'/>
+								<h1 className="splash-text">P.A.W.S.</h1>
+								<p>Pet Adoption and Welfare Solutions</p>
+						</Col>
+					</Row>
 					<Button variant="primary" type="link">
 						<a className="splash-link" href="sign-in">Enter</a>
 					</Button>

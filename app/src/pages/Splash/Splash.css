@@ -1,5 +1,5 @@
 .splash-bg{
-
+	margin-top: 100px;
 }
 .splash-main{
 	margin-top: 10em;
@@ -14,6 +14,19 @@
 }
 
 .splash-pets{
-	width: 500px;
-	justify-content: flex-start;
+	width: 750px;
+	display: flex;
+	float: left;
+}
+
+.splash-text{
+	margin-top: 250px;
+	display: flex;
+	Justify-content: flex-start;
+}
+
+.splash-content{
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
