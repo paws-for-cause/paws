@@ -119,7 +119,7 @@
                if($organization->address->address1 !== null && $organization->phone !== null) {
                   $orgAddress = $organization->address->address1 . " " . $organization->address->city . ", " . $organization->address->state . " " . $organization->address->postcode;
                   $orgName = $organization->name;
-                  $orgPhone = $organization->phone === "" || $organization->phone === null ? $organization->phone : "no phone number"git ;
+                  $orgPhone = $organization->phone === "" || $organization->phone === null ? $organization->phone : "no phone number";
                   $shelter = new Shelter(generateUuidV4(), $orgAddress, $orgName, $orgPhone);
                   $shelter->insert($this->pdo);
                   $this->getAnimalsInOrg($organization->id, $shelter->getShelterId());

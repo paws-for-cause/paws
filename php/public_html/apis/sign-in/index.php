@@ -49,7 +49,7 @@
          }
 
          if(empty($requestObject->userPassword) === true) {
-            throw(new \InvalidArgumentException("Must enter a password.", 401));
+            throw(new \InvalidArgumentException("No password provided.", 401));
          } else {
             $userPassword = $requestObject->userPassword;
          }

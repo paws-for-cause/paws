@@ -397,10 +397,10 @@
        **/
       public function update(\PDO $pdo): void {
          //create query template
-         $query = "UPDATE user SET userId = :userId, userActivationToken = :userActivationToken, userAge = :userAge, userEmail = :userEmail, userFirstName = :userFirstName, userHash = :userHash, userLastName = :userLastName, userPhone = :userPhone";
+         $query = "UPDATE user SET userActivationToken = :userActivationToken, userAge = :userAge, userEmail = :userEmail, userFirstName = :userFirstName, userHash = :userHash, userLastName = :userLastName, userPhone = :userPhone WHERE userId = :userId";
          $statement = $pdo->prepare($query);
 
-         $parameters = ["userId" => $this->userId->getBytes(), "userActivationToken" => $this->userActivationToken, "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
+         $parameters = ["userActivationToken" => $this->userActivationToken, "userAge" => $this->userAge, "userEmail" => $this->userEmail, "userFirstName" => $this->userFirstName, "userHash" => $this->userHash, "userLastName" => $this->userLastName, "userPhone" => $this->userPhone];
          $statement->execute($parameters);
       }
 
