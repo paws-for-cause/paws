@@ -13,6 +13,9 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import './SignIn.css'
 
+import emailIcon from '../page-images/Email Logo.jpg'
+import passIcon from '../page-images/Password Logo.jpg'
+
 export const SignInFormContent = (props) => {
 
 	const {
@@ -43,7 +46,7 @@ export const SignInFormContent = (props) => {
 											<InputGroup>
 												<InputGroup.Prepend>
 													<InputGroup.Text>
-														<FontAwesomeIcon icon="envelope"/>
+														<img src={emailIcon} alt='email icon here'/>
 													</InputGroup.Text>
 												</InputGroup.Prepend>
 												<FormControl
@@ -68,7 +71,7 @@ export const SignInFormContent = (props) => {
 											<InputGroup>
 												<InputGroup.Prepend>
 													<InputGroup.Text>
-														<FontAwesomeIcon icon="key"/>
+														<img src={passIcon} alt='Password icon here'/>
 													</InputGroup.Text>
 												</InputGroup.Prepend>
 												<FormControl

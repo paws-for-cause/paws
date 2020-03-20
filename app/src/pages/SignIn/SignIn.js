@@ -19,10 +19,12 @@ const SignIn = () => {
 				<Container fluid="true" className="py-5">
 					<Row>
 						<Col>
-							<Card bg="transparent" className="border-0 rounded-0">
+							<Card bg="transparent" className="border-0 rounded-0 card-format">
 								<Card.Header>
-									<h3 className="text-center">P.A.W.S.</h3>
-									<h6 className="text-center">Pet Adoption and Welfare Solutions</h6>
+									<row>
+										<h3 className="text-large">P.A.W.S.</h3>
+									</row>
+										<h6 className="text-medium">Pet Adoption and Welfare Solutions</h6>
 								</Card.Header>
 								<Card.Body>
 									<SignInForm/>

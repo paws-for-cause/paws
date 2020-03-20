@@ -4,5 +4,14 @@
 	Margin-left: 500px;
 }
 
-.text-center{
+.card-format{
+	margin-left: 850px;
+}
+
+.text-large{
+	font-size: 400%;
+}
+
+.text-medium{
+	font-size: 150%;
 }
