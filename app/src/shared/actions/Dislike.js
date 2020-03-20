@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Dislike = ({ animalId, modifyAnimalChoices }) => (
+const Dislike = () => (
     <button
         type="button"
         onClick={() => modifyAnimalChoices(animalId, 'ADD_TO_DISLIKED_USERS')}

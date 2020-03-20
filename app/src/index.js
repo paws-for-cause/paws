@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import {BrowserRouter} from "react-router-dom";
 import {Route, Switch} from "react-router";
 import Bookmarks from "./pages/Bookmarks/Bookmarks";
-import MainPage from "./pages/MainPage/MainPage";
+import {MainPage} from "./pages/MainPage/MainPage";
 import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
 import Splash from "./pages/Splash/Splash";

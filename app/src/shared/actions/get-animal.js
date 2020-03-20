@@ -10,8 +10,8 @@ export const getAnimalByAnimalId = () => async (dispatch) => {
 	dispatch({ type: 'GET_ANIMAL_BY_ANIMAL_ID', payload: data})
 }
 
-export const getAnimalByLikeUserId = () => async (dispatch) => {
-	const {data} = await httpConfig('apis/post')
+export const getAnimalByLikeUserId = (likeUserId) => async (dispatch) => {
+	const {data} = await httpConfig(`apis/animal/?likeUserId=${likeUserId}`)
 	dispatch({ type: 'GET_ANIMAL_BY_LIKE_USER_ID', payload: data})
 }
 

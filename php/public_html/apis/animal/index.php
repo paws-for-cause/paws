@@ -42,7 +42,7 @@
       $animalBreed = filter_input(INPUT_GET, "animalBreed", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
       $animalGender = filter_input(INPUT_GET, "animalGender", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
       $animalName = filter_input(INPUT_GET, "animalName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-      $animalPhotoUrl = filter_input(INPUT_GET, "animalPhotoUrl", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+      $likeUserId = filter_input(INPUT_GET, "likeUserId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
       $animalSpecies = filter_input(INPUT_GET, "animalSpecies", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
       //make sure the id is valid for methods that require it
@@ -63,7 +63,7 @@
             // if the user is logged in grab all the animals by that user based on animals liked
             $reply->data = Animal::getAnimalByShelterId($pdo, $animalShelterId)->toArray();
 
-         } else if(empty($animalAdoptionStatus) === false) {
+         } else if(empty($likeUserId) === false) {
             $reply->data = Animal::getAnimalByLikeUserId($pdo, $likeUserId)->toArray();
 
          } else {
