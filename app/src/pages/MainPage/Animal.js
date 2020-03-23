@@ -2,7 +2,10 @@ import React from 'react';
 import Container from "react-bootstrap/Container";
 
 export const Animal = () => {
+
+
    const { name, breed, gender, image } = {"id":1,"name":"Martin","breed":"Prisoner at Federal Correctional Institution","gender":"Male","image":"2.jpg",}
+
    return (
       <>
          <Container>
@@ -34,5 +37,3 @@ export const Animal = () => {
       </>
    );
 };
-
-export default Animal;
