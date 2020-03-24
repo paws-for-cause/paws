@@ -24,10 +24,25 @@ export const MainPage = () => {
    console.log(animals);
 
    //if like button pressed kill one animal child
-   const newAnimal = [...animals];
 
+   //first attempt
+
+   /*const newAnimal = {...animals};
    newAnimal.splice(animals.index, 1);
-   return newAnimal;
+   return newAnimal;*/
+
+   //second attempt
+   /*let pushAnimal = (state, action) => {
+   switch (action.type) {
+      case 'LIKE':
+         let newAnimal = {animals: action.data}
+         return state.concat([newAnimal]);
+         let animalId = action.data;
+      default:
+         return state || [];
+   }
+}
+   pushAnimal(onclick);*/
 
 
     return (
