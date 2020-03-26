@@ -1,24 +1,25 @@
 import React from 'react';
 import Container from "react-bootstrap/Container";
 
-export const Animal = () => {
+export const Animal = (props) => {
 
 
-   const { name, breed, gender, image } = {"id":1,"name":"Martin","breed":"Prisoner at Federal Correctional Institution","gender":"Male","image":"2.jpg",}
+const {animal: {animalName, animalBreed, animalPhotoUrl, animalSpecies}} = props;
+
 
    return (
       <>
          <Container>
             <div className="animal">
                <div className="animal-photo img-fluid">
-                  <img src={`/images/animals/${image}`} alt={name} />
+                  <img src={`${animalPhotoUrl}`} alt={animalName} />
                </div>
 
                <div className="animal-description">
-                  <p className="animal-name-gender">
-                     {name}, <span>{gender}</span>
+                  <p className="animal-name-species">
+                     {animalName}, <span>{animalSpecies}</span>
                   </p>
-                  <p className="animal-breed">{breed}</p>
+                  <p className="animal-breed">{animalBreed}</p>
                </div>
             </div>
             <div id="actions">
