@@ -35,7 +35,7 @@ const Routing = (store) => (
 		<BrowserRouter>
 			<div>
 				<Switch>
-					{/*<Route exact path="/bookmarks" component={Bookmarks}/>*/}
+					<Route exact path="/bookmarks" component={Bookmarks}/>
 					<Route exact path="/main-page" component={MainPage}/>
 					{<Route exact path="/sign-up" component={SignUp}/>}
 					<Route exact path="/sign-in" component={SignIn}/>

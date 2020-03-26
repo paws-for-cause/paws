@@ -5,7 +5,7 @@ export function animalReducer (state = [], action) {
 		case 'GET_ANIMAL_BY_ANIMAL_ID':
 			return [...state, action.payload]
 		case 'GET_ANIMAL_BY_LIKE_USER_ID':
-			return [...state, action.payload]
+			return action.payload
 		default :
 			return state
 	}

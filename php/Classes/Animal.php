@@ -460,17 +460,9 @@
          $statement->setFetchMode(PDO::FETCH_ASSOC);
          while(($row = $statement->fetch()) !== false) {
             try {
-               $object = (object)[
-                  "animalId" => $row["animalId"],
-                  "animalShelterId" => $row["animalShelterId"],
-                  "animalAdoptionStatus" => $row["animalAdoptionStatus"],
-                  "animalBreed" => $row["animalBreed"],
-                  "animalGender" => $row["animalGender"],
-                  "animalName" => $row["animalName"],
-                  "animalPhotoUrl" => $row["animalPhotoUrl"],
-                  "animalSpecies" => $row["animalSpecies"]
-               ];
-               $animalArray[$animalArray->key()] = $object;
+                $animal = new Animal($row["animalId"], $row["animalShelterId"], $row["animalAdoptionStatus"], $row["animalBreed"], $row["animalGender"], $row["animalName"], $row["animalPhotoUrl"], $row["animalSpecies"]);
+
+                $animalArray[$animalArray->key()] = $animal;
                $animalArray->next();
             } catch(Exception $exception) {
                // if the row couldn't be converted, rethrow it
