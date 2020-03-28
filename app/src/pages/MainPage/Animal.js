@@ -3,9 +3,7 @@ import Container from "react-bootstrap/Container";
 
 export const Animal = (props) => {
 
-
-const {animal: {animalName, animalBreed, animalPhotoUrl, animalSpecies}} = props;
-
+const {animal: {animalBreed, animalName, animalPhotoUrl, animalSpecies}} = props;
 
    return (
       <>

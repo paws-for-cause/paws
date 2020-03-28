@@ -20,7 +20,8 @@ export const MainPage = () => {
 
    const animals = useSelector(state => (
       state.animals ? state.animals:[]
-   ))
+   ));
+
    console.log(animals);
 
     return (
