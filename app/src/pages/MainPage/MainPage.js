@@ -25,6 +25,21 @@ export const MainPage = () => {
 
    console.log(animals);
 
+   switch (action.type) {
+      case LIKE:
+         return {
+            ...state,
+            count: state.count.map((animal, i) => (i === id ? animal + 1 : animal))
+         };
+      case DISLIKE:
+         return {
+            ...state,
+            count: state.count.map((animal, i) => (i === id ? animal - 1 : animal))
+         };
+      default:
+         return state;
+   }
+
     return (
        <div className="mpbg">
            <Container fluid="true" className="mainPage">
