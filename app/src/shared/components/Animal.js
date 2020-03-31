@@ -1,6 +1,5 @@
 import React from 'react';
 import Container from "react-bootstrap/Container";
-import {httpConfig} from "../../shared/utils/http-config";
 
 export const Animal = (props) => {
 console.log(props)

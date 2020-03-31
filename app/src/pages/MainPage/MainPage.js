@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import './main-page.css'
-import Header from './Header'
-import {Animal} from './Animal'
+import Header from '../../shared/components/Header'
+import {Animal} from '../../shared/components/Animal'
 import {useDispatch, useSelector} from "react-redux";
 import {getAllAnimals} from "../../shared/actions/get-animal";
 import {handleClick} from "../../shared/actions/handleClick";

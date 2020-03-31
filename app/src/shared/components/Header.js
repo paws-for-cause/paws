@@ -1,7 +1,7 @@
 import React from 'react';
-import Logo from '../../shared/components/Logo';
+import Logo from './Logo';
 import Container from "react-bootstrap/Container";
-import "./main-page.css"
+import "../../pages/MainPage/main-page.css"
 
 const Header = () => (
    <Container className="mx-auto">
