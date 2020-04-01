@@ -24,21 +24,15 @@ export const MainPage = () => {
    ));
 
    console.log(animals);
+   //TODO
+   // get status from httpConfig.post *
+   // putting status into redux, useSelector to get out error message from Rexux *
+   // only display error message if status is not 200 from api response
 
-   switch (action.type) {
-      case LIKE:
-         return {
-            ...state,
-            count: state.count.map((animal, i) => (i === id ? animal + 1 : animal))
-         };
-      case DISLIKE:
-         return {
-            ...state,
-            count: state.count.map((animal, i) => (i === id ? animal - 1 : animal))
-         };
-      default:
-         return state;
-   }
+   //data downloader, get more animals
+
+   //randomizing the result from animal class getAllAnimals
+
 
     return (
        <div className="mpbg">

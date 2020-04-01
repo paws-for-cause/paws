@@ -1,12 +1,14 @@
 import React from 'react';
 import Container from "react-bootstrap/Container";
+import {handleAnimal} from "../actions/get-animal";
+import {useDispatch} from "react-redux";
 
 export const Animal = (props) => {
 console.log(props)
 
 const {animal: {animalId, animalBreed, animalName, animalPhotoUrl, animalSpecies}} = props;
 
-
+const dispatch = useDispatch();
 
    return (
       <>
@@ -26,13 +28,13 @@ const {animal: {animalId, animalBreed, animalName, animalPhotoUrl, animalSpecies
             <div id="actions">
                <button
                   type="button"
-                  onClick={() => props.handleClick(animalId, true)}
+                  onClick={() => dispatch(handleAnimal(animalId, 0))}
                >
                   <img src="images/misc/dislike.png" alt="Dislike Animal" />
                </button>
                <button
                   type="button"
-                  onClick={() => props.handleClick(animalId, false)}
+                  onClick={() => dispatch(handleAnimal(animalId, 1))}
                >
                   <img src="images/misc/like.png" alt="Like Animal" />
                </button>
