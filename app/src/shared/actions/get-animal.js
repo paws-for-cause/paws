@@ -23,11 +23,13 @@ export const getLikeByAnimalIdAndLikeUserId = () => async (dispatch) => {
 export const handleAnimal = (likeAnimalId, isAnimalLiked) => (dispatch, getState) => {
 	const likeApproved = isAnimalLiked ? 1:0
 	const {animals} = getState();
-	console.log("is this thing on?")
 	const slicedAnimals = animals.slice(1);
-	//makes http request to the like api (how we did in the handleClick function)
+	//makes http request to the like api
 	httpConfig.post("/apis/like/", {likeAnimalId, likeApproved})
-		.then(reply => {});
+		.then(reply => {
+			if (reply.status !== 200)
+				return "error: status other than 200";
+		});
 	//dispatch the handle animal click action
 	dispatch({type: "HANDLE_ANIMAL", payload: slicedAnimals})
 }
